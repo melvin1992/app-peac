@@ -1,3 +1,3 @@
 # app-peac
 
-Event registartion system
+Event registration system
