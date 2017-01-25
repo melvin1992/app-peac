@@ -1,0 +1,245 @@
+<div ng-include='"../components/admin/shared/header.html"'></div>
+
+<div class="container main-container">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Configurations</h1>
+            <ol class="breadcrumb">
+                <li><a href="#/admin/setting">Home</a></li>
+                <li class="active">Configurations</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row">
+      <div class="container">
+        <div class="col-lg-2">
+          <div class="row">
+              <div ng-include='"../components/admin/shared/sidebar.html"'></div>
+          </div>
+        </div>
+        <div class="col-lg-10">
+          <div class="alert alert-success" ng-show="success">
+            <strong>Success!</strong> {{success}}
+          </div>
+          <div class="alert alert-danger" ng-show="err">
+            <strong>Error!</strong> {{err}}
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading"><strong>Event Configuration</strong></div>
+            <div class="panel-body">
+              <div class="alert alert-info" role="alert">
+                <strong><i class="fa fa-info-circle"/> Note:</strong> Changing of year will update all the status of previous events to "End".
+              </div>
+              <form class="form-horizontal" name="passForm">
+                <div class="form-group">
+                  <label class="col-md-4 control-label">Active Year</label>
+                  <div class="col-md-4">
+                  <input name="activeYear" class="form-control input-md" type="text" ng-model="activeYear" readonly="true">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-4 control-label">Year</label>
+                  <div class="col-md-4">
+                    <select class="form-control input-md" ng-model="year" ng-options="year for year in years">
+                      <option value="">Select year</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-4 control-label" for="singlebutton"> </label>
+                  <div class="col-md-4">
+                    <button type="button" class="btn btn-primary" ng-click="updateActiveYear(year)"><span class="fa fa-check"/> Change Active Year</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading"><strong>Account Information</strong></div>
+            <div class="panel-body">
+              <form class="form-horizontal" name="profileForm">
+                <div class="alert alert-success" ng-show="adminSuccess">
+                  <strong>Success!</strong> {{adminSuccess}}
+                </div>
+
+                <div class="alert alert-danger" ng-show="adminErr">
+                  <strong>Error!</strong> {{adminErr}}
+                </div>
+                <div class="form-group">
+                  <label class="col-md-4 control-label">Username</label>
+                  <div class="col-md-4">
+                  <input name="username" placeholder="Username" class="form-control input-md" type="text" ng-init="admin.username" ng-model="admin.username" readonly="true">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-4 control-label">First Name</label>
+                  <div class="col-md-4">
+                  <input name="firstName" placeholder="First Name" class="form-control input-md" type="text" ng-init="admin.firstName" ng-model="admin.firstName">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-4 control-label">Middle Name</label>
+                  <div class="col-md-4">
+                  <input name="middleName" placeholder="Middle Name" class="form-control input-md" type="text"  ng-init="admin.middleName" ng-model="admin.middleName">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-4 control-label">Last Name</label>
+                  <div class="col-md-4">
+                  <input name="lastName" placeholder="Last Name" class="form-control input-md" type="text" ng-init="admin.lastName" ng-model="admin.lastName">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-4 control-label">Email Address</label>
+                  <div class="col-md-4">
+                  <input name="email" placeholder="Email" class="form-control input-md" type="email"  ng-init="admin.email" ng-model="admin.email">
+                  <span class="required-field" ng-show="profileForm.email.$error.email">Invalid email address.</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-4 control-label">Contact Number</label>
+                  <div class="col-md-4">
+                  <input name="contactNo" placeholder="Contact Number" class="form-control input-md" type="text"  ng-init="admin.contactNo" ng-model="admin.contactNo">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-4 control-label" for="singlebutton"> </label>
+                  <div class="col-md-4">
+                    <button type="button" class="btn btn-primary" ng-click="saveAdmin(admin)"><span class="fa fa-check"/> Save</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading"><strong>Change Password</strong></div>
+            <div class="panel-body">
+              <form class="form-horizontal" name="passForm">
+                <div class="alert alert-success" ng-show="passSuccess">
+                  <strong>Success!</strong> {{passSuccess}}
+                </div>
+                <div class="alert alert-danger" ng-show="passErr">
+                  <strong>Error!</strong> {{passErr}}
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-4 control-label">Old Password</label>
+                  <div class="col-md-4">
+                  <input name="oldpass" placeholder="Old Password" class="form-control input-md" type="password" ng-model="pass.oldpass">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-4 control-label">New Password</label>
+                  <div class="col-md-4">
+                  <input name="newpass" placeholder="New Password" class="form-control input-md" type="password" ng-model="pass.newpass" ng-minlength="6">
+                  <span class="required-field" ng-show="passForm.newpass.$error.minlength">Password atleast 6 characters.</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-4 control-label">Confirm New Password</label>
+                  <div class="col-md-4">
+                  <input name="confirmpass" placeholder="Confirm New Password" class="form-control input-md" type="password" ng-model="pass.confirmpass">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-4 control-label" for="singlebutton"> </label>
+                  <div class="col-md-4">
+                    <button type="button" class="btn btn-primary" ng-click="changePassword(pass)"><span class="fa fa-check"/> Submit</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading"><strong>Add New Administartor</strong></div>
+            <div class="panel-body">
+              <form class="form-horizontal" name="regForm">
+
+              <div class="alert alert-success" ng-show="regSuccess">
+                <strong>Success!</strong> New administrator has been added.
+              </div>
+              <div class="alert alert-danger" ng-show="regErr">
+                <strong>Error!</strong> {{regErr}}
+              </div>
+
+                <div class="form-group">
+                  <label class="col-md-4 control-label">Username</label>
+                  <div class="col-md-4">
+                  <input placeholder="Username" class="form-control input-md" type="text" ng-model="newUser.username" name="username" required>
+                  </div>
+                  <span class="required-field" ng-show="regForm.username.$error.required">*</span>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-4 control-label">Password</label>
+                  <div class="col-md-4">
+                  <input placeholder="Password" class="form-control input-md" type="password" ng-model="newUser.password" name="password"  ng-minlength="6" required>
+                  </div>
+                  <span class="required-field" ng-show="regForm.password.$error.required">*</span>
+                  <span class="required-field" ng-show="regForm.password.$error.minlength">Password atleast 6 characters.</span>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-4 control-label">Confirm Password</label>
+                  <div class="col-md-4">
+                  <input placeholder="Confirm Password" class="form-control input-md" type="password" ng-model="newUser.confirmpass" name="confirmpass" ng-minlength="6" required>
+                  </div>
+                  <span class="required-field" ng-show="regForm.confirmpass.$error.required">*</span>
+                  <span class="required-field" ng-show="regForm.confirmpass.$error.minlength">Password atleast 6 characters.</span>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-4 control-label">First Name</label>
+                  <div class="col-md-4">
+                  <input placeholder="First Name" class="form-control input-md" type="text" ng-model="newUser.firstName" name="fname" required>
+                  </div>
+                  <span class="required-field" ng-show="regForm.fname.$error.required">*</span>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-4 control-label">Middle Name</label>
+                  <div class="col-md-4">
+                  <input placeholder="Middle Name" class="form-control input-md" type="text" ng-model="newUser.middleName" name="mname" required>
+                  </div>
+                  <span class="required-field" ng-show="regForm.mname.$error.required">*</span>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-4 control-label">Last Name</label>
+                  <div class="col-md-4">
+                  <input placeholder="Last Name" class="form-control input-md" type="text" ng-model="newUser.lastName" name="lname" required>
+                  </div>
+                  <span class="required-field" ng-show="regForm.lname.$error.required">*</span>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-4 control-label">Contact No</label>
+                  <div class="col-md-4">
+                  <input placeholder="Contact No" class="form-control input-md" type="text" ng-model="newUser.contactNo" name="contactNo">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-4 control-label">Email Address</label>
+                  <div class="col-md-4">
+                  <input placeholder="Email" class="form-control input-md" type="email" ng-model="newUser.email" name="email" required>
+                  </div>
+                  <span class="required-field" ng-show="regForm.email.$error.required">*</span>
+                  <span class="required-field" ng-show="regForm.email.$error.email">Invalid email address.</span>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-4 control-label" for="singlebutton"> </label>
+                  <div class="col-md-4">
+                    <button type="reset" class="btn btn-danger"><span class="fa fa-times"/> Reset</button>
+                    <button type="button" class="btn btn-primary" ng-click="createAdmin(newUser)"><span class="fa fa-check"/> Submit</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+</div>
+<!-- /.container -->

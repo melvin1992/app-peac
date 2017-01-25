@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+
+  <title>PEAC Registration</title>
+  <meta charset="utf-8">
+  <!-- CSS Assets -->
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <link href="assets/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/main.css">
+
+</head>
+<body ng-app="myApp">
+
+  <div ng-view></div>
+  <div ng-include='"shared/footer/footer.html"'></div>
+
+  <!-- JS Assets -->
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/bootstrap.min.js"></script>
+  <script src="assets/js/angular.min.js"></script>
+  <script src="assets/js/angular-route.min.js"></script>
+  <script src="routes/app.routes.js"></script>
+
+  <!-- Controller List -->
+  <!-- <script src="components/home/homeController.js"></script>
+  <script src="components/about/aboutController.js"></script>
+  <script src="components/contact/contactController.js"></script> -->
+  <script src="components/login/loginController.js"></script>
+  <script src="components/registration/registerController.js"></script>
+
+  <script src="components/account/profile/myprofileController.js"></script>
+  <script src="components/account/payment/paymentController.js"></script>
+  <script src="components/account/registration/myRegistrationController.js"></script>
+  <script src="components/account/jhs/orientation/jhsController.js"></script>
+  <script src="components/account/jhs/inset/jhsInsetController.js"></script>
+  <script src="components/account/shs/orientation/shsController.js"></script>
+  <script src="components/account/shs/inset/shsInsetController.js"></script>
+
+  <script src="components/admin/login/adminLoginController.js"></script>
+  <script src="components/admin/setting/settingController.js"></script>
+  <script src="components/admin/event/eventController.js"></script>
+</body>
+</html>

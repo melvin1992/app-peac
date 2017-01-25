@@ -1,0 +1,110 @@
+<div ng-include='"../shared/header/header.html"'></div>
+
+<div class="container main-container">
+
+  <div class="row">
+      <div class="col-sm-12">
+          <h1 class="page-header">Account Registration
+          </h1>
+          <ol class="breadcrumb">
+              <li><a href="#/">Home</a></li>
+              <li class="active">Account Registration</li>
+          </ol>
+      </div>
+  </div>
+
+  <div class="row">
+    <div class="container">
+      <form class="form-horizontal" name="regForm">
+      <legend><h2>User Information</h2></legend>
+
+      <div class="alert alert-success" ng-show="success">
+        <strong>Success!</strong> Registration has been successful. <a href='#/'>Click here</a> to login
+      </div>
+
+      <div class="alert alert-danger" ng-show="err">
+        <strong>Error!</strong> {{err}}
+      </div>
+
+        <div class="form-group">
+          <label class="col-md-4 control-label">Username</label>
+          <div class="col-md-4">
+          <input placeholder="Username" class="form-control input-md" type="text" ng-model="account.username" name="username" required>
+          </div>
+          <span class="required-field" ng-show="regForm.username.$error.required">*</span>
+        </div>
+        <div class="form-group">
+          <label class="col-md-4 control-label">Password</label>
+          <div class="col-md-4">
+          <input placeholder="Password" class="form-control input-md" type="password" ng-model="account.password" name="password"  ng-minlength="6" required>
+          </div>
+          <span class="required-field" ng-show="regForm.password.$error.required">*</span>
+          <span class="required-field" ng-show="regForm.password.$error.minlength">Password atleast 6 characters.</span>
+        </div>
+        <div class="form-group">
+          <label class="col-md-4 control-label">Confirm Password</label>
+          <div class="col-md-4">
+          <input placeholder="Confirm Password" class="form-control input-md" type="password" ng-model="account.confirmpass" name="confirmpass" ng-minlength="6" required>
+          </div>
+          <span class="required-field" ng-show="regForm.confirmpass.$error.required">*</span>
+          <span class="required-field" ng-show="regForm.confirmpass.$error.minlength">Password atleast 6 characters.</span>
+        </div>
+        <div class="form-group">
+          <label class="col-md-4 control-label">First Name</label>
+          <div class="col-md-4">
+          <input placeholder="First Name" class="form-control input-md" type="text" ng-model="account.firstName" name="fname" required>
+          </div>
+          <span class="required-field" ng-show="regForm.fname.$error.required">*</span>
+        </div>
+        <div class="form-group">
+          <label class="col-md-4 control-label">Middle Name</label>
+          <div class="col-md-4">
+          <input placeholder="Middle Name" class="form-control input-md" type="text" ng-model="account.middleName" name="mname" required>
+          </div>
+          <span class="required-field" ng-show="regForm.mname.$error.required">*</span>
+        </div>
+        <div class="form-group">
+          <label class="col-md-4 control-label">Last Name</label>
+          <div class="col-md-4">
+          <input placeholder="Last Name" class="form-control input-md" type="text" ng-model="account.lastName" name="lname" required>
+          </div>
+          <span class="required-field" ng-show="regForm.lname.$error.required">*</span>
+        </div>
+        <div class="form-group">
+          <label class="col-md-4 control-label">Contact No</label>
+          <div class="col-md-4">
+          <input placeholder="Contact No" class="form-control input-md" type="text" ng-model="account.contactNo" name="contactNo">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-4 control-label">Email Address</label>
+          <div class="col-md-4">
+          <input placeholder="Email" class="form-control input-md" type="email" ng-model="account.email" name="email" required>
+          </div>
+          <span class="required-field" ng-show="regForm.email.$error.required">*</span>
+          <span class="required-field" ng-show="regForm.email.$error.email">Invalid email address.</span>
+        </div>
+        <div class="form-group">
+          <label class="col-md-4 control-label">Confirm Email Address</label>
+          <div class="col-md-4">
+          <input placeholder="Confirm Email" class="form-control input-md" type="email" ng-model="account.confirmemail" name="confirmemail" required>
+          </div>
+          <span class="required-field" ng-show="regForm.confirmemail.$error.required">*</span>
+          <span class="required-field" ng-show="regForm.confirmemail.$error.email">Invalid email address.</span>
+        </div>
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="singlebutton"> </label>
+          <div class="col-md-4">
+            <button type="reset" class="btn btn-danger"><span class="fa fa-times"/> Reset</button>
+            <button type="button" class="btn btn-primary" ng-click="createUser(account)"><span class="fa fa-check"/> Submit</button>
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <hr>
+  <div ng-include='"../shared/content/mid.html"'></div>
+
+</div>
