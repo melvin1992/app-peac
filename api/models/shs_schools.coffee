@@ -3,8 +3,11 @@ Schema = mongoose.Schema
 
 ShsSchoolSchema = new Schema
   schoolId:
-    type: String
+    type: Number
     require: true
+  shortName:
+    type: String
+    default: ''
   name:
     type: String
     required: true
@@ -18,14 +21,11 @@ ShsSchoolSchema = new Schema
     type: String
     default: ''
   region:
-    type: String
-    default: ''
+    type: Number
   province:
-    type: String
-    default: ''
+    type: Number
   city:
-    type: String
-    default: ''
+    type: Number
   street:
     type: String
     default: ''

@@ -32,10 +32,7 @@ EventSchema = new Schema
     required: true
   province:
     type: [String]
-    required: true
-  city:
-    type: String
-    required: true
+    default: ['']
   deadline:
     type: Date
     require: true

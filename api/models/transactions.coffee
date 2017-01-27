@@ -5,6 +5,9 @@ TransactionSchema = new Schema
   userID:
     type: String
     required: true
+  schoolID:
+    type: String
+    required: true
   eventID:
     type: String
     required: true
@@ -20,6 +23,9 @@ TransactionSchema = new Schema
   totalAmount:
     type: Number
     required: true
+  date:
+    type: Date
+    default: Date.now
   depositReferenceNo:
     type: String
     default: ''

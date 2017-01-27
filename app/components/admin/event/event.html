@@ -6,7 +6,7 @@
         <div class="col-lg-12">
             <h1 class="page-header"><i class="fa fa-calendar"></i> Events</h1>
             <ol class="breadcrumb">
-                <li><a href="#/admin/setting">Home</a></li>
+                <li><a href="#/admin">Home</a></li>
                 <li class="active">Events</li>
             </ol>
         </div>
@@ -31,8 +31,13 @@
           </div>
 
           <div class="row ten-margin">
-            <div class="col-sm-12">
-              <button type="button" class="btn btn-sm btn-primary pull-right" data-toggle="modal" data-target="#addModal"><i class="fa fa-plus"/> Add Event</button>
+            <div class="col-sm-6">
+              <div class="row">
+                Year: <b>{{activeYear}}</b> | <label class="checkbox-inline"><input type="checkbox" ng-model="showAll" ng-change="showAllEvents(showAll)">Show all events</label>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <button type="button" class="btn btn-sm btn-primary pull-right" data-toggle="modal" data-target="#openModal" ng-click="clearEventData()"><i class="fa fa-plus"/> Add Event</button>
             </div>
           </div>
 
@@ -48,20 +53,22 @@
                       <th>Date</th>
                       <th>Venue</th>
                       <th>Fee</th>
+                      <th>Status</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                     <tr>
-                       <td>2017</td>
-                       <td>Region 1</td>
-                       <td>SHS Inset</td>
-                       <td>Feb 14-16</td>
-                       <td>MOA Arena</td>
-                       <td>1200</td>
+                     <tr ng-repeat="event in eventList">
+                       <td>{{event.eventYear}}</td>
+                       <td>{{event.name}}</td>
+                       <td>{{event.eventType}}</td>
+                       <td>{{event.eventDate}}</td>
+                       <td>{{event.venue}}</td>
+                       <td>{{event.eventFee}}</td>
+                       <td>{{event.status}}</td>
                        <td>
-                         <button type="button" class="btn btn-xs btn-success" data-toggle="modal" data-target="#editModal"><i class="fa fa-pencil"/> Edit</button>
-                         <button type="button" class="btn btn-xs btn-danger"><i class="fa fa-trash"/> Delete</button>
+                         <button type="button" class="btn btn-xs btn-success" data-toggle="modal" data-target="#openModal" ng-click="editEvent(event)"><i class="fa fa-pencil"/> Edit</button>
+                         <button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#deleteModal" ng-click="showNotif(event)"><i class="fa fa-trash"/> Delete</button>
                        </td>
                      </tr>
                   </tbody>
@@ -77,9 +84,23 @@
 
 </div>
 <!-- /.container -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title"><i class="fa fa-warning"/> Are you sure you want to delete the record?</h3>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" ng-click="deleteEvent(eventData._id)"><i class="fa fa-check"/> YES</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"/> NO</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
-<div class="modal fade" id="addModal" tabindex="-1" role="dialog">
+<div class="modal fade" id="openModal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -87,186 +108,109 @@
         <h3 class="modal-title"><i class="fa fa-calendar"/> Event Information</h3>
       </div>
       <div class="modal-body">
+        <div class="alert alert-success" ng-show="eventSuccess">
+          <strong>Success!</strong> {{eventSuccess}}
+        </div>
+        <div class="alert alert-danger" ng-show="eventErr">
+          <strong>Error!</strong> {{eventErr}}
+        </div>
 
-        <form class="form-horizontal" role="form">
+        <form class="form-horizontal" role="form" name="eventForm">
           <div class="form-group">
             <label class="col-sm-4 control-label" for="textinput">Name</label>
             <div class="col-sm-7">
-              <input type="text" placeholder="Event Name" class="form-control">
+              <input type="text" placeholder="Event Name" class="form-control" ng-model="eventData.name" name="name" required>
             </div>
+            <span class="required-field" ng-show="eventForm.name.$error.required">*</span>
           </div>
           <div class="form-group">
             <label class="col-sm-4 control-label" for="textinput">Year</label>
             <div class="col-sm-7">
-              <input type="text" placeholder="Event Year" class="form-control">
+              <select class="form-control input-md" ng-model="eventData.eventYear" ng-options="year for year in years" name="year" required>
+                <option value="">Select year</option>
+              </select>
             </div>
+            <span class="required-field" ng-show="eventForm.year.$error.required">*</span>
           </div>
           <div class="form-group">
             <label class="col-sm-4 control-label" for="textinput">Type</label>
             <div class="col-sm-7">
-              <input type="text" placeholder="Event Type" class="form-control">
+              <select class="form-control input-md" ng-model="eventData.eventType" ng-options="type for type in eventType" name="type" required>
+                <option value="">Select type</option>
+              </select>
             </div>
+            <span class="required-field" ng-show="eventForm.type.$error.required">*</span>
           </div>
           <div class="form-group">
             <label class="col-sm-4 control-label" for="textinput">Date Description</label>
             <div class="col-sm-7">
-              <input type="text" placeholder="Event Deadline" class="form-control">
+              <input type="text" placeholder="Date" class="form-control" ng-model="eventData.eventDate" name="date" required>
             </div>
+            <span class="required-field" ng-show="eventForm.date.$error.required">*</span>
           </div>
           <div class="form-group">
             <label class="col-sm-4 control-label" for="textinput">Venue</label>
             <div class="col-sm-7">
-              <input type="text" placeholder="Event Venue" class="form-control">
+              <input type.value as type="text" placeholder="Event Venue" class="form-control" ng-model="eventData.venue" name="venue" required>
             </div>
+            <span class="required-field" ng-show="eventForm.venue.$error.required">*</span>
           </div>
           <div class="form-group">
             <label class="col-sm-4 control-label" for="textinput">Fee</label>
             <div class="col-sm-7">
-              <input type="text" placeholder="Event Fee" class="form-control">
+              <input type="number" placeholder="Event Fee" class="form-control" ng-model="eventData.eventFee" name="fee" required>
             </div>
+            <span class="required-field" ng-show="eventForm.fee.$error.required">*</span>
           </div>
           <div class="form-group">
             <label class="col-sm-4 control-label" for="textinput">Max Participants</label>
             <div class="col-sm-7">
-              <input type="text" placeholder="Max Participants" class="form-control">
+              <input type="number" placeholder="Max Participants" class="form-control" ng-model="eventData.limits" name="limits" required>
             </div>
+            <span class="required-field" ng-show="eventForm.limits.$error.required">*</span>
           </div>
           <div class="form-group">
             <label class="col-sm-4 control-label" for="textinput">Event Hours</label>
             <div class="col-sm-7">
-              <input type="text" placeholder="Event Hours" class="form-control">
+              <input type="number" placeholder="Event Hours" class="form-control" ng-model="eventData.hours">
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-4 control-label" for="textinput">Region</label>
             <div class="col-sm-7">
-              <input type="text" placeholder="Region" class="form-control">
+              <select class="form-control input-md" ng-model="eventData.region" ng-options="r.name for r in regionList track by r.code" multiple name="region" required>
+              </select>
             </div>
+            <span class="required-field" ng-show="eventForm.region.$error.required">*</span>
           </div>
           <div class="form-group">
             <label class="col-sm-4 control-label" for="textinput">Province</label>
             <div class="col-sm-7">
-              <input type="text" placeholder="Province" class="form-control">
+              <select class="form-control input-md" ng-model="eventData.province" ng-options="p.name for p in provinceList track by p.code" multiple>
+              </select>
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-4 control-label" for="textinput">Deadline</label>
-            <div class="col-sm-7">
-              <div class="row">
-                <div class="col-sm-4 birth">
-                  <input type="number" class="form-control" placeholder="Month">
-                </div>
-                <div class="col-sm-3 birth">
-                  <input type="number" class="form-control" placeholder="Day">
-                </div>
-                <div class="col-sm-4 birth">
-                  <input type="number" class="form-control" placeholder="Year">
-                </div>
-              </div>
+            <div id="datepicker" class="col-sm-7">
+              <input type="text" class="form-control" placeholder="Deadline" ng-model="eventData.deadline" name="deadline" required>
             </div>
+            <span class="required-field" ng-show="eventForm.deadline.$error.required">*</span>
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary"><i class="fa fa-check"/> Submit</button>
+        <button type="button" class="btn btn-primary" ng-click="saveEvent(eventData)"><i class="fa fa-check"/> Submit</button>
       </div>
     </div>
   </div>
 </div>
 
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h3 class="modal-title"><i class="fa fa-calendar"/> Event Information</h3>
-      </div>
-      <div class="modal-body">
 
-        <form class="form-horizontal" role="form">
-          <div class="form-group">
-            <label class="col-sm-4 control-label" for="textinput">Name</label>
-            <div class="col-sm-7">
-              <input type="text" placeholder="Event Name" class="form-control">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-4 control-label" for="textinput">Year</label>
-            <div class="col-sm-7">
-              <input type="text" placeholder="Event Year" class="form-control">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-4 control-label" for="textinput">Type</label>
-            <div class="col-sm-7">
-              <input type="text" placeholder="Event Type" class="form-control">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-4 control-label" for="textinput">Date Description</label>
-            <div class="col-sm-7">
-              <input type="text" placeholder="Event Deadline" class="form-control">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-4 control-label" for="textinput">Venue</label>
-            <div class="col-sm-7">
-              <input type="text" placeholder="Event Venue" class="form-control">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-4 control-label" for="textinput">Fee</label>
-            <div class="col-sm-7">
-              <input type="text" placeholder="Event Fee" class="form-control">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-4 control-label" for="textinput">Max Participants</label>
-            <div class="col-sm-7">
-              <input type="text" placeholder="Max Participants" class="form-control">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-4 control-label" for="textinput">Event Hours</label>
-            <div class="col-sm-7">
-              <input type="text" placeholder="Event Hours" class="form-control">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-4 control-label" for="textinput">Region</label>
-            <div class="col-sm-7">
-              <input type="text" placeholder="Region" class="form-control">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-4 control-label" for="textinput">Province</label>
-            <div class="col-sm-7">
-              <input type="text" placeholder="Province" class="form-control">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-4 control-label" for="textinput">Deadline</label>
-            <div class="col-sm-7">
-              <div class="row">
-                <div class="col-sm-4 birth">
-                  <input type="number" class="form-control" placeholder="Month">
-                </div>
-                <div class="col-sm-3 birth">
-                  <input type="number" class="form-control" placeholder="Day">
-                </div>
-                <div class="col-sm-4 birth">
-                  <input type="number" class="form-control" placeholder="Year">
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger pull-left"><i class="fa fa-times"/> Close Event</button>
-        <button type="button" class="btn btn-success pull-left"><i class="fa fa-check"/> Open Event</button>
-        <button type="button" class="btn btn-primary"><i class="fa fa-floppy-o"/> Save</button>
-      </div>
-    </div>
-  </div>
-</div>
+<script>
+$(function(){
+  $('#datepicker input').datepicker({
+      autoclose: true
+  });
+});
+</script>

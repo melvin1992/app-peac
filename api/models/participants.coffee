@@ -7,6 +7,12 @@ ParticipantSchema = new Schema
     required: true
   registrationCode:
     type: String
+  userID:
+    type: String
+    required: true
+  schoolID:
+    type: String
+    require: true
   eventID:
     type: String
     required: true
@@ -28,6 +34,11 @@ ParticipantSchema = new Schema
   suffix:
     type: String
     default: ''
+  gender:
+    type: String
+    default: ''
+  birthdate:
+    type: Date
   email:
     type: String
     default: ''
@@ -35,8 +46,6 @@ ParticipantSchema = new Schema
     type: String
     default: ''
   teachingYears:
-    type: Number
-  teachingPresentSchool:
     type: Number
   designation:
     type: String
@@ -51,7 +60,7 @@ ParticipantSchema = new Schema
   status:
     type: Number
     enum: [1,0]
-    default: 0
+    default: 1
 
 participantModel = mongoose.model('Participants', ParticipantSchema)
 module.exports = participantModel

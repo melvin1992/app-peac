@@ -3,7 +3,7 @@ Schema = mongoose.Schema
 
 JhsSchoolSchema = new Schema
   schoolId:
-    type: String
+    type: Number
     required: true
   name:
     type: String
@@ -15,17 +15,13 @@ JhsSchoolSchema = new Schema
     type: String
     default: ''
   region:
-    type: String
-    default: ''
+    type: Number
   province:
-    type: String
-    default: ''
+    type: Number
   city:
-    type: String
-    default: ''
+    type: Number
   congDist:
-    type: String
-    default: ''
+    type: Number
   brgy:
     type: String
     default: ''

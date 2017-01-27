@@ -1,11 +1,11 @@
-JhsSchools = require('mongoose').model 'JhsSchools'
+Participants = require('mongoose').model 'Participants'
 
-JHSService =
+ParticipantService =
   create: (params) ->
     deferred = Promise.defer()
 
-    jhs = new JhsSchools params
-    jhs.save()
+    participant = new Participants params
+    participant.save()
     .then (res) ->
       deferred.resolve res
     .catch (err) ->
@@ -15,8 +15,8 @@ JHSService =
 
   findAll: (query) ->
     deferred = Promise.defer()
-    
-    JhsSchools.find query
+
+    Participants.find query
     .then (res) ->
       deferred.resolve res
     .catch (err) ->
@@ -28,7 +28,7 @@ JHSService =
     deferred = Promise.defer()
 
     query = _id: id
-    JhsSchools.findOne query
+    Participants.findOne query
     .then (res) ->
       deferred.resolve res
     .catch (err) ->
@@ -36,11 +36,11 @@ JHSService =
 
     deferred.promise
 
-  updateJHS: (id, params) ->
+  updateParticipant: (id, params) ->
     deferred = Promise.defer()
 
     query = _id: id
-    JhsSchools.findOneAndUpdate query, params, new:true
+    Participants.findOneAndUpdate query, params, new:true
     .then (res) ->
       deferred.resolve res
     .catch (err) ->
@@ -48,11 +48,11 @@ JHSService =
 
     deferred.promise
 
-  deleteJHS: (id) ->
+  deleteParticipant: (id) ->
     deferred = Promise.defer()
 
     query = _id: id
-    JhsSchools.findOneAndRemove query
+    Participants.findOneAndRemove query
     .then (res) ->
       deferred.resolve res
     .catch (err) ->
@@ -60,4 +60,4 @@ JHSService =
 
     deferred.promise
 
-module.exports = JHSService
+module.exports = ParticipantService

@@ -34,17 +34,11 @@ AccountSchema = new Schema
     schoolName:
       type: String
       default: ''
-    schoolAddress:
-      type: String
-      default: ''
   jhsSchool:
     schoolID:
       type: String
       default: ''
     schoolName:
-      type: String
-      default: ''
-    schoolAddress:
       type: String
       default: ''
 
