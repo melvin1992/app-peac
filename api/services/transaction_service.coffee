@@ -1,4 +1,5 @@
 Transactions = require('mongoose').model 'Transactions'
+EventService = require './event_service'
 
 TransactionService =
   create: (params) ->
@@ -6,8 +7,14 @@ TransactionService =
 
     transaction = new Transactions params
     transaction.save()
-    .then (res) ->
-      deferred.resolve res
+    .then (tranRes) ->
+      eventId = params.eventID
+      count = params.participantsCount
+      EventService.deductParticipants eventId, count
+      .then (res) ->
+        deferred.resolve tranRes
+      .catch (err) ->
+        deferred.reject err
     .catch (err) ->
       deferred.reject err
 

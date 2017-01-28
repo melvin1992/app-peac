@@ -3,7 +3,7 @@ Schema = mongoose.Schema
 
 ProvinceSchema = new Schema
   code:
-    type: Number
+    type: String
     required: true
   name:
     type: String

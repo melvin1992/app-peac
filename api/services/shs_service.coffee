@@ -15,7 +15,7 @@ SHSService =
 
   findAll: (query) ->
     deferred = Promise.defer()
-
+    console.log query
     ShsSchools.find query
     .then (res) ->
       deferred.resolve res

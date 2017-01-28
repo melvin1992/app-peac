@@ -39,7 +39,21 @@ angular.module('myApp.jhsOrientation', [])
     $scope.displayP2 = null;
     $scope.disableP2 = false;
 
+    $scope.limitsWarning = null;
     $scope.eventData = null;
+  }
+
+  function compareRegionCode(eventRegion, schoolRegion){
+    let sRegion = schoolRegion.toString();
+    if(sRegion.length == 8){
+      sRegion = "0" + sRegion
+    }
+
+    if(eventRegion.indexOf(sRegion) == -1){
+      $scope.regionWarning = "show";
+    }else{
+      $scope.regionWarning = null;
+    }
   }
 
   function getSchoolData(id){
@@ -156,6 +170,9 @@ angular.module('myApp.jhsOrientation', [])
   }
 
   $scope.searchSchool = function(id){
+    $scope.eventSearch = "";
+    clearData();
+
     findSchool(id)
     .then(function(res){
       $scope.schoolInfo = res;
@@ -171,7 +188,14 @@ angular.module('myApp.jhsOrientation', [])
       let schoolId = $scope.schoolInfo.schoolId;
       getEventList('name='+eventName.name)
       .then(function(res){
+        let maxLimit = res[0].limits;
+        if(maxLimit <= 20){
+          $scope.limitsWarning = maxLimit;
+        }else{
+          $scope.limitsWarning = null;
+        }
         $scope.eventData = res[0];
+        compareRegionCode($scope.eventData.region, $scope.schoolInfo.region);
         showExistParticipants(userId, res[0]._id, schoolId);
       })
       .catch(function(err){
@@ -229,7 +253,6 @@ angular.module('myApp.jhsOrientation', [])
             $http.post('/api/participants', value)
             .then(function(res){
               console.log(res.data._id);
-              //update event limits
             })
             .catch(function(err){
               $scope.err = err.data;

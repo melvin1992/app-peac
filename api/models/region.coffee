@@ -3,7 +3,7 @@ Schema = mongoose.Schema
 
 RegionSchema = new Schema
   code:
-    type: Number
+    type: String
     required: true
   name:
     type: String

@@ -60,6 +60,23 @@ EventService =
 
     deferred.promise
 
+  deductParticipants: (eventId, count) ->
+    deferred = Promise.defer()
 
+    query = _id: eventId
+    Events.findOne query
+    .then (res) =>
+      limitsRes = res.limits - count
+      data =
+        limits: limitsRes
+      @updateEvent eventId, data
+      .then (res) ->
+        deferred.resolve res
+      .catch (err) ->
+        deferred.reject err
+    .catch (err) ->
+      deferred.reject err
+
+    deferred.promise
 
 module.exports = EventService
