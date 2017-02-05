@@ -4,7 +4,8 @@ colors = require 'colors'
 config = require './config'
 env = process.env.NODE_ENV
 
-mongoose.connect config.getHostURI(env)
+mongoose.connect config.getHostURI(env),
+{ server: { reconnectTries: Number.MAX_VALUE }}
 
 mongoose.connection.on 'error', (err) ->
   console.log "Mongoose connection error: #{err}".underline.red

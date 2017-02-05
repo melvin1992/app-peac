@@ -116,8 +116,10 @@ angular.module('myApp.shsOrientation', [])
   function createRegistrationCode(user, events){
     let code = "";
     let ndate = new Date();
+    let dval = ndate.valueOf().toString();
     code += user.slice(0,5) + '-';
-    code += ndate.valueOf();
+    code += events.slice(0,5) + '-';
+    code += dval.slice(-5);
     return code;
   }
 
@@ -213,6 +215,7 @@ angular.module('myApp.shsOrientation', [])
     let eventId = $scope.eventData._id;
     let eventType = $scope.eventData.eventType;
     let fee = $scope.eventData.eventFee;
+    let eventHours = $scope.eventData.hours;
     let regCode = createRegistrationCode(userId,eventId);
 
     let transaction = {
@@ -252,6 +255,7 @@ angular.module('myApp.shsOrientation', [])
             value.transactionID = transId;
             value.userID = userId;
             value.schoolID = schoolId;
+            value.presentHours = eventHours;
             $http.post('/api/participants', value)
             .then(function(res){
               console.log(res.data._id);

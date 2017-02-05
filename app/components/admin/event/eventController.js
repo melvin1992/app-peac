@@ -204,11 +204,17 @@ angular.module('myApp.adminEvent', [])
     angular.element(document.querySelector('#deleteModal')).modal('hide');
   }
 
-  $scope.showAllEvents = function(show){
-    if(show){
-      console.log('display all events');
+  $scope.showEventPerYear = function(year){
+    if(year){
+      $http.get('/api/events?eventYear='+year)
+      .then(function(res){
+        $scope.eventList = res.data;
+      })
+      .catch(function(err){
+        deferred.reject(err.data);
+      })
     }else{
-      console.log('show only the year events');
+      showEventList();
     }
   }
 

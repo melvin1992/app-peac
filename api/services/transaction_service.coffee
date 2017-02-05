@@ -24,6 +24,7 @@ TransactionService =
     deferred = Promise.defer()
 
     Transactions.find query
+    .sort {date: -1}
     .then (res) ->
       deferred.resolve res
     .catch (err) ->

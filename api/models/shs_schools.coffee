@@ -11,6 +11,9 @@ ShsSchoolSchema = new Schema
   name:
     type: String
     required: true
+  schoolType:
+    type: String
+    default: ''
   email:
     type: String
     default: ''

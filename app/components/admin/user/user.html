@@ -1,0 +1,93 @@
+<div ng-include='"../components/admin/shared/header.html"'></div>
+
+<div class="container main-container">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header"><i class="fa fa-users"></i> Users List</h1>
+            <ol class="breadcrumb">
+                <li><a href="#/admin">Home</a></li>
+                <li class="active">Users</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row">
+      <div class="container">
+        <div class="col-lg-2">
+          <div class="row">
+              <div ng-include='"../components/admin/shared/sidebar.html"'></div>
+          </div>
+        </div>
+        <div class="col-lg-10">
+          <div class="alert alert-success" ng-show="success">
+            <strong>Success!</strong> {{success}}
+          </div>
+          <div class="alert alert-danger" ng-show="err">
+            <strong>Error!</strong> {{err}}
+          </div>
+
+          <div class="row ten-margin">
+            <div class="col-sm-6">
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-search"/> Search</span>
+                <input type="text" class="form-control" ng-model="search">
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <button type="button" class="btn btn-sm btn-primary pull-right"><i class="fa fa-plus"/> Add User</button>
+            </div>
+          </div>
+
+          <div class="alert alert-warning" ng-show="!users">
+            <p class="text-center">
+              <i class="fa fa-spinner fa-pulse fa-fw"></i> Loading data...
+            </p>
+          </div>
+
+          <div class="row" ng-show="users">
+            <div class="col-sm-12">
+              <div class="table-participants">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Username</th>
+                      <th>Full Name</th>
+                      <th>Contact No</th>
+                      <th>Status</th>
+                      <th width="130px">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                     <tr ng-repeat="user in users | offset:currentPage*itemsPerPage | limitTo:15 | filter:search">
+                       <td>{{user.username}}</td>
+                       <td>{{user.lastName}}, {{user.firstName}}, {{user.middleName}}</td>
+                       <td>{{user.contactNo}}</td>
+                       <td>{{user.status}}</td>
+                       <td>
+                         <button type="button" class="btn btn-xs btn-success"><i class="fa fa-pencil"/> Edit</button>
+                         <button type="button" class="btn btn-xs btn-danger"><i class="fa fa-trash"/> Delete</button>
+                       </td>
+                     </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <ul class="pager">
+            <li class="previous" ng-class="prevPageDisabled()">
+              <a href ng-click="prevPage()">« Prev</a>
+            </li>
+            <li class="next" ng-class="nextPageDisabled()">
+              <a href ng-click="nextPage()">Next »</a>
+            </li>
+          </ul>
+
+
+        </div>
+      </div>
+    </div>
+
+</div>
+<!-- /.container -->

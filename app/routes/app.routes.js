@@ -16,7 +16,10 @@ angular.module('myApp', [
   'myApp.myprofile',
   'myApp.adminLogin',
   'myApp.adminSetting',
-  'myApp.adminEvent'
+  'myApp.adminEvent',
+  'myApp.adminJHS',
+  'myApp.adminSHS',
+  'myApp.adminUser'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
   // $locationProvider.html5Mode(true);
@@ -46,6 +49,9 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
   .when('/loginasadmin', { templateUrl:'../components/admin/login/adminLogin.html', controller:'adminLoginController' })
   .when('/admin', { templateUrl:'../components/admin/setting/setting.html', controller:'adminSettingController' })
   .when('/admin/events', { templateUrl:'../components/admin/event/event.html', controller:'eventController' })
+  .when('/admin/jhs', { templateUrl:'../components/admin/school/jhs.html', controller:'jhsAdminController' })
+  .when('/admin/shs', { templateUrl:'../components/admin/school/shs.html', controller:'shsAdminController' })
+  .when('/admin/users', { templateUrl:'../components/admin/user/user.html', controller:'userController' })
 
   .otherwise({redirectTo: '/'});
 }]);

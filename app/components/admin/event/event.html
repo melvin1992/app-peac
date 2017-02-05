@@ -26,14 +26,17 @@
           <div class="alert alert-danger" ng-show="err">
             <strong>Error!</strong> {{err}}
           </div>
-          <div class="alert alert-info">
-            <strong><i class="fa fa-info-circle"/> Note:</strong> All events being displayed are events within the year.
-          </div>
 
           <div class="row ten-margin">
             <div class="col-sm-6">
               <div class="row">
-                Year: <b>{{activeYear}}</b> | <label class="checkbox-inline"><input type="checkbox" ng-model="showAll" ng-change="showAllEvents(showAll)">Show all events</label>
+                Year:
+                <b ng-show="!searchYear">{{activeYear}}</b>
+                <b ng-show="searchYear">{{searchYear}}</b>
+                | Event Year:
+                <select ng-model="searchYear" ng-options="year for year in years" ng-change="showEventPerYear(searchYear)">
+                  <option value="">Year</option>
+                </select>
               </div>
             </div>
             <div class="col-sm-6">
@@ -50,11 +53,11 @@
                       <th>Year</th>
                       <th>Event Name</th>
                       <th>Event Type</th>
-                      <th>Date</th>
+                      <th width="80px">Date</th>
                       <th>Venue</th>
                       <th>Fee</th>
                       <th>Status</th>
-                      <th>Actions</th>
+                      <th width="130px">Actions</th>
                     </tr>
                   </thead>
                   <tbody>

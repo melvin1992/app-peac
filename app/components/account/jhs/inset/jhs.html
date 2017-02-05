@@ -20,763 +20,161 @@
 
       <div class="container">
 
-        <form>
+        <div class="alert alert-success" ng-show="success">
+          <strong>Success!</strong> {{success}}
+        </div>
+        <div class="alert alert-danger" ng-show="err">
+          <strong>Error!</strong> {{err}}
+        </div>
+
         <h2>Event Information</h2>
 
         <div class="well">
           <div class="row">
-            <div class="col-sm-4 form-group">
-              <label>ESC School ID</label>
-              <div class="input-group">
-                <input type="text" class="form-control" placeholder="XXXXXXX">
-                <span class="input-group-btn">
-                  <button type="button" class="btn btn-primary"><span class="fa fa-search"/> Search</button>
-                </span>
+
+            <div class="col-sm-6 form-group">
+              <div ng-hide="hideSchool">
+                <label>ESC School ID</label>
+                <div class="input-group col-sm-6">
+                  <input type="text" class="form-control" placeholder="XXXXXXX" ng-model="schoolId">
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-primary" ng-click="searchSchool(schoolId)"><span class="fa fa-search"/> Search</button>
+                  </span>
+                </div>
+              </div>
+              <div ng-show="schoolInfo">
+                <h4>School Details <button type="button" class="btn btn-xs btn-link" ng-click="showSearchSchool()" ng-hide="!hideSchool">Change</button></h4>
+                <p>
+                  <strong>Id: </strong>{{schoolInfo.schoolId}}<br/>
+                  <strong>Name: </strong>{{schoolInfo.name}}<br/>
+                  <strong>Address: </strong>{{schoolInfo.street}} {{schoolInfo.brgy}}<br/>
+                  <strong>Head: </strong>{{schoolInfo.principal}}<br/>
+                  <strong>Website: </strong>{{schoolInfo.website}}
+                </p>
               </div>
             </div>
-            <div class="col-sm-4 form-group">
-              <label>School Name</label>
-              <input type="text" class="form-control" placeholder="School Name" readonly="true">
-            </div>
-            <div class="col-sm-4 form-group">
-              <label>School Address</label>
-              <input type="text" class="form-control" placeholder="School Address" readonly="true">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-4 form-group">
-              <label>Event Date</label>
-              <select class="form-control">
-                <option>Select Date</option>
-                <option>Date 1</option>
-                <option>Date 2</option>
-                <option>Date 3</option>
-                <option>Date 4</option>
+
+            <div class="col-sm-6 form-group">
+              <label>Event</label>
+              <select class="form-control" ng-model="eventSearch" ng-options="d.name for d in eventList" ng-change="findEvent(eventSearch)" ng-disabled="!schoolInfo">
+                <option value="">Select Event</option>
               </select>
+
+              <div ng-show="eventData">
+                <h4>Event Details</h4>
+                <p>
+                  <strong>Event Name: </strong>{{eventData.name}}<br/>
+                  <strong>Event Type: </strong>{{eventData.eventType}}<br/>
+                  <strong>Event Date: </strong>{{eventData.eventDate}}<br/>
+                  <strong>Venue: </strong>{{eventData.venue}}<br/>
+                  <strong>Fee: </strong>{{eventData.eventFee}}
+                </p>
+              </div>
             </div>
-            <div class="col-sm-4 form-group">
-              <label>Venue</label>
-              <select class="form-control">
-                <option>Select Venue</option>
-                <option>Venue 1</option>
-                <option>Venue 2</option>
-                <option>Venue 3</option>
-                <option>Venue 4</option>
-              </select>
-            </div>
+
           </div>
         </div>
 
+        <div class="alert alert-warning fade in" ng-show="limitsWarning">
+          <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          <strong>Warning!</strong> This event has only {{limitsWarning}} slots left.
+        </div>
+
+        <div class="alert alert-warning fade in" ng-show="regionWarning">
+          <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          <strong>Warning!</strong> Selected event is not within your school region.
+        </div>
+
+        <form ng-submit="submitEventInformation()">
+
         <h2>Participant Information</h2>
-        <div class="panel panel-default">
-          <div class="panel-heading"><strong>Learning Area: <u>Aral. Panlipunan (Regular: Grade 7 or 8)</u></strong></div>
-          <div class="panel-body">
-            <div class="row">
-              <div class="col-sm-2 form-group">
-                <label>Title</label>
-                <input type="text" class="form-control input-sm" placeholder="Mr/Ms">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>First Name</label>
-                <input type="text" class="form-control input-sm" placeholder="First Name">
-              </div>
-              <div class="col-sm-2 form-group">
-                <label>Middle Name</label>
-                <input type="text" class="form-control input-sm" placeholder="Middle Name">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Last Name</label>
-                <input type="text" class="form-control input-sm" placeholder="Last Name">
-              </div>
-              <div class="col-sm-2 form-group">
-                <label>Suffix</label>
-                <input type="text" class="form-control input-sm" placeholder="Suffix">
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-3 form-group">
-                <label>Email</label>
-                <input type="text" class="form-control input-sm" placeholder="Email">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Contact No</label>
-                <input type="text" class="form-control input-sm" placeholder="Contact No">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Birthdate</label>
-                <div id="datepicker">
-                  <input type="text" class="form-control input-sm" placeholder="Birthdate">
-                </div>
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Years of Teaching</label>
-                <input type="Number" class="form-control input-sm" placeholder="Years of Teacher">
-              </div>
-            </div>
+
+        <div class="panel panel-default" ng-repeat="area in learningArea">
+          <div class="panel-heading">
+            <input type="checkbox" ng-click="showPanel(area.show, area.learningArea)" ng-model="area.show"/>
+            <strong>Learning Area: <u>{{area.learningArea}}</u></strong>
           </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading"><strong>Learning Area: <u>English (Regular: Grade 7 or 8)</u></strong></div>
-          <div class="panel-body">
+          <div class="panel-body" ng-show="area.display">
+
             <div class="row">
               <div class="col-sm-2 form-group">
                 <label>Title</label>
-                <input type="text" class="form-control input-sm" placeholder="Mr/Ms">
+                <input type="text" class="form-control input-sm" placeholder="Mr/Ms" ng-model="area.title" ng-disabled="area.disabled">
               </div>
-              <div class="col-sm-3 form-group">
+              <div class="col-sm-2 form-group">
                 <label>First Name</label>
-                <input type="text" class="form-control input-sm" placeholder="First Name">
+                <input type="text" class="form-control input-sm" placeholder="First Name" ng-model="area.firstName" ng-disabled="area.disabled">
               </div>
               <div class="col-sm-2 form-group">
                 <label>Middle Name</label>
-                <input type="text" class="form-control input-sm" placeholder="Middle Name">
+                <input type="text" class="form-control input-sm" placeholder="Middle Name" ng-model="area.middleName" ng-disabled="area.disabled">
               </div>
-              <div class="col-sm-3 form-group">
+              <div class="col-sm-2 form-group">
                 <label>Last Name</label>
-                <input type="text" class="form-control input-sm" placeholder="Last Name">
+                <input type="text" class="form-control input-sm" placeholder="Last Name" ng-model="area.lastName" ng-disabled="area.disabled">
               </div>
               <div class="col-sm-2 form-group">
                 <label>Suffix</label>
-                <input type="text" class="form-control input-sm" placeholder="Suffix">
+                <input type="text" class="form-control input-sm" placeholder="Suffix" ng-model="area.suffix" ng-disabled="area.disabled">
+              </div>
+              <div class="col-sm-2 form-group">
+                <label>Gender</label>
+                <select class="form-control input-sm" ng-model="area.gender" ng-disabled="area.disabled">
+                  <option value="">Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
               </div>
             </div>
+
             <div class="row">
-              <div class="col-sm-3 form-group">
+              <div class="col-sm-2 form-group">
                 <label>Email</label>
-                <input type="text" class="form-control input-sm" placeholder="Email">
+                <input type="text" class="form-control input-sm" placeholder="Email" ng-model="area.email" ng-disabled="area.disabled">
               </div>
-              <div class="col-sm-3 form-group">
+              <div class="col-sm-2 form-group">
                 <label>Contact No</label>
-                <input type="text" class="form-control input-sm" placeholder="Contact No">
+                <input type="text" class="form-control input-sm" placeholder="Contact No" ng-model="area.contactNo" ng-disabled="area.disabled">
               </div>
-              <div class="col-sm-3 form-group">
+              <div class="col-sm-2 form-group">
                 <label>Birthdate</label>
-                <div id="datepicker">
-                  <input type="text" class="form-control input-sm" placeholder="Birthdate">
-                </div>
+                <input type="date" class="form-control input-sm" placeholder="Birthdate" ng-model="area.birthdate" ng-disabled="area.disabled">
               </div>
-              <div class="col-sm-3 form-group">
-                <label>Years of Teaching</label>
-                <input type="Number" class="form-control input-sm" placeholder="Years of Teacher">
+              <div class="col-sm-4 form-group">
+                <label>Years of Teaching (Please indicate in months)</label>
+                <input type="Number" class="form-control input-sm" placeholder="Years of Teaching" ng-model="area.teachingYears" ng-disabled="area.disabled">
+              </div>
+              <div class="col-sm-2 form-group">
+                <label>License Status</label>
+                <select class="form-control input-sm" ng-model="area.licenseStatus" ng-disabled="area.disabled">
+                  <option value="">Select Status</option>
+                  <option value="Licensed">Licensed</option>
+                  <option value="Certificate of Rating">Certificate of Rating</option>
+                  <option value="Non-licensed">Non-licensed</option>
+                </select>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading"><strong>Learning Area: <u>Filipino (Regular: Grade 7 or 8)</u></strong></div>
-          <div class="panel-body">
+
             <div class="row">
-              <div class="col-sm-2 form-group">
-                <label>Title</label>
-                <input type="text" class="form-control input-sm" placeholder="Mr/Ms">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>First Name</label>
-                <input type="text" class="form-control input-sm" placeholder="First Name">
-              </div>
-              <div class="col-sm-2 form-group">
-                <label>Middle Name</label>
-                <input type="text" class="form-control input-sm" placeholder="Middle Name">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Last Name</label>
-                <input type="text" class="form-control input-sm" placeholder="Last Name">
-              </div>
-              <div class="col-sm-2 form-group">
-                <label>Suffix</label>
-                <input type="text" class="form-control input-sm" placeholder="Suffix">
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-3 form-group">
-                <label>Email</label>
-                <input type="text" class="form-control input-sm" placeholder="Email">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Contact No</label>
-                <input type="text" class="form-control input-sm" placeholder="Contact No">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Birthdate</label>
-                <div id="datepicker">
-                  <input type="text" class="form-control input-sm" placeholder="Birthdate">
-                </div>
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Years of Teaching</label>
-                <input type="Number" class="form-control input-sm" placeholder="Years of Teacher">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading"><strong>Learning Area: <u>Math (Regular: Grade 7 or 8)</u></strong></div>
-          <div class="panel-body">
-            <div class="row">
-              <div class="col-sm-2 form-group">
-                <label>Title</label>
-                <input type="text" class="form-control input-sm" placeholder="Mr/Ms">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>First Name</label>
-                <input type="text" class="form-control input-sm" placeholder="First Name">
-              </div>
-              <div class="col-sm-2 form-group">
-                <label>Middle Name</label>
-                <input type="text" class="form-control input-sm" placeholder="Middle Name">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Last Name</label>
-                <input type="text" class="form-control input-sm" placeholder="Last Name">
-              </div>
-              <div class="col-sm-2 form-group">
-                <label>Suffix</label>
-                <input type="text" class="form-control input-sm" placeholder="Suffix">
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-3 form-group">
-                <label>Email</label>
-                <input type="text" class="form-control input-sm" placeholder="Email">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Contact No</label>
-                <input type="text" class="form-control input-sm" placeholder="Contact No">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Birthdate</label>
-                <div id="datepicker">
-                  <input type="text" class="form-control input-sm" placeholder="Birthdate">
-                </div>
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Years of Teaching</label>
-                <input type="Number" class="form-control input-sm" placeholder="Years of Teacher">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading"><strong>Learning Area: <u>Science (Regular: Grade 7 or 8)</u></strong></div>
-          <div class="panel-body">
-            <div class="row">
-              <div class="col-sm-2 form-group">
-                <label>Title</label>
-                <input type="text" class="form-control input-sm" placeholder="Mr/Ms">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>First Name</label>
-                <input type="text" class="form-control input-sm" placeholder="First Name">
-              </div>
-              <div class="col-sm-2 form-group">
-                <label>Middle Name</label>
-                <input type="text" class="form-control input-sm" placeholder="Middle Name">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Last Name</label>
-                <input type="text" class="form-control input-sm" placeholder="Last Name">
-              </div>
-              <div class="col-sm-2 form-group">
-                <label>Suffix</label>
-                <input type="text" class="form-control input-sm" placeholder="Suffix">
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-3 form-group">
-                <label>Email</label>
-                <input type="text" class="form-control input-sm" placeholder="Email">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Contact No</label>
-                <input type="text" class="form-control input-sm" placeholder="Contact No">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Birthdate</label>
-                <div id="datepicker">
-                  <input type="text" class="form-control input-sm" placeholder="Birthdate">
-                </div>
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Years of Teaching</label>
-                <input type="Number" class="form-control input-sm" placeholder="Years of Teacher">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading"><strong>Learning Area: <u>Aral. Panlipunan (Regular: Grade 9 or 10)</u></strong></div>
-          <div class="panel-body">
-            <div class="row">
-              <div class="col-sm-2 form-group">
-                <label>Title</label>
-                <input type="text" class="form-control input-sm" placeholder="Mr/Ms">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>First Name</label>
-                <input type="text" class="form-control input-sm" placeholder="First Name">
-              </div>
-              <div class="col-sm-2 form-group">
-                <label>Middle Name</label>
-                <input type="text" class="form-control input-sm" placeholder="Middle Name">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Last Name</label>
-                <input type="text" class="form-control input-sm" placeholder="Last Name">
-              </div>
-              <div class="col-sm-2 form-group">
-                <label>Suffix</label>
-                <input type="text" class="form-control input-sm" placeholder="Suffix">
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-3 form-group">
-                <label>Email</label>
-                <input type="text" class="form-control input-sm" placeholder="Email">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Contact No</label>
-                <input type="text" class="form-control input-sm" placeholder="Contact No">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Birthdate</label>
-                <div id="datepicker">
-                  <input type="text" class="form-control input-sm" placeholder="Birthdate">
-                </div>
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Years of Teaching</label>
-                <input type="Number" class="form-control input-sm" placeholder="Years of Teacher">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading"><strong>Learning Area: <u>English (Regular: Grade 9 or 10)</u></strong></div>
-          <div class="panel-body">
-            <div class="row">
-              <div class="col-sm-2 form-group">
-                <label>Title</label>
-                <input type="text" class="form-control input-sm" placeholder="Mr/Ms">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>First Name</label>
-                <input type="text" class="form-control input-sm" placeholder="First Name">
-              </div>
-              <div class="col-sm-2 form-group">
-                <label>Middle Name</label>
-                <input type="text" class="form-control input-sm" placeholder="Middle Name">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Last Name</label>
-                <input type="text" class="form-control input-sm" placeholder="Last Name">
-              </div>
-              <div class="col-sm-2 form-group">
-                <label>Suffix</label>
-                <input type="text" class="form-control input-sm" placeholder="Suffix">
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-3 form-group">
-                <label>Email</label>
-                <input type="text" class="form-control input-sm" placeholder="Email">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Contact No</label>
-                <input type="text" class="form-control input-sm" placeholder="Contact No">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Birthdate</label>
-                <div id="datepicker">
-                  <input type="text" class="form-control input-sm" placeholder="Birthdate">
-                </div>
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Years of Teaching</label>
-                <input type="Number" class="form-control input-sm" placeholder="Years of Teacher">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading"><strong>Learning Area: <u>Filipino (Regular: Grade 9 or 10)</u></strong></div>
-          <div class="panel-body">
-            <div class="row">
-              <div class="col-sm-2 form-group">
-                <label>Title</label>
-                <input type="text" class="form-control input-sm" placeholder="Mr/Ms">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>First Name</label>
-                <input type="text" class="form-control input-sm" placeholder="First Name">
-              </div>
-              <div class="col-sm-2 form-group">
-                <label>Middle Name</label>
-                <input type="text" class="form-control input-sm" placeholder="Middle Name">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Last Name</label>
-                <input type="text" class="form-control input-sm" placeholder="Last Name">
-              </div>
-              <div class="col-sm-2 form-group">
-                <label>Suffix</label>
-                <input type="text" class="form-control input-sm" placeholder="Suffix">
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-3 form-group">
-                <label>Email</label>
-                <input type="text" class="form-control input-sm" placeholder="Email">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Contact No</label>
-                <input type="text" class="form-control input-sm" placeholder="Contact No">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Birthdate</label>
-                <div id="datepicker">
-                  <input type="text" class="form-control input-sm" placeholder="Birthdate">
-                </div>
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Years of Teaching</label>
-                <input type="Number" class="form-control input-sm" placeholder="Years of Teacher">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading"><strong>Learning Area: <u>Math (Regular: Grade 9 or 10)</u></strong></div>
-          <div class="panel-body">
-            <div class="row">
-              <div class="col-sm-2 form-group">
-                <label>Title</label>
-                <input type="text" class="form-control input-sm" placeholder="Mr/Ms">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>First Name</label>
-                <input type="text" class="form-control input-sm" placeholder="First Name">
-              </div>
-              <div class="col-sm-2 form-group">
-                <label>Middle Name</label>
-                <input type="text" class="form-control input-sm" placeholder="Middle Name">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Last Name</label>
-                <input type="text" class="form-control input-sm" placeholder="Last Name">
-              </div>
-              <div class="col-sm-2 form-group">
-                <label>Suffix</label>
-                <input type="text" class="form-control input-sm" placeholder="Suffix">
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-3 form-group">
-                <label>Email</label>
-                <input type="text" class="form-control input-sm" placeholder="Email">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Contact No</label>
-                <input type="text" class="form-control input-sm" placeholder="Contact No">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Birthdate</label>
-                <div id="datepicker">
-                  <input type="text" class="form-control input-sm" placeholder="Birthdate">
-                </div>
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Years of Teaching</label>
-                <input type="Number" class="form-control input-sm" placeholder="Years of Teacher">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading"><strong>Learning Area: <u>Science (Regular: Grade 9 or 10)</u></strong></div>
-          <div class="panel-body">
-            <div class="row">
-              <div class="col-sm-2 form-group">
-                <label>Title</label>
-                <input type="text" class="form-control input-sm" placeholder="Mr/Ms">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>First Name</label>
-                <input type="text" class="form-control input-sm" placeholder="First Name">
-              </div>
-              <div class="col-sm-2 form-group">
-                <label>Middle Name</label>
-                <input type="text" class="form-control input-sm" placeholder="Middle Name">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Last Name</label>
-                <input type="text" class="form-control input-sm" placeholder="Last Name">
-              </div>
-              <div class="col-sm-2 form-group">
-                <label>Suffix</label>
-                <input type="text" class="form-control input-sm" placeholder="Suffix">
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-3 form-group">
-                <label>Email</label>
-                <input type="text" class="form-control input-sm" placeholder="Email">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Contact No</label>
-                <input type="text" class="form-control input-sm" placeholder="Contact No">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Birthdate</label>
-                <div id="datepicker">
-                  <input type="text" class="form-control input-sm" placeholder="Birthdate">
-                </div>
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Years of Teaching</label>
-                <input type="Number" class="form-control input-sm" placeholder="Years of Teacher">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading"><strong>Learning Area: <u>Aral. Panlipunan (Advanced)</u></strong></div>
-          <div class="panel-body">
-            <div class="row">
-              <div class="col-sm-2 form-group">
-                <label>Title</label>
-                <input type="text" class="form-control input-sm" placeholder="Mr/Ms">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>First Name</label>
-                <input type="text" class="form-control input-sm" placeholder="First Name">
-              </div>
-              <div class="col-sm-2 form-group">
-                <label>Middle Name</label>
-                <input type="text" class="form-control input-sm" placeholder="Middle Name">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Last Name</label>
-                <input type="text" class="form-control input-sm" placeholder="Last Name">
-              </div>
-              <div class="col-sm-2 form-group">
-                <label>Suffix</label>
-                <input type="text" class="form-control input-sm" placeholder="Suffix">
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-3 form-group">
-                <label>Email</label>
-                <input type="text" class="form-control input-sm" placeholder="Email">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Contact No</label>
-                <input type="text" class="form-control input-sm" placeholder="Contact No">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Birthdate</label>
-                <div id="datepicker">
-                  <input type="text" class="form-control input-sm" placeholder="Birthdate">
-                </div>
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Years of Teaching</label>
-                <input type="Number" class="form-control input-sm" placeholder="Years of Teacher">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading"><strong>Learning Area: <u>English (Advanced)</u></strong></div>
-          <div class="panel-body">
-            <div class="row">
-              <div class="col-sm-2 form-group">
-                <label>Title</label>
-                <input type="text" class="form-control input-sm" placeholder="Mr/Ms">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>First Name</label>
-                <input type="text" class="form-control input-sm" placeholder="First Name">
-              </div>
-              <div class="col-sm-2 form-group">
-                <label>Middle Name</label>
-                <input type="text" class="form-control input-sm" placeholder="Middle Name">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Last Name</label>
-                <input type="text" class="form-control input-sm" placeholder="Last Name">
-              </div>
-              <div class="col-sm-2 form-group">
-                <label>Suffix</label>
-                <input type="text" class="form-control input-sm" placeholder="Suffix">
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-3 form-group">
-                <label>Email</label>
-                <input type="text" class="form-control input-sm" placeholder="Email">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Contact No</label>
-                <input type="text" class="form-control input-sm" placeholder="Contact No">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Birthdate</label>
-                <div id="datepicker">
-                  <input type="text" class="form-control input-sm" placeholder="Birthdate">
-                </div>
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Years of Teaching</label>
-                <input type="Number" class="form-control input-sm" placeholder="Years of Teacher">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading"><strong>Learning Area: <u>Filipino (Advanced)</u></strong></div>
-          <div class="panel-body">
-            <div class="row">
-              <div class="col-sm-2 form-group">
-                <label>Title</label>
-                <input type="text" class="form-control input-sm" placeholder="Mr/Ms">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>First Name</label>
-                <input type="text" class="form-control input-sm" placeholder="First Name">
-              </div>
-              <div class="col-sm-2 form-group">
-                <label>Middle Name</label>
-                <input type="text" class="form-control input-sm" placeholder="Middle Name">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Last Name</label>
-                <input type="text" class="form-control input-sm" placeholder="Last Name">
-              </div>
-              <div class="col-sm-2 form-group">
-                <label>Suffix</label>
-                <input type="text" class="form-control input-sm" placeholder="Suffix">
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-3 form-group">
-                <label>Email</label>
-                <input type="text" class="form-control input-sm" placeholder="Email">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Contact No</label>
-                <input type="text" class="form-control input-sm" placeholder="Contact No">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Birthdate</label>
-                <div id="datepicker">
-                  <input type="text" class="form-control input-sm" placeholder="Birthdate">
-                </div>
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Years of Teaching</label>
-                <input type="Number" class="form-control input-sm" placeholder="Years of Teacher">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading"><strong>Learning Area: <u>Math (Advanced)</u></strong></div>
-          <div class="panel-body">
-            <div class="row">
-              <div class="col-sm-2 form-group">
-                <label>Title</label>
-                <input type="text" class="form-control input-sm" placeholder="Mr/Ms">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>First Name</label>
-                <input type="text" class="form-control input-sm" placeholder="First Name">
-              </div>
-              <div class="col-sm-2 form-group">
-                <label>Middle Name</label>
-                <input type="text" class="form-control input-sm" placeholder="Middle Name">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Last Name</label>
-                <input type="text" class="form-control input-sm" placeholder="Last Name">
-              </div>
-              <div class="col-sm-2 form-group">
-                <label>Suffix</label>
-                <input type="text" class="form-control input-sm" placeholder="Suffix">
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-3 form-group">
-                <label>Email</label>
-                <input type="text" class="form-control input-sm" placeholder="Email">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Contact No</label>
-                <input type="text" class="form-control input-sm" placeholder="Contact No">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Birthdate</label>
-                <div id="datepicker">
-                  <input type="text" class="form-control input-sm" placeholder="Birthdate">
-                </div>
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Years of Teaching</label>
-                <input type="Number" class="form-control input-sm" placeholder="Years of Teacher">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading"><strong>Learning Area: <u>Science (Advanced)</u></strong></div>
-          <div class="panel-body">
-            <div class="row">
-              <div class="col-sm-2 form-group">
-                <label>Title</label>
-                <input type="text" class="form-control input-sm" placeholder="Mr/Ms">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>First Name</label>
-                <input type="text" class="form-control input-sm" placeholder="First Name">
-              </div>
-              <div class="col-sm-2 form-group">
-                <label>Middle Name</label>
-                <input type="text" class="form-control input-sm" placeholder="Middle Name">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Last Name</label>
-                <input type="text" class="form-control input-sm" placeholder="Last Name">
-              </div>
-              <div class="col-sm-2 form-group">
-                <label>Suffix</label>
-                <input type="text" class="form-control input-sm" placeholder="Suffix">
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-3 form-group">
-                <label>Email</label>
-                <input type="text" class="form-control input-sm" placeholder="Email">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Contact No</label>
-                <input type="text" class="form-control input-sm" placeholder="Contact No">
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Birthdate</label>
-                <div id="datepicker">
-                  <input type="text" class="form-control input-sm" placeholder="Birthdate">
-                </div>
-              </div>
-              <div class="col-sm-3 form-group">
-                <label>Years of Teaching</label>
-                <input type="Number" class="form-control input-sm" placeholder="Years of Teacher">
+              <div class="col-sm-4" ng-show="area.licenseStatus == 'Licensed'">
+                <label>7-digit PRC License No.</label>
+                <input type="text" class="form-control input-sm" placeholder="PRC License No" ng-model="area.licenseNumber" ng-disabled="area.disabled">
+              </div>
+              <div class="col-sm-4" ng-show="area.licenseStatus == 'Licensed'">
+                <label>License Expiry Date</label>
+                <input type="date" class="form-control input-sm" placeholder="License Expiry Date" ng-model="area.licenseExpiry" ng-disabled="area.disabled">
+              </div>
+              <div class="col-sm-4 form-group" ng-show="area.licenseStatus == 'Certificate of Rating'">
+                <label>Date of Issuance of Certificate</label>
+                <input type="date" class="form-control input-sm" placeholder="Issuance Date" ng-model="area.licenseExpiry" ng-disabled="area.disabled">
               </div>
             </div>
           </div>
         </div>
 
         <div class="pull-right">
-          <button type="reset" class="btn btn-danger"><span class="fa fa-times"/> Reset</button>
-          <button type="button" class="btn btn-primary"><span class="fa fa-check"/> Submit</button>
+          <button type="button" class="btn btn-danger" ng-click="reset()"><span class="fa fa-times"/> Reset</button>
+          <button type="submit" class="btn btn-primary"><span class="fa fa-check"/> Submit</button>
         </div>
 
         </form>
@@ -788,11 +186,3 @@
 
 </div>
 <!-- /.container -->
-
-<script>
-$(function(){
-  $('#datepicker input').datepicker({
-      autoclose: true
-  });
-});
-</script>

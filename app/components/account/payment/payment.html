@@ -16,13 +16,18 @@
       <div class="container">
         <div class="col-lg-3">
           <div class="row">
-            <div class="col-sm-12">
-              <div ng-include='"../shared/content/quicklinks.html"'></div>
-            </div>
+            <div ng-include='"../shared/content/quicklinks.html"'></div>
           </div>
         </div>
 
         <div class="col-lg-9">
+
+          <div class="alert alert-success" ng-show="success">
+            <strong>Success!</strong> {{success}}
+          </div>
+          <div class="alert alert-danger" ng-show="err">
+            <strong>Error!</strong> {{err}}
+          </div>
 
           <hr>
           <h4><i class="fa fa-info-circle"></i> Enter registration number that is included in the payment. </h4>
@@ -32,67 +37,59 @@
             <div class="col-sm-6">
               <div class="input-group">
                 <span class="input-group-addon">Registration Code</span>
-                <input type="text" class="form-control" placeholder="0000-0000-0000">
+                <input type="text" class="form-control" placeholder="0000-0000-0000" ng-model="regCode">
                 <span class="input-group-btn">
-                  <button type="button" class="btn btn-primary"><span class="fa fa-plus"/> Add</button>
+                  <button type="button" class="btn btn-primary" ng-click="findRegistration(regCode)"><span class="fa fa-plus"/> Add</button>
                 </span>
               </div>
             </div>
           </div>
 
-          <hr>
-          <h4><i class="fa fa-users"></i> Participants Details</h4>
-          <hr>
 
-          <div class="row">
-            <div class="col-sm-12">
-                <table class="table table-hover">
-                  <thead>
-                    <tr>
-                      <th>Registration Code</th>
-                      <th>Full Name</th>
-                      <th>Mobile Number</th>
-                      <th>Email Address</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>1234-1111-1111</td>
-                      <td>Otto Cruz</td>
-                      <td>09176254736</td>
-                      <td>mark_cruz@yahoo.com</td>
-                    </tr>
-                    <tr>
-                      <td>1234-2222-2222</td>
-                      <td>Ty Uy</td>
-                      <td>09152746251</td>
-                      <td>chris_uy@yahoo.com</td>
-                    </tr>
-                    <tr>
-                      <td>1234-3333-3333</td>
-                      <td>Melvin John Bagsik</td>
-                      <td>09176254723</td>
-                      <td>melvinjohn_bagsik@yahoo.com</td>
-                    </tr>
-                  </tbody>
-                </table>
-            </div>
-          </div>
+          <div ng-show="participantList.length != 0">
 
-          <div class="row">
-            <div class="col-sm-12">
-              <hr>
-              <h4><i class="fa fa-upload"></i> Upload Deposit Slip</h4>
-              <hr>
-            </div>
-          </div>
-
-          <form>
             <div class="row">
+              <div class="col-sm-12">
+                <hr>
+                <h4><i class="fa fa-users"></i> Participants Details</h4>
+                <hr>
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>Registration Code</th>
+                        <th>Full Name</th>
+                        <th>Mobile Number</th>
+                        <th>Email Address</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="user in participantList">
+                        <td>{{user.registrationCode}}</td>
+                        <td>{{user.lastName}}, {{user.firstName}}, {{user.middleName}}</td>
+                        <td>{{user.contactNo}}</td>
+                        <td>{{user.email}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+              <div class="col-sm-12">
+                <p class="pull-right">
+                  <strong>Total Participants:</strong> {{details.participants}} <br/>
+                  <strong>Total Amount:</strong> {{details.amount}}
+                </p>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <hr>
+                <h4><i class="fa fa-upload"></i> Upload Deposit Slip</h4>
+                <hr>
+              </div>
               <div class="col-sm-6">
                 <div class="input-group">
                   <span class="input-group-addon">Deposit Reference No.</span>
-                  <input type="text" class="form-control" placeholder="0000-0000-0000">
+                  <input type="text" class="form-control" placeholder="0000-0000-0000" ng-model="refNo">
                 </div>
               </div>
               <div class="col-sm-6">
@@ -103,22 +100,20 @@
                 </div>
               </div>
             </div>
-          </form>
 
-          <div class="row">
-            <div class="col-sm-12">
-              <hr>
-              <div class="pull-right">
-                <button type="reset" class="btn btn-danger"><span class="fa fa-times"/> Reset</button>
-                <button type="button" class="btn btn-primary"><span class="fa fa-check"/> Submit</button>
+            <div class="row">
+              <div class="col-sm-12">
+                <hr>
+                <div class="pull-right">
+                  <button type="button" class="btn btn-danger" ng-click="clearData()"><span class="fa fa-times"/> Reset</button>
+                  <button type="button" class="btn btn-primary" ng-click="submitData()"><span class="fa fa-check"/> Submit</button>
+                </div>
               </div>
             </div>
+
           </div>
 
         </div>
-
-
-
 
       </div>
     </div>

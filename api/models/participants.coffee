@@ -38,7 +38,7 @@ ParticipantSchema = new Schema
     type: String
     default: ''
   birthdate:
-    type: Date
+    type: String
   email:
     type: String
     default: ''
@@ -47,6 +47,14 @@ ParticipantSchema = new Schema
     default: ''
   teachingYears:
     type: Number
+  licenseStatus:
+    type: String
+  licenseNumber:
+    type: String
+  licenseExpiry:
+    type: String
+  certificateDate:
+    type: String
   designation:
     type: String
   learningArea:

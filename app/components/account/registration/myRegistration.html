@@ -21,41 +21,59 @@
 
         <div class="col-lg-9">
 
-          <div class="accordion-group">
+          <div class="alert alert-success" ng-show="success">
+            <strong>Success!</strong> {{success}}
+          </div>
+          <div class="alert alert-danger" ng-show="err">
+            <strong>Error!</strong> {{err}}
+          </div>
+
+          <div class="alert alert-warning" ng-show="registrationList.length == 0">
+            <p class="text-center">
+              <i class="fa fa-spinner fa-pulse fa-fw"></i> Loading data...
+            </p>
+          </div>
+
+          <div class="accordion-group" ng-repeat="reg in registrationList | offset:currentPage*itemsPerPage | limitTo:5" ng-show="registrationList.length != 0">
             <div class="accordion-heading">
-              <a class="accordion-toggle"  data-toggle="collapse" data-parent="toggle" data-target="#collapseOne">
+              <a class="accordion-toggle"  data-toggle="collapse" data-parent="toggle" data-target="#{{reg._id}}">
                 <div class="row">
                   <div class="col-sm-12">
 
                     <div class="row">
                       <div class="col-sm-4">
-                        <small><b>Registration Code:</b> 31723-1231-AASAJJ</small><br/>
+                        <small><b>Registration Code:</b> {{reg.registrationCode}}</small>
                       </div>
                       <div class="col-sm-4">
-                        <small><b>Event Type:</b> SHS Orientation</small><br/>
+                        <small><b>Event Type:</b> {{reg.eventType}}</small>
                       </div>
                       <div class="col-sm-4">
-                        <small><b>Total Amount:</b> 5000</small><br/>
+                        <small><b>Total Amount:</b> {{reg.totalAmount}}</small>
                       </div>
                     </div>
+
                     <div class="row">
                       <div class="col-sm-4">
-                        <small><b>Registration Date:</b> 11/26/2016</small><br/>
+                        <small><b>Registration Date:</b> {{reg.date | date}}</small>
                       </div>
                       <div class="col-sm-4">
-                        <small><b>No. of Participants:</b> 2</small><br/>
+                        <small><b>No. of Participants:</b> {{reg.participantsCount}}</small>
                       </div>
                       <div class="col-sm-4">
-                        <small><b>Status:</b> PAID <i class="fa fa-check"/></small><br/>
+                        <small><b>Status:</b> {{reg.status}}
+                          <i class="fa fa-check" ng-if="reg.status == 'paid'"/>
+                          <i class="fa fa-refresh" ng-if="reg.status == 'processing'"/>
+                          <i class="fa fa-hourglass-half" ng-if="reg.status == 'pending'"/>
+                          <i class="fa fa-warning" ng-if="reg.status == 'expired'"/>
+                        </small>
                       </div>
-
                     </div>
 
                   </div>
                 </div>
               </a>
             </div>
-            <div id="collapseOne" class="accordion-body collapse out">
+            <div id="{{reg._id}}" class="accordion-body collapse out">
               <div class="accordion-inner">
 
                 <div class="table-participants">
@@ -73,22 +91,12 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>Melvin</td>
-                        <td>09175182345</td>
-                        <td>melvinjohn@yahoo.com</td>
-                        <td>
-                          <button type="button" class="btn btn-xs btn-info"><i class="fa fa-print"/> Print Certificate</button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>Cruz</td>
-                        <td>09132382345</td>
-                        <td>jacobthoton@yahoo.com</td>
+                      <tr ng-repeat="user in reg.participantList">
+                        <td>{{user.firstName}}</td>
+                        <td>{{user.middleName}}</td>
+                        <td>{{user.lastName}}</td>
+                        <td>{{user.contactNo}}</td>
+                        <td>{{user.email}}</td>
                         <td>
                           <button type="button" class="btn btn-xs btn-info"><i class="fa fa-print"/> Print Certificate</button>
                         </td>
@@ -101,172 +109,14 @@
             </div>
           </div>
 
-          <div class="accordion-group">
-            <div class="accordion-heading">
-              <a class="accordion-toggle"  data-toggle="collapse" data-parent="toggle" data-target="#collapse2">
-                <div class="row">
-                  <div class="col-sm-12">
-
-                    <div class="row">
-                      <div class="col-sm-4">
-                        <small><b>Registration Code:</b> 31723-1231-AASAJJ</small><br/>
-                      </div>
-                      <div class="col-sm-4">
-                        <small><b>Event Type:</b> SHS Orientation</small><br/>
-                      </div>
-                      <div class="col-sm-4">
-                        <small><b>Total Amount:</b> 5000</small><br/>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-sm-4">
-                        <small><b>Registration Date:</b> 11/26/2016</small><br/>
-                      </div>
-                      <div class="col-sm-4">
-                        <small><b>No. of Participants:</b> 3</small><br/>
-                      </div>
-                      <div class="col-sm-4">
-                        <small><b>Status:</b> PENDING <i class="fa fa-spinner"/></small><br/>
-                      </div>
-
-                    </div>
-
-                  </div>
-                </div>
-              </a>
-            </div>
-            <div id="collapse2" class="accordion-body collapse out">
-              <div class="accordion-inner">
-
-                <div class="table-participants">
-                  <button type="button" class="btn btn-sm btn-link pull-right"><i class="fa fa-pencil"/> Edit Participants</button>
-                  <button type="button" class="btn btn-sm btn-link pull-right"><i class="fa fa-print"/> Print Participants List</button>
-                  <table class="table table-hover">
-                    <thead>
-                      <tr>
-                        <th>First Name</th>
-                        <th>Middle Name</th>
-                        <th>Last Name</th>
-                        <th>Contact No</th>
-                        <th>Email</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>Melvin</td>
-                        <td>09175182345</td>
-                        <td>melvinjohn@yahoo.com</td>
-                      </tr>
-                      <tr>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>Cruz</td>
-                        <td>09132382345</td>
-                        <td>jacobthoton@yahoo.com</td>
-                      </tr>
-                      <tr>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>Cruz</td>
-                        <td>09132382345</td>
-                        <td>jacobthoton@yahoo.com</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-
-              </div>
-            </div>
-          </div>
-
-          <div class="accordion-group">
-            <div class="accordion-heading">
-              <a class="accordion-toggle"  data-toggle="collapse" data-parent="toggle" data-target="#collapse3">
-                <div class="row">
-                  <div class="col-sm-12">
-
-                    <div class="row">
-                      <div class="col-sm-4">
-                        <small><b>Registration Code:</b> 31723-1231-AASAJJ</small><br/>
-                      </div>
-                      <div class="col-sm-4">
-                        <small><b>Event Type:</b> SHS Orientation</small><br/>
-                      </div>
-                      <div class="col-sm-4">
-                        <small><b>Total Amount:</b> 5000</small><br/>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-sm-4">
-                        <small><b>Registration Date:</b> 11/26/2016</small><br/>
-                      </div>
-                      <div class="col-sm-4">
-                        <small><b>No. of Participants:</b> 4</small><br/>
-                      </div>
-                      <div class="col-sm-4">
-                        <small><b>Status:</b> EXPIRED <i class="fa fa-warning"/></small><br/>
-                      </div>
-
-                    </div>
-
-                  </div>
-                </div>
-              </a>
-            </div>
-            <div id="collapse3" class="accordion-body collapse out">
-              <div class="accordion-inner">
-
-                <div class="table-participants">
-                  <button type="button" class="btn btn-sm btn-link pull-right"><i class="fa fa-pencil"/> Edit Participants</button>
-                  <button type="button" class="btn btn-sm btn-link pull-right"><i class="fa fa-print"/> Print Participants List</button>
-                  <table class="table table-hover">
-                    <thead>
-                      <tr>
-                        <th>First Name</th>
-                        <th>Middle Name</th>
-                        <th>Last Name</th>
-                        <th>Contact No</th>
-                        <th>Email</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>Melvin</td>
-                        <td>09175182345</td>
-                        <td>melvinjohn@yahoo.com</td>
-                      </tr>
-                      <tr>
-                        <td>Melvin</td>
-                        <td>John</td>
-                        <td>Bagsik</td>
-                        <td>0938293794</td>
-                        <td>mjbn@yahoo.com</td>
-                      </tr>
-                      <tr>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>Cruz</td>
-                        <td>09132382345</td>
-                        <td>jacobthoton@yahoo.com</td>
-                      </tr>
-                      <tr>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>Cruz</td>
-                        <td>09132382345</td>
-                        <td>jacobthoton@yahoo.com</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-
-              </div>
-            </div>
-          </div>
+          <ul class="pager">
+            <li class="previous" ng-class="prevPageDisabled()">
+              <a href ng-click="prevPage()">« Prev</a>
+            </li>
+            <li class="next" ng-class="nextPageDisabled()">
+              <a href ng-click="nextPage()">Next »</a>
+            </li>
+          </ul>
 
         </div>
       </div>

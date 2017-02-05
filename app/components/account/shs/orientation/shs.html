@@ -19,6 +19,13 @@
 
       <div class="container">
 
+        <div class="alert alert-success" ng-show="success">
+          <strong>Success!</strong> {{success}}
+        </div>
+        <div class="alert alert-danger" ng-show="err">
+          <strong>Error!</strong> {{err}}
+        </div>
+
         <h2>Event Information</h2>
 
         <div class="well">
