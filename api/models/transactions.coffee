@@ -26,12 +26,6 @@ TransactionSchema = new Schema
   date:
     type: Date
     default: Date.now
-  depositReferenceNo:
-    type: String
-    default: ''
-  depositImgUrl:
-    type: String
-    default: ''
   status:
     type: String
     enum: ['pending','processing','paid','expired']

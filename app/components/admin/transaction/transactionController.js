@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.adminJHS', [])
+angular.module('myApp.adminTransaction', [])
 .filter('offset',function(){
   return function(input, start) {
     start = parseInt(start, 10);
@@ -9,28 +9,28 @@ angular.module('myApp.adminJHS', [])
     }
   };
 })
-.controller('jhsAdminController', function($q, $anchorScroll, $window, $location, $http, $scope) {
+.controller('transactionController', function($q, $anchorScroll, $window, $location, $http, $scope) {
   $anchorScroll();
 
   if($window.sessionStorage["adminInfo"] == null){
     $location.path('loginasadmin');
   }else{
-    showSchoolList();
+    showTransactionList();
   }
 
-  function showSchoolList(){
-    getSchoolList()
+  function showTransactionList(){
+    getTransactionList()
     .then(function(res){
-      $scope.schools = res;
+      $scope.transactions = res;
     })
     .catch(function(err){
       $scope.err = err.data;
     })
   }
 
-  function getSchoolList(){
+  function getTransactionList(){
     let deferred = $q.defer();
-    $http.get('/api/jhs')
+    $http.get('/api/transactions')
     .then(function(res){
       deferred.resolve(res.data);
     })
@@ -39,6 +39,7 @@ angular.module('myApp.adminJHS', [])
     })
     return deferred.promise;
   }
+
 
 
   //Pagination
@@ -73,8 +74,8 @@ angular.module('myApp.adminJHS', [])
   };
 
   $scope.pageCount = function() {
-    if($scope.schools){
-      return Math.ceil($scope.schools.length/$scope.itemsPerPage)-1;  
+    if($scope.transactions){
+      return Math.ceil($scope.transactions.length/$scope.itemsPerPage)-1;
     }
   };
 
@@ -91,6 +92,5 @@ angular.module('myApp.adminJHS', [])
   $scope.setPage = function(n) {
     $scope.currentPage = n;
   };
-
 
 });

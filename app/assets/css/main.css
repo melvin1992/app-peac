@@ -154,6 +154,13 @@ body {
  color:#777;
 }
 
+@media (min-width: 768px) {
+  .modal-xl {
+    width: 90%;
+   max-width:1200px;
+  }
+}
+
 /*My Registration Style*/
 
 .table-participants{font-size: small; margin:10px;}

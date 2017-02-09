@@ -4,7 +4,9 @@ angular.module('myApp.adminUser', [])
 .filter('offset',function(){
   return function(input, start) {
     start = parseInt(start, 10);
-    return input.slice(start);
+    if(input){
+      return input.slice(start);
+    }
   };
 })
 .controller('userController', function($q, $anchorScroll, $window, $location, $http, $scope) {
@@ -71,7 +73,9 @@ angular.module('myApp.adminUser', [])
   };
 
   $scope.pageCount = function() {
-    return Math.ceil($scope.users.length/$scope.itemsPerPage)-1;
+    if($scope.users){
+      return Math.ceil($scope.users.length/$scope.itemsPerPage)-1;
+    }
   };
 
   $scope.nextPage = function() {

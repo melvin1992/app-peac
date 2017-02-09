@@ -50,6 +50,23 @@ angular.module('myApp.myregistration', [])
     return (ndate.getMonth() + 1) + '/' + ndate.getDate() + '/' +  ndate.getFullYear();
   }
 
+  $scope.editParticipants = function(data){
+    $scope.editSuccess = null;
+    $scope.editErr = null;
+    $scope.user = data;
+  }
+
+  $scope.saveParticipant = function(user){
+    let id = user._id;
+    $http.put('/api/participants/'+id, user)
+    .then (function(res){
+      $scope.editSuccess = "Participant information has been updated";
+    })
+    .catch (function(err){
+      $scope.editErr = err.data;
+    })
+  }
+
   //Pagination
 
   $scope.itemsPerPage = 5;

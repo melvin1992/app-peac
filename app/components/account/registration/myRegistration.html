@@ -77,27 +77,25 @@
               <div class="accordion-inner">
 
                 <div class="table-participants">
-                  <button type="button" class="btn btn-sm btn-link pull-right"><i class="fa fa-pencil"/> Edit Participants</button>
                   <button type="button" class="btn btn-sm btn-link pull-right"><i class="fa fa-print"/> Print Participants List</button>
                   <table class="table table-hover">
                     <thead>
                       <tr>
-                        <th>First Name</th>
-                        <th>Middle Name</th>
-                        <th>Last Name</th>
+                        <th>Full Name</th>
                         <th>Contact No</th>
                         <th>Email</th>
+                        <th>Learning Area</th>
                         <th></th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr ng-repeat="user in reg.participantList">
-                        <td>{{user.firstName}}</td>
-                        <td>{{user.middleName}}</td>
-                        <td>{{user.lastName}}</td>
+                        <td>{{user.lastName}}, {{user.firstName}} {{user.middleName}} </td>
                         <td>{{user.contactNo}}</td>
                         <td>{{user.email}}</td>
+                        <td>{{user.learningArea}}</td>
                         <td>
+                          <button type="button" class="btn btn-xs btn-success" ng-click="editParticipants(user)" data-toggle="modal" data-target="#openModal"><i class="fa fa-pencil"/> Edit</button>
                           <button type="button" class="btn btn-xs btn-info"><i class="fa fa-print"/> Print Certificate</button>
                         </td>
                       </tr>
@@ -123,3 +121,103 @@
     </div>
 </div>
 <!-- /.container -->
+
+
+<div class="modal fade" id="openModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title"><i class="fa fa-user"/> Participant Information</h3>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-success" ng-show="editSuccess">
+          <strong>Success!</strong> {{editSuccess}}
+        </div>
+        <div class="alert alert-danger" ng-show="editErr">
+          <strong>Error!</strong> {{editErr}}
+        </div>
+
+        <form>
+            <div class="row">
+              <div class="col-sm-2 form-group">
+                <label>Title</label>
+                <input type="text" class="form-control input-sm" placeholder="Mr/Ms" ng-model="user.title">
+              </div>
+              <div class="col-sm-2 form-group">
+                <label>First Name</label>
+                <input type="text" class="form-control input-sm" placeholder="First Name" ng-model="user.firstName">
+              </div>
+              <div class="col-sm-2 form-group">
+                <label>Middle Name</label>
+                <input type="text" class="form-control input-sm" placeholder="Middle Name" ng-model="user.middleName">
+              </div>
+              <div class="col-sm-2 form-group">
+                <label>Last Name</label>
+                <input type="text" class="form-control input-sm" placeholder="Last Name" ng-model="user.lastName">
+              </div>
+              <div class="col-sm-2 form-group">
+                <label>Suffix</label>
+                <input type="text" class="form-control input-sm" placeholder="Suffix" ng-model="user.suffix">
+              </div>
+              <div class="col-sm-2 form-group">
+                <label>Gender</label>
+                <select class="form-control input-sm" ng-model="user.gender">
+                  <option value="">Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-2 form-group">
+                <label>Email</label>
+                <input type="text" class="form-control input-sm" placeholder="Email" ng-model="user.email">
+              </div>
+              <div class="col-sm-2 form-group">
+                <label>Contact No</label>
+                <input type="text" class="form-control input-sm" placeholder="Contact No" ng-model="user.contactNo">
+              </div>
+              <div class="col-sm-2 form-group" ng-show="user.eventType == 'SHS INSET' || user.eventType == 'JHS INSET'">
+                <label>Birthdate</label>
+                <input type="date" class="form-control input-sm" placeholder="Birthdate" ng-model="user.birthdate">
+              </div>
+              <div class="col-sm-4 form-group" ng-show="user.eventType == 'SHS INSET' || user.eventType == 'JHS INSET'">
+                <label>Years of Teaching (Please indicate in months)</label>
+                <input type="Number" class="form-control input-sm" placeholder="Years of Teaching" ng-model="user.teachingYears">
+              </div>
+              <div class="col-sm-2 form-group" ng-show="user.eventType == 'SHS INSET' || user.eventType == 'JHS INSET'">
+                <label>License Status</label>
+                <select class="form-control input-sm" ng-model="user.licenseStatus">
+                  <option value="">Select Status</option>
+                  <option value="Licensed">Licensed</option>
+                  <option value="Certificate of Rating">Certificate of Rating</option>
+                  <option value="Non-licensed">Non-licensed</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row" ng-show="user.eventType == 'SHS INSET' || user.eventType == 'JHS INSET'">
+              <div class="col-sm-4" ng-show="user.licenseStatus == 'Licensed'">
+                <label>7-digit PRC License No.</label>
+                <input type="text" class="form-control input-sm" placeholder="PRC License No" ng-model="user.licenseNumber">
+              </div>
+              <div class="col-sm-4" ng-show="user.licenseStatus == 'Licensed'">
+                <label>License Expiry Date</label>
+                <input type="date" class="form-control input-sm" placeholder="License Expiry Date" ng-model="user.licenseExpiry">
+              </div>
+              <div class="col-sm-4 form-group" ng-show="user.licenseStatus == 'Certificate of Rating'">
+                <label>Date of Issuance of Certificate</label>
+                <input type="date" class="form-control input-sm" placeholder="Issuance Date" ng-model="user.certificateDate">
+              </div>
+            </div>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" ng-click="saveParticipant(user)"><i class="fa fa-floppy-o"/> Save</button>
+      </div>
+    </div>
+  </div>
+</div>

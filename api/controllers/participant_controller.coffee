@@ -21,7 +21,7 @@ ParticipantController.route '/'
 ParticipantController.route '/:id'
   .get (req, response) ->
     id = req.params.id
-    ParticipantService.findOnd id
+    ParticipantService.findOne id
     .then (res) ->
       response.status(200).json res
     .catch (err) ->

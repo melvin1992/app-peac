@@ -4,7 +4,9 @@ angular.module('myApp.adminSHS', [])
 .filter('offset',function(){
   return function(input, start) {
     start = parseInt(start, 10);
-    return input.slice(start);
+    if(input){
+      return input.slice(start);
+    }
   };
 })
 .controller('shsAdminController', function($q, $anchorScroll, $window, $location, $http, $scope) {
@@ -71,7 +73,9 @@ angular.module('myApp.adminSHS', [])
   };
 
   $scope.pageCount = function() {
-    return Math.ceil($scope.schools.length/$scope.itemsPerPage)-1;
+    if($scope.schools){
+      return Math.ceil($scope.schools.length/$scope.itemsPerPage)-1;
+    }
   };
 
   $scope.nextPage = function() {

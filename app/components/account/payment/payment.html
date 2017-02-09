@@ -74,8 +74,8 @@
               </div>
               <div class="col-sm-12">
                 <p class="pull-right">
-                  <strong>Total Participants:</strong> {{details.participants}} <br/>
-                  <strong>Total Amount:</strong> {{details.amount}}
+                  <strong>Total Participants:</strong> {{details.participants | number }} <br/>
+                  <strong>Total Amount:</strong> {{details.amount | currency:"₱"}}
                 </p>
               </div>
             </div>
@@ -95,7 +95,7 @@
               <div class="col-sm-6">
                 <div class="form-inline">
                   <div class="form-group">
-                    <input type="file" name="deposit_receipt">
+                    <input type="file" file-model="myFile" accept="image/*"/>
                   </div>
                 </div>
               </div>

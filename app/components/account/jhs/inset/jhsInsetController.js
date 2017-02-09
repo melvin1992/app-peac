@@ -74,18 +74,6 @@ angular.module('myApp.jhsInset', [])
     return deferred.promise;
   }
 
-  function findSchool(id){
-    let deferred = $q.defer();
-    $http.get('/api/jhs?schoolId='+id)
-    .then(function(res){
-      deferred.resolve(res.data[0]);
-    })
-    .catch(function(err){
-      deferred.reject(err);
-    })
-    return deferred.promise;
-  }
-
   function updateAccountInfo(){
     let deferred = $q.defer();
 
@@ -199,14 +187,7 @@ angular.module('myApp.jhsInset', [])
   $scope.searchSchool = function(id){
     $scope.eventSearch = "";
     clearData();
-
-    findSchool(id)
-    .then(function(res){
-      $scope.schoolInfo = res;
-    })
-    .catch(function(err){
-      $scope.err = err.data;
-    })
+    getSchoolData(id);
   }
 
   $scope.showSearchSchool = function(){

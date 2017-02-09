@@ -19,7 +19,8 @@ angular.module('myApp', [
   'myApp.adminEvent',
   'myApp.adminJHS',
   'myApp.adminSHS',
-  'myApp.adminUser'
+  'myApp.adminUser',
+  'myApp.adminTransaction'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
   // $locationProvider.html5Mode(true);
@@ -52,6 +53,7 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
   .when('/admin/jhs', { templateUrl:'../components/admin/school/jhs.html', controller:'jhsAdminController' })
   .when('/admin/shs', { templateUrl:'../components/admin/school/shs.html', controller:'shsAdminController' })
   .when('/admin/users', { templateUrl:'../components/admin/user/user.html', controller:'userController' })
+  .when('/admin/transactions', { templateUrl:'../components/admin/transaction/transaction.html', controller:'transactionController' })
 
   .otherwise({redirectTo: '/'});
 }]);

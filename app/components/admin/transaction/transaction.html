@@ -1,0 +1,93 @@
+<div ng-include='"../components/admin/shared/header.html"'></div>
+
+<div class="container main-container">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header"><i class="fa fa-tasks"></i> Transactions List</h1>
+            <ol class="breadcrumb">
+                <li><a href="#/admin">Home</a></li>
+                <li class="active">Transactions</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row">
+      <div class="container">
+        <div class="col-lg-2">
+          <div class="row">
+              <div ng-include='"../components/admin/shared/sidebar.html"'></div>
+          </div>
+        </div>
+        <div class="col-lg-10">
+          <div class="alert alert-success" ng-show="success">
+            <strong>Success!</strong> {{success}}
+          </div>
+          <div class="alert alert-danger" ng-show="err">
+            <strong>Error!</strong> {{err}}
+          </div>
+
+          <div class="row ten-margin">
+            <div class="col-sm-6">
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-search"/> Search</span>
+                <input type="text" class="form-control" ng-model="search">
+              </div>
+            </div>
+          </div>
+
+          <div class="alert alert-warning" ng-show="!transactions">
+            <p class="text-center">
+              <i class="fa fa-spinner fa-pulse fa-fw"></i> Loading data...
+            </p>
+          </div>
+
+          <div class="row" ng-show="transactions">
+            <div class="col-sm-12">
+              <div class="table-participants">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>School Id</th>
+                      <th>Registration Code</th>
+                      <th>Participants</th>
+                      <th>Amount</th>
+                      <th>Registered Date</th>
+                      <th>Status</th>
+                      <th>Actions</t>
+                    </tr>
+                  </thead>
+                  <tbody>
+                     <tr ng-repeat="trans in transactions | offset:currentPage*itemsPerPage | limitTo:15 | filter:search | orderBy:date">
+                       <td>{{trans.schoolID}}</td>
+                       <td>{{trans.registrationCode}}</td>
+                       <td>{{trans.participantsCount}}</td>
+                       <td>{{trans.totalAmount}}</td>
+                       <td>{{trans.date | date}}</td>
+                       <td>{{trans.status}}</td>
+                       <td>
+                         <button type="button" class="btn btn-xs btn-primary"><i class="fa fa-eye"/> Participants</button>
+                       </td>
+                     </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <ul class="pager">
+            <li class="previous" ng-class="prevPageDisabled()">
+              <a href ng-click="prevPage()">« Prev</a>
+            </li>
+            <li class="next" ng-class="nextPageDisabled()">
+              <a href ng-click="nextPage()">Next »</a>
+            </li>
+          </ul>
+
+
+        </div>
+      </div>
+    </div>
+
+</div>
+<!-- /.container -->

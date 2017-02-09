@@ -35,7 +35,6 @@ angular.module('myApp.shsInset', [])
     let shsUrl = '/api/shs?schoolId='+id;
     $http.get(shsUrl)
     .then(function(res){
-      console.log(res);
       $scope.schoolInfo = res.data[0];
       $scope.hideSchool = "hide";
     })
@@ -71,18 +70,6 @@ angular.module('myApp.shsInset', [])
     })
     .catch(function(err){
       deferred.reject(err.data);
-    })
-    return deferred.promise;
-  }
-
-  function findSchool(id){
-    let deferred = $q.defer();
-    $http.get('/api/shs?schoolId='+id)
-    .then(function(res){
-      deferred.resolve(res.data[0]);
-    })
-    .catch(function(err){
-      deferred.reject(err);
     })
     return deferred.promise;
   }
@@ -293,14 +280,7 @@ angular.module('myApp.shsInset', [])
   $scope.searchSchool = function(id){
     $scope.eventSearch = "";
     clearData();
-
-    findSchool(id)
-    .then(function(res){
-      $scope.schoolInfo = res;
-    })
-    .catch(function(err){
-      $scope.err = err.data;
-    })
+    getSchoolData(id);
   }
 
   $scope.submitEventInformation = function(){
