@@ -67,6 +67,12 @@ angular.module('myApp.myregistration', [])
     })
   }
 
+  $scope.showDetails = function(data){
+    JsBarcode("#barcode", data.registrationCode);
+    $scope.details = data;
+  }
+
+
   //Pagination
 
   $scope.itemsPerPage = 5;

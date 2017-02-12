@@ -161,6 +161,17 @@ body {
   }
 }
 
+.school-note {
+  color: red;
+  font-weight: bold;
+}
+
+.img-center {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
 /*My Registration Style*/
 
 .table-participants{font-size: small; margin:10px;}

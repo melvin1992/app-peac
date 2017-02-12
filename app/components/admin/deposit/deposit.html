@@ -4,14 +4,14 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header"><i class="fa fa-tasks"></i> Transactions List</h1>
+            <h1 class="page-header"><i class="fa fa-tasks"></i> Payments List</h1>
             <ol class="breadcrumb">
                 <li><a href="#/admin">Home</a></li>
-                <li class="active">Transactions</li>
+                <li class="active">Payments</li>
             </ol>
         </div>
     </div>
-
+  
     <div class="row">
       <div class="container">
         <div class="col-lg-2">
@@ -36,37 +36,38 @@
             </div>
           </div>
 
-          <div class="alert alert-warning" ng-show="!transactions">
+          <div class="alert alert-warning" ng-show="!payments">
             <p class="text-center">
               <i class="fa fa-spinner fa-pulse fa-fw"></i> Loading data...
             </p>
           </div>
 
-          <div class="row" ng-show="transactions">
+          <div class="row" ng-show="payments">
             <div class="col-sm-12">
               <div class="table-participants">
                 <table class="table table-hover">
                   <thead>
                     <tr>
-                      <th>School Id</th>
-                      <th>Registration Code</th>
-                      <th>Participants</th>
-                      <th>Amount</th>
-                      <th>Registered Date</th>
+                      <th>Reference No</th>
+                      <th>Registration Codes</th>
+                      <th>Date</th>
+                      <th>Total Amount</th>
                       <th>Status</th>
                       <th>Actions</t>
                     </tr>
                   </thead>
                   <tbody>
-                     <tr ng-repeat="trans in transactions | offset:currentPage*itemsPerPage | limitTo:15 | filter:search | orderBy:date">
-                       <td>{{trans.schoolID}}</td>
-                       <td>{{trans.registrationCode}}</td>
-                       <td>{{trans.participantsCount}}</td>
-                       <td>{{trans.totalAmount}}</td>
-                       <td>{{trans.date | date}}</td>
-                       <td>{{trans.status}}</td>
+                     <tr ng-repeat="payment in payments | offset:currentPage*itemsPerPage | limitTo:15 | filter:search | orderBy:date">
                        <td>
-                         <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#openModal" ng-click="showParticipants(trans)"><i class="fa fa-eye"/> Participants</button>
+                         <button type="button" class="btn btn-xs btn-link" data-toggle="modal" data-target="#openModal" ng-click="showDetails(payment)">{{payment.depositReferenceNo}}</button>
+                       </td>
+                       <td>{{payment.registrationCodes}}</td>
+                       <td>{{payment.date | date}}</td>
+                       <td>{{payment.totalAmount | currency}}</td>
+                       <td>{{payment.status}}</td>
+                       <td ng-show="payment.status == 'pending'">
+                         <button type="button" class="btn btn-xs btn-success"><i class="fa fa-check"/> Approve</button>
+                         <button type="button" class="btn btn-xs btn-danger"><i class="fa fa-times"/> Decline</button>
                        </td>
                      </tr>
                   </tbody>
@@ -96,35 +97,31 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h3 class="modal-title"><i class="fa fa-users"/> Participants List</h3>
+        <h3 class="modal-title"><i class="fa fa-money"/> Payment Details</h3>
       </div>
       <div class="modal-body">
 
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th>Full Name</th>
-              <th>Contact No</th>
-              <th>Email</th>
-              <th>Gender</th>
-              <th>Birthdate</th>
-              <th>Learning Area</th>
-            </tr>
-          </thead>
-          <tbody>
-             <tr ng-repeat="user in users">
-               <td>{{user.lastName}}, {{user.firstName}} {{user.middleName}}</td>
-               <td>{{user.contactNo}}</td>
-               <td>{{user.email}}</td>
-               <td>{{user.gender}}</td>
-               <td>{{user.birthdate}}</td>
-               <td>{{user.learningArea}}</td>
-             </tr>
-          </tbody>
-        </table>
+        <div class="row">
+          <div class="col-sm-12">
+            <strong>Deposit Reference No.: </strong>{{details.depositReferenceNo}}<br/>
+            <strong>Registration Codes: </strong>{{details.registrationCodes}}<br/>
+            <strong>Total Amount: </strong>{{details.totalAmount | currency}}<br/>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">
+          </div>
+          <div class="col-md-6">
+            <div class="thumbnail">
+              <img ng-src="{{details.depositImgUrl}}" class="img-thumbnail" width="600" height="500">
+            </div>
+          </div>
+        </div>
 
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-success" ng-show="details.status == 'pending'"><i class="fa fa-check"/> Approve</button>
+        <button type="button" class="btn btn-danger" ng-show="details.status == 'pending'"><i class="fa fa-times"/> Decline</button>
         <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"/> Close</button>
       </div>
     </div>

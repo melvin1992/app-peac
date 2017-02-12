@@ -44,12 +44,12 @@
                 </div>
               </div>
               <div ng-show="schoolInfo">
+                <p class="school-note">Note: Please double check school details before choosing an event.</p>
                 <h4>School Details <button type="button" class="btn btn-xs btn-link" ng-click="showSearchSchool()" ng-hide="!hideSchool">Change</button></h4>
                 <p>
                   <strong>Id: </strong>{{schoolInfo.schoolId}}<br/>
                   <strong>Name: </strong>{{schoolInfo.name}}<br/>
                   <strong>Address: </strong>{{schoolInfo.street}} {{schoolInfo.brgy}}<br/>
-                  <strong>Head: </strong>{{schoolInfo.principal}}<br/>
                   <strong>Website: </strong>{{schoolInfo.website}}
                 </p>
               </div>

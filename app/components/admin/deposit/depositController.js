@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.adminUser', [])
+angular.module('myApp.adminDeposit', [])
 .filter('offset',function(){
   return function(input, start) {
     start = parseInt(start, 10);
@@ -9,28 +9,50 @@ angular.module('myApp.adminUser', [])
     }
   };
 })
-.controller('userController', function($q, $anchorScroll, $window, $location, $http, $scope) {
+.controller('depositController', function($q, $anchorScroll, $window, $location, $http, $scope) {
   $anchorScroll();
 
   if($window.sessionStorage["adminInfo"] == null){
     $location.path('loginasadmin');
   }else{
-    showUserList();
+    showPaymentList();
   }
 
-  function showUserList(){
-    getUserList()
+  function showPaymentList(){
+    getPaymentList()
     .then(function(res){
-      $scope.users= res;
+      let data = [];
+      angular.forEach(res,function(val,key){
+        let regCodes = '';
+        let totalAmount = 0;
+        angular.forEach(val.registrationCodes,function(v,k){
+          regCodes += v;
+          if(k+1 != val.registrationCodes.length){
+            regCodes += ',';
+          }
+          getAmount(v)
+          .then(function(a){
+            val.totalAmount += a;
+          })
+          .catch(function(err){
+            $scoper.err = err.data;
+          })
+        })
+        val.totalAmount = totalAmount;
+        val.registrationCodes = regCodes;
+        val.depositImgUrl = '../../../assets/uploads/'+val.depositImgUrl;
+        data.push(val);
+      })
+      $scope.payments = data;
     })
     .catch(function(err){
       $scope.err = err.data;
     })
   }
 
-  function getUserList(){
+  function getPaymentList(){
     let deferred = $q.defer();
-    $http.get('/api/accounts')
+    $http.get('/api/deposits')
     .then(function(res){
       deferred.resolve(res.data);
     })
@@ -40,55 +62,20 @@ angular.module('myApp.adminUser', [])
     return deferred.promise;
   }
 
-  $scope.showNotif = function(user){
-    $scope.userData = user;
-  }
-
-  $scope.deleteUser = function(id){
-    $http.delete('/api/accounts/'+id)
+  function getAmount(code){
+    let deferred = $q.defer();
+    $http.get('/api/transactions?registrationCode='+code)
     .then(function(res){
-      showUserList();
+      deferred.resolve(res.data[0].totalAmount);
     })
     .catch(function(err){
-      $scope.err = err.data;
+      deferred.reject(err);
     })
-    angular.element(document.querySelector('#deleteModal')).modal('hide');
+    return deferred.promise;
   }
 
-  $scope.editUser = function(user){
-    $scope.userSuccess = null;
-    $scope.userErr = null;
-    $scope.userEdit = 'true';
-    $scope.user = user;
-  }
-
-  $scope.addUser = function(){
-    $scope.userSuccess = null;
-    $scope.userErr = null;
-    $scope.userEdit = null;
-    $scope.user = null;
-  }
-
-  $scope.saveUser = function(user){
-    if($scope.userEdit != null){
-      let userId = user._id;
-      $http.put('/api/accounts/'+userId, user)
-      .then(function(res){
-        $scope.userSuccess = "User information has been updated.";
-      })
-      .catch(function(err){
-        $scope.userErr = err.data;
-      })
-    }else{
-      $http.post('/api/accounts', user)
-      .then(function(res){
-        showUserList();
-        $scope.userSuccess = "New user has been added.";
-      })
-      .catch(function(err){
-        $scope.userErr = err.data;
-      })
-    }
+  $scope.showDetails = function(payment){
+    $scope.details = payment;
   }
 
   //Pagination
@@ -123,8 +110,8 @@ angular.module('myApp.adminUser', [])
   };
 
   $scope.pageCount = function() {
-    if($scope.users){
-      return Math.ceil($scope.users.length/$scope.itemsPerPage)-1;
+    if($scope.payments){
+      return Math.ceil($scope.payments.length/$scope.itemsPerPage)-1;
     }
   };
 
@@ -141,6 +128,5 @@ angular.module('myApp.adminUser', [])
   $scope.setPage = function(n) {
     $scope.currentPage = n;
   };
-
 
 });

@@ -40,7 +40,16 @@ angular.module('myApp.adminTransaction', [])
     return deferred.promise;
   }
 
-
+  $scope.showParticipants = function(data){
+    let transId = data._id;
+    $http.get('/api/participants?transactionID='+transId)
+    .then(function(res){
+      $scope.users = res.data;
+    })
+    .catch(function(err){
+      $scope.err = err.data;
+    })
+  }
 
   //Pagination
 

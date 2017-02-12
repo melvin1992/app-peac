@@ -43,12 +43,12 @@
                 </div>
               </div>
               <div ng-show="schoolInfo">
+                <p class="school-note">Note: Please double check school details before choosing an event.</p>
                 <h4>School Details <button type="button" class="btn btn-xs btn-link" ng-click="showSearchSchool()" ng-hide="!hideSchool">Change</button></h4>
                 <p>
                   <strong>Id: </strong>{{schoolInfo.schoolId}}<br/>
                   <strong>Name: </strong>{{schoolInfo.name}}<br/>
                   <strong>Address: </strong>{{schoolInfo.street}} {{schoolInfo.brgy}}<br/>
-                  <strong>Head: </strong>{{schoolInfo.principal}}<br/>
                   <strong>Website: </strong>{{schoolInfo.website}}
                 </p>
               </div>
@@ -67,7 +67,7 @@
                   <strong>Event Type: </strong>{{eventData.eventType}}<br/>
                   <strong>Event Date: </strong>{{eventData.eventDate}}<br/>
                   <strong>Venue: </strong>{{eventData.venue}}<br/>
-                  <strong>Fee: </strong>{{eventData.eventFee}}
+                  <strong>Fee: </strong>{{eventData.eventFee}} / per participant
                 </p>
               </div>
             </div>
@@ -85,11 +85,11 @@
           <strong>Warning!</strong> Selected event is not within your school region.
         </div>
 
-        <form ng-submit="submitEventInformation()">
+        <form>
 
         <h2>Participant Information</h2>
 
-        <div class="panel panel-default" ng-repeat="area in learningArea">
+        <div class="panel" ng-class-even="'panel-default'" ng-class-odd="'panel-primary'" ng-repeat="area in learningArea">
           <div class="panel-heading">
             <input type="checkbox" ng-click="showPanel(area.show, area.learningArea)" ng-model="area.show"/>
             <strong>Learning Area: <u>{{area.learningArea}}</u></strong>
@@ -174,7 +174,7 @@
 
         <div class="pull-right">
           <button type="button" class="btn btn-danger" ng-click="reset()"><span class="fa fa-times"/> Reset</button>
-          <button type="submit" class="btn btn-primary"><span class="fa fa-check"/> Submit</button>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#openModal"><span class="fa fa-check"/> Submit</button>
         </div>
 
         </form>
@@ -186,3 +186,51 @@
 
 </div>
 <!-- /.container -->
+
+
+<div class="modal fade" id="openModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title">Confirmation Summary</h3>
+      </div>
+      <div class="modal-body">
+        <p>
+          <strong>Event Name: </strong>{{eventData.name}}<br/>
+          <strong>Event Type: </strong>{{eventData.eventType}}<br/>
+          <strong>Event Date: </strong>{{eventData.eventDate}}<br/>
+          <strong>Venue: </strong>{{eventData.venue}}<br/>
+          <strong>Total Amount: </strong>{{eventData.eventFee * selectedData.length}}
+        </p>
+
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Full Name</th>
+              <th>Contact No</th>
+              <th>Email</th>
+              <th>Gender</th>
+              <th>Birthdate</th>
+              <th>Learning Area</th>
+            </tr>
+          </thead>
+          <tbody>
+             <tr ng-repeat="user in selectedData">
+               <td>{{user.lastName}}, {{user.firstName}} {{user.middleName}}</td>
+               <td>{{user.contactNo}}</td>
+               <td>{{user.email}}</td>
+               <td>{{user.gender}}</td>
+               <td>{{user.birthdate}}</td>
+               <td>{{user.learningArea}}</td>
+             </tr>
+          </tbody>
+        </table>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" ng-click="submitEventInformation()" data-dismiss="modal"><i class="fa fa-check"/> Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
