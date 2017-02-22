@@ -39,7 +39,7 @@ angular.module('myApp.adminDeposit', [])
           })
         })
         val.totalAmount = totalAmount;
-        val.registrationCodes = regCodes;
+        val.regCodes = regCodes;
         val.depositImgUrl = '../../../assets/uploads/'+val.depositImgUrl;
         data.push(val);
       })
@@ -74,8 +74,79 @@ angular.module('myApp.adminDeposit', [])
     return deferred.promise;
   }
 
+  function updateDeposit(data, id){
+    let deferred = $q.defer();
+    let depositUrl = '/api/deposits/'+id;
+    $http.put(depositUrl,data)
+    .then(function(res){
+      deferred.resolve(res.data);
+    })
+    .catch(function(err){
+      deferred.reject(err);
+    })
+    return deferred.promise;
+  }
+
+  function updateTransaction(data, id){
+    let regUrl = '/api/transactions?registrationCode='+id;
+    $http.get(regUrl)
+    .then(function(res){
+      let transId = res.data[0]._id;
+      let transUrl = '/api/transactions/'+transId;
+      $http.put(transUrl, data)
+      .then(function(trans){
+        console.log('Transaction updated!');
+      })
+      .catch(function(err){
+        $scope.err = err.data;
+      })
+    })
+    .catch(function(err){
+      $scope.err = err.data;
+    })
+  }
+
   $scope.showDetails = function(payment){
     $scope.details = payment;
+  }
+
+  $scope.approveDeposit = function(data){
+    let id = data._id;
+    let payload = {
+      status: 'approved'
+    }
+    updateDeposit(payload, id)
+    .then(function(res){
+      angular.forEach(data.registrationCodes,function(value,key){
+        let payloadData = {
+          status: 'paid'
+        }
+        updateTransaction(payloadData, value);
+      })
+    })
+    .catch(function(err){
+      $scope.err = err.data;
+    })
+    angular.element(document.querySelector('#openModal')).modal('hide');
+    showPaymentList();
+  }
+
+  $scope.declineDeposit = function(data){
+    let id = data._id;
+    let payload = {
+      status: 'declined'
+    }
+    updateDeposit(payload, id)
+    .then(function(res){
+      angular.forEach(data.registrationCodes,function(value,key){
+        updateTransaction(payload, value);
+      })
+    })
+    .catch(function(err){
+      $scope.err = err.data;
+    })
+    angular.element(document.querySelector('#openModal')).modal('hide');
+    showPaymentList();
   }
 
   //Pagination

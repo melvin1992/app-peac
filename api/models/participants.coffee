@@ -69,6 +69,10 @@ ParticipantSchema = new Schema
     type: Number
     enum: [1,0]
     default: 1
+  claimed:
+    type: Number
+    enum: [1,0]
+    default: 0
 
 participantModel = mongoose.model('Participants', ParticipantSchema)
 module.exports = participantModel

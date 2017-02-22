@@ -4,7 +4,7 @@ angular.module('myApp', [
   'ngRoute',
   // 'myApp.home',
   // 'myApp.about',
-  // 'myApp.contact',
+  'myApp.contact',
   'myApp.jhsOrientation',
   'myApp.shsOrientation',
   'myApp.jhsInset',
@@ -14,6 +14,7 @@ angular.module('myApp', [
   'myApp.register',
   'myApp.myregistration',
   'myApp.myprofile',
+  'myApp.attendance',
   'myApp.adminLogin',
   'myApp.adminSetting',
   'myApp.adminEvent',
@@ -30,10 +31,11 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
   //Main Page
   // .when('/',{ templateUrl:'../components/home/home.html', controller:'homeController' })
   // .when('/about',{ templateUrl:'../components/about/about.html', controller:'aboutController' })
-  // .when('/contact',{ templateUrl:'../components/contact/contact.html', controller:'contactController' })
+  .when('/contact',{ templateUrl:'../components/contact/contact.html', controller:'contactController' })
 
   .when('/', { templateUrl:'../components/login/login.html', controller:'loginController' })
   .when('/register', { templateUrl:'../components/registration/register.html', controller:'registerController' })
+  .when('/attendance', { templateUrl:'../components/attendance/attendance.html', controller:'attendanceController' })
 
   //Account
   .when('/profile', {templateUrl:'../components/account/profile/myprofile.html', controller:'myprofileController'})

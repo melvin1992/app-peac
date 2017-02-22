@@ -11,7 +11,7 @@
             </ol>
         </div>
     </div>
-  
+
     <div class="row">
       <div class="container">
         <div class="col-lg-2">
@@ -61,13 +61,13 @@
                        <td>
                          <button type="button" class="btn btn-xs btn-link" data-toggle="modal" data-target="#openModal" ng-click="showDetails(payment)">{{payment.depositReferenceNo}}</button>
                        </td>
-                       <td>{{payment.registrationCodes}}</td>
+                       <td>{{payment.regCodes}}</td>
                        <td>{{payment.date | date}}</td>
                        <td>{{payment.totalAmount | currency}}</td>
                        <td>{{payment.status}}</td>
                        <td ng-show="payment.status == 'pending'">
-                         <button type="button" class="btn btn-xs btn-success"><i class="fa fa-check"/> Approve</button>
-                         <button type="button" class="btn btn-xs btn-danger"><i class="fa fa-times"/> Decline</button>
+                         <button type="button" class="btn btn-xs btn-success" ng-click="approveDeposit(payment)"><i class="fa fa-check"/> Approve</button>
+                         <button type="button" class="btn btn-xs btn-danger" ng-click="declineDeposit(payment)"><i class="fa fa-times"/> Decline</button>
                        </td>
                      </tr>
                   </tbody>
@@ -104,7 +104,7 @@
         <div class="row">
           <div class="col-sm-12">
             <strong>Deposit Reference No.: </strong>{{details.depositReferenceNo}}<br/>
-            <strong>Registration Codes: </strong>{{details.registrationCodes}}<br/>
+            <strong>Registration Codes: </strong>{{details.regCodes}}<br/>
             <strong>Total Amount: </strong>{{details.totalAmount | currency}}<br/>
           </div>
         </div>
@@ -120,8 +120,8 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-success" ng-show="details.status == 'pending'"><i class="fa fa-check"/> Approve</button>
-        <button type="button" class="btn btn-danger" ng-show="details.status == 'pending'"><i class="fa fa-times"/> Decline</button>
+        <button type="button" class="btn btn-success" ng-show="details.status == 'pending'" ng-click="approveDeposit(details)"><i class="fa fa-check"/> Approve</button>
+        <button type="button" class="btn btn-danger" ng-show="details.status == 'pending'" ng-click="declineDeposit(details)"><i class="fa fa-times"/> Decline</button>
         <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"/> Close</button>
       </div>
     </div>

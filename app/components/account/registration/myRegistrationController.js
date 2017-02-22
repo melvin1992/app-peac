@@ -72,6 +72,9 @@ angular.module('myApp.myregistration', [])
     $scope.details = data;
   }
 
+  $scope.printDetails = function(){
+    window.print();
+  }
 
   //Pagination
 

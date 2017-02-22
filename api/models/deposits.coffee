@@ -16,7 +16,7 @@ DepositSchema = new Schema
     require: true
   status:
     type: String
-    enum: ['pending','approved']
+    enum: ['pending','approved','declined']
     default: 'pending'
   date:
     type: Date

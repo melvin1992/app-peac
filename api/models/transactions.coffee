@@ -28,7 +28,7 @@ TransactionSchema = new Schema
     default: Date.now
   status:
     type: String
-    enum: ['pending','processing','paid','expired']
+    enum: ['pending','processing','paid','expired','declined']
     default: 'pending'
 
 transactionModel = mongoose.model('Transactions', TransactionSchema)
