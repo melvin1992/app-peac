@@ -33,7 +33,11 @@ angular.module('myApp.shsInset', [])
     let shsUrl = '/api/shs?schoolId='+id;
     $http.get(shsUrl)
     .then(function(res){
-      $scope.schoolInfo = res.data[0];
+      if(res.data[0]){
+        $scope.schoolInfo = res.data[0];
+      }else{
+        $scope.err = "School doesn't exist.";
+      }
     })
     .catch(function(err){
       $scope.err = err.data;

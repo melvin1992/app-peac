@@ -58,7 +58,11 @@ angular.module('myApp.shsOrientation', [])
     let jhsUrl = '/api/shs?schoolId='+id;
     $http.get(jhsUrl)
     .then(function(res){
-      $scope.schoolInfo = res.data[0];
+      if(res.data[0]){
+        $scope.schoolInfo = res.data[0];
+      }else{
+        $scope.err = "School doesn't exist.";
+      }
     })
     .catch(function(err){
       $scope.err = err.data;
