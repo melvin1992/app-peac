@@ -16,8 +16,6 @@ angular.module('myApp.shsInset', [])
 
     if(shsId != ""){
       getSchoolData(shsId);
-    }else{
-      $scope.hideSchool = null;
     }
 
     getEventList('eventType=SHS INSET')
@@ -36,7 +34,22 @@ angular.module('myApp.shsInset', [])
     $http.get(shsUrl)
     .then(function(res){
       $scope.schoolInfo = res.data[0];
-      $scope.hideSchool = "hide";
+    })
+    .catch(function(err){
+      $scope.err = err.data;
+    })
+  }
+
+  function searchSchoolData(id){
+    let jhsUrl = '/api/accounts?shsSchool.schoolID='+id;
+    $http.get(jhsUrl)
+    .then(function(res){
+      if(!res.data[0]){
+        getSchoolData(id);
+        $scope.err = null;
+      }else{
+        $scope.err = "School already assigned to another account";
+      }
     })
     .catch(function(err){
       $scope.err = err.data;
@@ -130,7 +143,6 @@ angular.module('myApp.shsInset', [])
 
   function clearData(){
     createLearningArea();
-    $scope.limitsWarning = null;
     $scope.eventData = null;
     $scope.regionWarning = null;
   }
@@ -252,11 +264,7 @@ angular.module('myApp.shsInset', [])
       getEventList('name='+eventName.name)
       .then(function(res){
         let maxLimit = res[0].limits;
-        if(maxLimit <= 20){
-          $scope.limitsWarning = maxLimit;
-        }else{
-          $scope.limitsWarning = null;
-        }
+        $scope.maxLimit = maxLimit;
         $scope.eventData = res[0];
         compareRegionCode($scope.eventData.region, $scope.schoolInfo.region);
         showExistParticipants(userId, res[0]._id, schoolId);
@@ -269,10 +277,6 @@ angular.module('myApp.shsInset', [])
     }
   }
 
-  $scope.showSearchSchool = function(){
-    $scope.hideSchool = null;
-  }
-
   $scope.reset = function(){
     clearData();
   }
@@ -280,7 +284,7 @@ angular.module('myApp.shsInset', [])
   $scope.searchSchool = function(id){
     $scope.eventSearch = "";
     clearData();
-    getSchoolData(id);
+    searchSchoolData(id);
   }
 
   $scope.submitEventInformation = function(){

@@ -12,7 +12,11 @@ angular.module('myApp.attendance', [])
     $http.get('/api/events/'+eventId)
     .then(function(res){
       if(res.data != 'null'){
-        $scope.events = res.data;
+        if(res.data.status == 'active'){
+          $scope.events = res.data;
+        }else{
+          $scope.err = "Event is already inactive";
+        }
       }else{
         $scope.err = "Event ID do not exist!";
       }

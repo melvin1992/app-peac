@@ -72,5 +72,4 @@ AccountService =
 
     deferred.promise
 
-
 module.exports = AccountService

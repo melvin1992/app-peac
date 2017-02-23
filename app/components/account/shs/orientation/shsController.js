@@ -16,8 +16,6 @@ angular.module('myApp.shsOrientation', [])
 
     if(shsId != ""){
       getSchoolData(shsId);
-    }else{
-      $scope.hideSchool = null;
     }
 
     getEventList('eventType=SHS Orientation')
@@ -38,8 +36,6 @@ angular.module('myApp.shsOrientation', [])
     $scope.showP2 = false;
     $scope.displayP2 = null;
     $scope.disableP2 = false;
-
-    $scope.limitsWarning = null;
     $scope.eventData = null;
   }
 
@@ -63,7 +59,6 @@ angular.module('myApp.shsOrientation', [])
     $http.get(jhsUrl)
     .then(function(res){
       $scope.schoolInfo = res.data[0];
-      $scope.hideSchool = "hide";
     })
     .catch(function(err){
       $scope.err = err.data;
@@ -102,15 +97,19 @@ angular.module('myApp.shsOrientation', [])
   }
 
   function findSchool(id){
-    let deferred = $q.defer();
-    $http.get('/api/shs?schoolId='+id)
+    let jhsUrl = '/api/accounts?shsSchool.schoolID='+id;
+    $http.get(jhsUrl)
     .then(function(res){
-      deferred.resolve(res.data[0]);
+      if(!res.data[0]){
+        getSchoolData(id);
+        $scope.err = null;
+      }else{
+        $scope.err = "School already assigned to another account";
+      }
     })
     .catch(function(err){
-      deferred.reject(err);
+      $scope.err = err.data;
     })
-    return deferred.promise;
   }
 
   function createRegistrationCode(user, events){
@@ -169,21 +168,10 @@ angular.module('myApp.shsOrientation', [])
     })
   }
 
-  $scope.showSearchSchool = function(){
-    $scope.hideSchool = null;
-  }
-
   $scope.searchSchool = function(id){
     $scope.eventSearch = "";
     clearData();
-
-    findSchool(id)
-    .then(function(res){
-      $scope.schoolInfo = res;
-    })
-    .catch(function(err){
-      $scope.err = err.data;
-    })
+    findSchool(id);
   }
 
   $scope.findEvent = function(eventName){
@@ -193,11 +181,7 @@ angular.module('myApp.shsOrientation', [])
       getEventList('name='+eventName.name)
       .then(function(res){
         let maxLimit = res[0].limits;
-        if(maxLimit <= 20){
-          $scope.limitsWarning = maxLimit;
-        }else{
-          $scope.limitsWarning = null;
-        }
+        $scope.maxLimit = maxLimit;
         $scope.eventData = res[0];
         compareRegionCode($scope.eventData.region, $scope.schoolInfo.region);
         showExistParticipants(userId, res[0]._id, schoolId);

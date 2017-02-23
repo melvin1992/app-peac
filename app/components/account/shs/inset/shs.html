@@ -31,7 +31,7 @@
         <div class="well">
           <div class="row">
             <div class="col-sm-6 form-group">
-              <div ng-hide="hideSchool">
+              <div ng-hide="schoolInfo">
                 <label>DepEd ID</label>
                 <div class="input-group col-sm-6">
                   <input type="text" class="form-control" placeholder="XXXXXXX" ng-model="schoolId">
@@ -42,7 +42,6 @@
               </div>
               <div ng-show="schoolInfo">
                 <p class="school-note">Note: Please double check school details before choosing an event.</p>
-                <h4>School Details <button type="button" class="btn btn-xs btn-link" ng-click="showSearchSchool()" ng-hide="!hideSchool">Change</button></h4>
                 <p>
                   <strong>Id: </strong>{{schoolInfo.schoolId}}<br/>
                   <strong>Name: </strong>{{schoolInfo.name}}<br/>
@@ -71,11 +70,6 @@
           </div>
         </div>
 
-        <div class="alert alert-warning fade in" ng-show="limitsWarning">
-          <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
-          <strong>Warning!</strong> This event has only {{limitsWarning}} slots left.
-        </div>
-
         <div class="alert alert-warning fade in" ng-show="regionWarning">
           <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
           <strong>Warning!</strong> Selected event is not within your school region.
@@ -84,6 +78,11 @@
         <form>
 
         <h2>Participant Information</h2>
+        
+        <div ng-show="maxLimit">
+          <p><b>Available Slots: {{maxLimit}}</b></p>
+        </div>
+
         <div class="panel" ng-class-even="'panel-default'" ng-class-odd="'panel-primary'" ng-repeat="area in learningArea">
           <div class="panel-heading">
             <input type="checkbox" ng-click="showPanel(area.show, area.learningArea)" ng-model="area.show"/>
