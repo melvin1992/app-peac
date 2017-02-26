@@ -44,4 +44,13 @@ AccountController.route '/:id'
     .catch (err) ->
       response.status(400).json err
 
+AccountController.route '/accountVerification'
+  .post (req, response) ->
+    params = req.body
+    AccountService.activateAccount params
+    .then (res) ->
+      response.status(200).json res
+    .catch (err) ->
+      response.status(400).json err
+
 module.exports = AccountController

@@ -40,6 +40,64 @@ EventSchema = new Schema
     type: String
     enum: ['active','inactive','end']
     default: 'active'
+  jhsLimits:
+    AP_regular1:
+      type: Number
+    English_regular1:
+      type: Number
+    Filipino_regular1:
+      type: Number
+    Math_regular1:
+      type: Number
+    Science_regular1:
+      type: Number
+    AP_regular2:
+      type: Number
+    English_regular2:
+      type: Number
+    Filipino_regular2:
+      type: Number
+    Math_regular2:
+      type: Number
+    Science_regular2:
+      type: Number
+    AP_advanced:
+      type: Number
+    English_advanced:
+      type: Number
+    Filipino_advanced:
+      type: Number
+    Math_advanced:
+      type: Number
+    Science_advanced:
+      type: Number
+  shsLimits:
+    English:
+      type: Number
+    Filipino:
+      type: Number
+    EarthLifeScience:
+      type: Number
+    PhysicalScience:
+      type: Number
+    Humanities:
+      type: Number
+    GeneralMath:
+      type: Number
+    StatisticsProbability:
+      type: Number
+    MediaInformationLiteracy:
+      type: Number
+    CutureSocietyPolitics:
+      type: Number
+    PersonalDevelopment:
+      type: Number
+    Philosophy:
+      type: Number
+    PhysicalEducation:
+      type: Number
+
+
 
 
 eventModel = mongoose.model('Events', EventSchema)

@@ -1,5 +1,7 @@
 Accounts = require('mongoose').model 'Accounts'
 _ = require 'lodash'
+nodemailer = require 'nodemailer'
+randomString = require 'randomstring'
 
 AccountService =
   create: (params) ->
@@ -8,18 +10,77 @@ AccountService =
     query =
       username: params.username
     Accounts.find query
-    .then (findRes) ->
+    .then (findRes) =>
       if _.isEmpty(findRes)
+
+        params.verificationCode = randomString.generate(30)
         account = new Accounts params
         account.save()
-        .then (res) ->
-          deferred.resolve res
+        .then (res) =>
+          @sendVerficationEmail params
+          .then (email) ->
+            deferred.resolve res
+          .catch (err) ->
+            deferred.reject err
+
         .catch (err) ->
           deferred.reject err
       else
         deferred.reject 'Username already exist.'
     .catch (err) ->
       deferred.reject err
+
+    deferred.promise
+
+  activateAccount: (params) ->
+    deferred = Promise.defer()
+
+    query =
+      verificationCode: params.code
+    @findAll query
+    .then (res) =>
+      if !_.isEmpty(res)
+
+        account = res[0]
+        payload =
+          status: 'active'
+        @updateAccount account._id, payload
+        .then (accountRes) ->
+          deferred.resolve accountRes
+        .catch (err) ->
+          deferred.reject err
+    .catch (err) ->
+      deferred.reject err
+
+    deferred.promise
+
+  sendVerficationEmail: (params) ->
+    deferred = Promise.defer()
+
+    activationLink = "http://52.40.210.205:3000/#/activateaccount?code="
+    activationLink += params.verificationCode
+
+    emailMsg = "Thank you for your registration!
+      Please click this link to activate your account.
+      <a href='" + activationLink+ "'> Account Activation</a>"
+
+    transporter = nodemailer.createTransport
+      service: 'Gmail'
+      auth:
+        user: 'peac.register@gmail.com'
+        pass: 'Nov51968'
+
+    mailOptions =
+      from: 'melvinjohn_bagsik@yahoo.com'
+      to: params.email
+      subject: 'Account Verfication'
+      html: emailMsg
+
+    transporter.sendMail mailOptions, (err, res) ->
+      if err
+        deferred.reject err
+      else
+        deferred.resolve res
 
     deferred.promise
 

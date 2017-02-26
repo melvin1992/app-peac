@@ -2,6 +2,8 @@ mongoose = require 'mongoose'
 Schema = mongoose.Schema
 
 AccountSchema = new Schema
+  verificationCode:
+    type: String
   username:
     type: String
     required: true
@@ -26,7 +28,7 @@ AccountSchema = new Schema
   status:
     type: String
     enum: ['active','inactive']
-    default: 'active'
+    default: 'inactive'
   shsSchool:
     schoolID:
       type: String
