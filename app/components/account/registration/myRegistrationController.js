@@ -50,6 +50,33 @@ angular.module('myApp.myregistration', [])
     return (ndate.getMonth() + 1) + '/' + ndate.getDate() + '/' +  ndate.getFullYear();
   }
 
+  function searchSchoolData(type, id){
+    let url = "";
+    if(type == 'SHS INSET' || type == 'SHS Orientation'){
+      url = "/api/shs";
+    }else{
+      url = "/api/jhs";
+    }
+
+    $http.get(url+"?schoolId="+id)
+    .then (function(res){
+      $scope.schoolInfo = res.data[0];
+    })
+    .catch(function(err){
+      $scope.err = err.data;
+    })
+  }
+
+  function searchEventData(id){
+    $http.get('/api/events/'+id)
+    .then (function(res){
+      $scope.eventInfo = res.data
+    })
+    .catch (function(err){
+      $scope.err = err.data;
+    })
+  }
+
   $scope.editParticipants = function(data){
     $scope.editSuccess = null;
     $scope.editErr = null;
@@ -70,6 +97,8 @@ angular.module('myApp.myregistration', [])
   $scope.showDetails = function(data){
     JsBarcode("#barcode", data.registrationCode);
     $scope.details = data;
+    searchSchoolData(data.eventType, data.schoolID);
+    searchEventData(data.eventID);
   }
 
   $scope.printDetails = function(){

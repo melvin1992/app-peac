@@ -13,9 +13,10 @@ angular.module('myApp.activateAccount', [])
 
   $http.post('/api/accounts/accountVerification', payload)
   .then(function(res){
-
     if(res.data){
       $scope.user = "activated";
+    }else{
+      $scope.invalid = "show";
     }
   })
 

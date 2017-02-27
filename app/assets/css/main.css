@@ -113,6 +113,10 @@ body {
 }
 
 /*PEAC CUSTOM*/
+.bold-text {
+  font-weight: bold;
+}
+
 .parent-login {
   padding:  5% 0;
 }

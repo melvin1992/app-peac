@@ -225,7 +225,7 @@
 
 
 <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-lg" role="document">
+  <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -235,17 +235,34 @@
 
         <div class="row">
           <div class="col-sm-12">
-            <strong>Registration Code: </strong>{{details.registrationCode}}<br/>
-            <strong>Event Type: </strong>{{details.eventType}}<br/>
-            <strong>Total Participants: </strong>{{details.participantsCount}}<br/>
-            <strong>Status: </strong>{{details.status}}<br/>
+            <p>IMPORTANT: Bring a printed copy of this <b>Registration Confirmation Slip (RCS)</b> and IDs of the participants at the venue</p>
           </div>
         </div>
+
         <div class="row">
           <div class="col-sm-12">
-              <img id="barcode" class="img-center"/>
+            <table>
+              </tr>
+                <td class="col-sm-6">
+                  <strong>FOR PEAC's USE:</strong><br/>
+                  <strong>Registration Code: </strong>{{details.registrationCode}}<br/>
+                  <strong>School ID: </strong>{{details.schoolID}}<br/>
+                  <strong>School Name: </strong>{{schoolInfo.name}}<br/>
+                  <strong>Address: </strong>{{schoolInfo.street}}<br/>
+                  <br>
+                  <strong>Event Name: </strong>{{eventInfo.name}}<br/>
+                  <strong>Event Date: </strong>{{eventInfo.eventDate}}<br/>
+                  <strong>Event Venue: </strong>{{eventInfo.venue}}<br/>
+                  <strong>Status: </strong>{{details.status}}<br/>
+                </td>
+                <td class="col-sm-6 pull-right">
+                  <img id="barcode">
+                </td>
+              </tr>
+            </table>
           </div>
         </div>
+
         <div class="row">
           <div class="col-sm-12">
 
@@ -253,23 +270,60 @@
               <table class="table table-hover">
                 <thead>
                   <tr>
+                    <th>Registraion ID</th>
                     <th>Full Name</th>
-                    <th>Contact No</th>
-                    <th>Email</th>
                     <th>Learning Area</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr ng-repeat="user in details.participantList">
+                    <td>{{user._id}}</td>
                     <td>{{user.lastName}}, {{user.firstName}} {{user.middleName}} </td>
-                    <td>{{user.contactNo}}</td>
-                    <td>{{user.email}}</td>
                     <td>{{user.learningArea}}</td>
                   </tr>
                 </tbody>
               </table>
             </div>
 
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-12">
+            <p>Thank you for signing up!  </p>
+            <p>To complete your registration kindly follow the steps below:</p>
+            <ol>
+              <li>
+                <p>
+                  Deposit the amount of <b>{{details.totalAmount}}</b> in any Bank of the Philippine Islands (BPI) within 10 banking days. The following are the bank details:
+                </p>
+                  <div ng-show="details.eventType == 'JHS INSET' || details.eventType == 'SHS INSET'">
+                    <p class="bold-text">
+                      BPI Account Name: PEAC Externally Funded Projects <br/>
+                      BPI Account: 9661-0021-04
+                    </p>
+                  </div>
+                  <div ng-show="details.eventType == 'JHS Orientation' || details.eventType == 'SHS Orientation'">
+                    <p class="bold-text">
+                      BPI Account Name: PEAC Externally Funded Projects <br/>
+                      BPI Account: 1431-0128-51
+                    </p>
+                  </div>
+              </li>
+              <li>
+                <p>Once you have made the payment, write the REGISTRATION CODE <b>{{details.registrationCode}}</b> in the BPI deposit slip.</p>
+              </li>
+              <li>
+                <p>Login to the 2017 PEAC Online Registration Portal thru www.fape.org.ph. Click “Payment Verification” link and upload a photo/image of the deposit slip.
+                We need this so we can validate your payment and include you in the officially registered participants. You can also monitor the status of your payment by
+                clicking the “My Registrations” link. Validation of payments may take 2-3 days.</p>
+              </li>
+            </ol>
+          </div>
+          <div class="col-sm-12">
+            <br/><br/><br/>
+            <p>NOTE: Failure to pay within the period indicated above or failure to upload the deposit slip will mean cancellation of your reserved slot and you must register
+            again (subject to availability of slots) if you wish to proceed.</p>
           </div>
         </div>
 
