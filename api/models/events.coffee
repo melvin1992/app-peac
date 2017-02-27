@@ -26,7 +26,6 @@ EventSchema = new Schema
     default: 0
   limits:
     type: Number
-    required: true
   region:
     type: [String]
     required: true

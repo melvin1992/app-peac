@@ -102,9 +102,8 @@
   </div>
 </div>
 
-
 <div class="modal fade" id="openModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -165,13 +164,213 @@
             </div>
             <span class="required-field" ng-show="eventForm.fee.$error.required">*</span>
           </div>
-          <div class="form-group">
-            <label class="col-sm-4 control-label" for="textinput">Max Participants</label>
-            <div class="col-sm-7">
-              <input type="number" placeholder="Max Participants" class="form-control" ng-model="eventData.limits" name="limits" required>
+
+          <div ng-show="eventData.eventType == 'JHS Orientation' || eventData.eventType == 'SHS Orientation'">
+            <div class="form-group">
+              <label class="col-sm-4 control-label" for="textinput">Max Participants</label>
+              <div class="col-sm-7">
+                <input type="number" placeholder="Max Participants" class="form-control" ng-model="eventData.limits" name="limits" ng-required="eventData.eventType == 'JHS Orientation' || eventData.eventType == 'SHS Orientation'">
+              </div>
+              <span class="required-field" ng-show="eventForm.limits.$error.required">*</span>
             </div>
-            <span class="required-field" ng-show="eventForm.limits.$error.required">*</span>
           </div>
+
+          <div ng-show="eventData.eventType == 'JHS INSET'">
+            <div class="form-group">
+              <label class="col-sm-4 control-label" for="textinput">AP (Regular: Grade 7 or 8)</label>
+              <div class="col-sm-7">
+                <input type="number" placeholder="Araling Panlipunan - 7 or 8" class="form-control" ng-model="eventData.jhsLimits.AP_regular1" name="AP_regular1" ng-required="eventData.eventType == 'JHS INSET'">
+              </div>
+              <span class="required-field" ng-show="eventForm.AP_regular1.$error.required">*</span>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label" for="textinput">English (Regular: Grade 7 or 8)</label>
+              <div class="col-sm-7">
+                <input type="number" placeholder="English - 7 or 8" class="form-control" ng-model="eventData.jhsLimits.English_regular1" name="English_regular1" ng-required="eventData.eventType == 'JHS INSET'">
+              </div>
+              <span class="required-field" ng-show="eventForm.English_regular1.$error.required">*</span>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label" for="textinput">Filipino (Regular: Grade 7 or 8)</label>
+              <div class="col-sm-7">
+                <input type="number" placeholder="Filipino - 7 or 8" class="form-control" ng-model="eventData.jhsLimits.Filipino_regular1" name="Filipino_regular1" ng-required="eventData.eventType == 'JHS INSET'">
+              </div>
+              <span class="required-field" ng-show="eventForm.Filipino_regular1.$error.required">*</span>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label" for="textinput">Math (Regular: Grade 7 or 8)</label>
+              <div class="col-sm-7">
+                <input type="number" placeholder="Math - 7 or 8" class="form-control" ng-model="eventData.jhsLimits.Math_regular1" name="Math_regular1" ng-required="eventData.eventType == 'JHS INSET'">
+              </div>
+              <span class="required-field" ng-show="eventForm.Math_regular1.$error.required">*</span>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label" for="textinput">Science (Regular: Grade 7 or 8)</label>
+              <div class="col-sm-7">
+                <input type="number" placeholder="Science - 7 or 8" class="form-control" ng-model="eventData.jhsLimits.Science_regular1" name="Science_regular1" ng-required="eventData.eventType == 'JHS INSET'">
+              </div>
+              <span class="required-field" ng-show="eventForm.Science_regular1.$error.required">*</span>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label" for="textinput">AP (Regular: Grade 9 or 10)</label>
+              <div class="col-sm-7">
+                <input type="number" placeholder="Araling Panlipunan - 9 or 10" class="form-control" ng-model="eventData.jhsLimits.AP_regular2" name="AP_regular2" ng-required="eventData.eventType == 'JHS INSET'">
+              </div>
+              <span class="required-field" ng-show="eventForm.AP_regular2.$error.required">*</span>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label" for="textinput">English (Regular: Grade 9 or 10)</label>
+              <div class="col-sm-7">
+                <input type="number" placeholder="English - 9 or 10" class="form-control" ng-model="eventData.jhsLimits.English_regular2" name="English_regular2" ng-required="eventData.eventType == 'JHS INSET'">
+              </div>
+              <span class="required-field" ng-show="eventForm.English_regular2.$error.required">*</span>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label" for="textinput">Filipino (Regular: Grade 9 or 10)</label>
+              <div class="col-sm-7">
+                <input type="number" placeholder="Filipino - 9 or 10" class="form-control" ng-model="eventData.jhsLimits.Filipino_regular2" name="Filipino_regular2" ng-required="eventData.eventType == 'JHS INSET'">
+              </div>
+              <span class="required-field" ng-show="eventForm.Filipino_regular2.$error.required">*</span>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label" for="textinput">Math (Regular: Grade 9 or 10)</label>
+              <div class="col-sm-7">
+                <input type="number" placeholder="Math - 9 or 10" class="form-control" ng-model="eventData.jhsLimits.Math_regular2" name="Math_regular2" ng-required="eventData.eventType == 'JHS INSET'">
+              </div>
+              <span class="required-field" ng-show="eventForm.Math_regular2.$error.required">*</span>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label" for="textinput">Science (Regular: Grade 9 or 10)</label>
+              <div class="col-sm-7">
+                <input type="number" placeholder="Science - 9 or 10" class="form-control" ng-model="eventData.jhsLimits.Science_regular2" name="Science_regular2" ng-required="eventData.eventType == 'JHS INSET'">
+              </div>
+              <span class="required-field" ng-show="eventForm.Science_regular2.$error.required">*</span>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label" for="textinput">AP (Advanced)</label>
+              <div class="col-sm-7">
+                <input type="number" placeholder="Araling Panlipunan - Advanced" class="form-control" ng-model="eventData.jhsLimits.AP_advanced" name="AP_advanced" ng-required="eventData.eventType == 'JHS INSET'">
+              </div>
+              <span class="required-field" ng-show="eventForm.AP_advanced.$error.required">*</span>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label" for="textinput">English (Advanced)</label>
+              <div class="col-sm-7">
+                <input type="number" placeholder="English - Advanced" class="form-control" ng-model="eventData.jhsLimits.English_advanced" name="English_advanced" ng-required="eventData.eventType == 'JHS INSET'">
+              </div>
+              <span class="required-field" ng-show="eventForm.English_advanced.$error.required">*</span>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label" for="textinput">Filipino (Advanced)</label>
+              <div class="col-sm-7">
+                <input type="number" placeholder="Filipino - Advanced" class="form-control" ng-model="eventData.jhsLimits.Filipino_advanced" name="Filipino_advanced" ng-required="eventData.eventType == 'JHS INSET'">
+              </div>
+              <span class="required-field" ng-show="eventForm.Filipino_advanced.$error.required">*</span>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label" for="textinput">Math (Advanced)</label>
+              <div class="col-sm-7">
+                <input type="number" placeholder="Math - Advanced" class="form-control" ng-model="eventData.jhsLimits.Math_advanced" name="Math_advanced" ng-required="eventData.eventType == 'JHS INSET'">
+              </div>
+              <span class="required-field" ng-show="eventForm.Math_advanced.$error.required">*</span>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label" for="textinput">Science (Advanced)</label>
+              <div class="col-sm-7">
+                <input type="number" placeholder="Science - Advanced" class="form-control" ng-model="eventData.jhsLimits.Science_advanced" name="Science_advanced" ng-required="eventData.eventType == 'JHS INSET'">
+              </div>
+              <span class="required-field" ng-show="eventForm.Science_advanced.$error.required">*</span>
+            </div>
+          </div>
+
+          <div ng-show="eventData.eventType == 'SHS INSET'">
+            <div class="form-group">
+              <label class="col-sm-4 control-label" for="textinput">English</label>
+              <div class="col-sm-7">
+                <input type="number" placeholder="English" class="form-control" ng-model="eventData.shsLimits.English" name="English" ng-required="eventData.eventType == 'SHS INSET'">
+              </div>
+              <span class="required-field" ng-show="eventForm.English.$error.required">*</span>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label" for="textinput">Filipino</label>
+              <div class="col-sm-7">
+                <input type="number" placeholder="Filipino" class="form-control" ng-model="eventData.shsLimits.Filipino" name="Filipino" ng-required="eventData.eventType == 'SHS INSET'">
+              </div>
+              <span class="required-field" ng-show="eventForm.Filipino.$error.required">*</span>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label" for="textinput">Earth and Life Science</label>
+              <div class="col-sm-7">
+                <input type="number" placeholder="Earth and Life Science" class="form-control" ng-model="eventData.shsLimits.EarthLifeScience" name="EarthLifeScience" ng-required="eventData.eventType == 'SHS INSET'">
+              </div>
+              <span class="required-field" ng-show="eventForm.EarthLifeScience.$error.required">*</span>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label" for="textinput">Physical Science</label>
+              <div class="col-sm-7">
+                <input type="number" placeholder="Physical Science" class="form-control" ng-model="eventData.shsLimits.PhysicalScience" name="PhysicalScience" ng-required="eventData.eventType == 'SHS INSET'">
+              </div>
+              <span class="required-field" ng-show="eventForm.PhysicalScience.$error.required">*</span>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label" for="textinput">Humanities</label>
+              <div class="col-sm-7">
+                <input type="number" placeholder="Humanities" class="form-control" ng-model="eventData.shsLimits.Humanities" name="Humanities" ng-required="eventData.eventType == 'SHS INSET'">
+              </div>
+              <span class="required-field" ng-show="eventForm.Humanities.$error.required">*</span>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label" for="textinput">General Math</label>
+              <div class="col-sm-7">
+                <input type="number" placeholder="General Math" class="form-control" ng-model="eventData.shsLimits.GeneralMath" name="GeneralMath" ng-required="eventData.eventType == 'SHS INSET'">
+              </div>
+              <span class="required-field" ng-show="eventForm.GeneralMath.$error.required">*</span>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label" for="textinput">Statistics and Probability</label>
+              <div class="col-sm-7">
+                <input type="number" placeholder="Statistics and Probability" class="form-control" ng-model="eventData.shsLimits.StatisticsProbability" name="StatisticsProbability" ng-required="eventData.eventType == 'SHS INSET'">
+              </div>
+              <span class="required-field" ng-show="eventForm.StatisticsProbability.$error.required">*</span>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label" for="textinput">Media and Information Literacy</label>
+              <div class="col-sm-7">
+                <input type="number" placeholder="Media and Information Literacy" class="form-control" ng-model="eventData.shsLimits.MediaInformationLiteracy" name="MediaInformationLiteracy" ng-required="eventData.eventType == 'SHS INSET'">
+              </div>
+              <span class="required-field" ng-show="eventForm.MediaInformationLiteracy.$error.required">*</span>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label" for="textinput">Understanding Culture, Society, and Politics</label>
+              <div class="col-sm-7">
+                <input type="number" placeholder="Understanding Culture, Society, and Politics" class="form-control" ng-model="eventData.shsLimits.CutureSocietyPolitics" name="CutureSocietyPolitics" ng-required="eventData.eventType == 'SHS INSET'">
+              </div>
+              <span class="required-field" ng-show="eventForm.CutureSocietyPolitics.$error.required">*</span>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label" for="textinput">Personal Development</label>
+              <div class="col-sm-7">
+                <input type="number" placeholder="Personal Development" class="form-control" ng-model="eventData.shsLimits.PersonalDevelopment" name="PersonalDevelopment" ng-required="eventData.eventType == 'SHS INSET'">
+              </div>
+              <span class="required-field" ng-show="eventForm.PersonalDevelopment.$error.required">*</span>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label" for="textinput">Introduction to Philosophy of the Human Person</label>
+              <div class="col-sm-7">
+                <input type="number" placeholder="Introduction to Philosophy of the Human Person" class="form-control" ng-model="eventData.shsLimits.Philosophy"  name="Philosophy" ng-required="eventData.eventType == 'SHS INSET'">
+              </div>
+              <span class="required-field" ng-show="eventForm.Philosophy.$error.required">*</span>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label" for="textinput">Physical Education and Health</label>
+              <div class="col-sm-7">
+                <input type="number" placeholder="Physical Education and Health" class="form-control" ng-model="eventData.shsLimits.PhysicalEducation" name="PhysicalEducation" ng-required="eventData.eventType == 'SHS INSET'">
+              </div>
+              <span class="required-field" ng-show="eventForm.PhysicalEducation.$error.required">*</span>
+            </div>
+          </div>
+
+
           <div class="form-group">
             <label class="col-sm-4 control-label" for="textinput">Event Hours</label>
             <div class="col-sm-7">
