@@ -52,12 +52,14 @@
               </div>
             </div>
 
-            <div class="col-sm-6 form-group">
+            <div class="col-sm-12 form-group">
               <label>Event</label>
               <select class="form-control" ng-model="eventSearch" ng-options="d.name for d in eventList" ng-change="findEvent(eventSearch)" ng-disabled="!schoolInfo">
                 <option value="">Select Event</option>
               </select>
-
+            </div>
+            
+            <div class="col-sm-12 form-group">
               <div ng-show="eventData">
                 <h4>Event Details</h4>
                 <p>

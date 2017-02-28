@@ -23,7 +23,7 @@ angular.module('myApp.login', [])
       .then(function(res){
         delete(res.data.password);
         $window.sessionStorage["userInfo"] = JSON.stringify(res.data);
-        $location.path('profile');
+        $location.path('myregistration');
       })
       .catch(function(err){
         $scope.user = null;
