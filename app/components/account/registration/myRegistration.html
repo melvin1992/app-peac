@@ -36,7 +36,7 @@
 
           <div class="accordion-group" ng-repeat="reg in registrationList | offset:currentPage*itemsPerPage | limitTo:5" ng-show="registrationList.length != 0">
 
-            <button type="button" class="btn btn-sm btn-link" ng-click="showDetails(reg)" data-toggle="modal" data-target="#detailsModal"><b><i class="fa fa-print"/> Print Participants List</b></button>
+            <button type="button" class="btn btn-sm btn-link" ng-click="showDetails(reg)" data-toggle="modal" data-target="#detailsModal"><b><i class="fa fa-print"/> Print Registration Confirmation Slip / Print Participant List</b></button>
 
             <div class="accordion-heading">
               <a class="accordion-toggle"  data-toggle="collapse" data-parent="toggle" data-target="#{{reg._id}}" ng-class="reg.status=='declined' ? 'decline-status' : '' || reg.status=='paid' ? 'paid-status' : ''">
@@ -82,7 +82,7 @@
               <div class="accordion-inner">
 
                 <div class="table-participants">
-                  <button type="button" class="btn btn-sm btn-link pull-right" ng-click="showDetails(reg)" data-toggle="modal" data-target="#detailsModal"><i class="fa fa-print"/> Print Participants List</button>
+                  <button type="button" class="btn btn-sm btn-link pull-right" ng-click="showDetails(reg)" data-toggle="modal" data-target="#detailsModal"><i class="fa fa-print"/> Print Registration Confirmation Slip / Print Participant List</button>
                   <table class="table table-hover">
                     <thead>
                       <tr>
