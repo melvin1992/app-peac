@@ -74,7 +74,7 @@
                 </p>
               </div>
             </div>
-            
+
           </div>
 
         </div>
@@ -84,7 +84,7 @@
           <strong>Warning!</strong> Selected event is not within your school region.
         </div>
 
-        <form ng-submit="submitEventInformation()">
+        <form ng-submit="submitEventInformation()" ng-show="eventData">
 
         <h2>Participant Information</h2>
 
@@ -192,7 +192,9 @@
 
         <div class="pull-right">
           <button type="reset" class="btn btn-danger"><span class="fa fa-times"/> Reset</button>
-          <button type="submit" class="btn btn-primary"><span class="fa fa-check"/> Submit</button>
+          <button type="submit" class="btn btn-primary" ng-hide="disableP2 == true && disableP1 == true">
+            <span class="fa fa-check"/> Submit
+          </button>
         </div>
 
         </form>
