@@ -37,6 +37,8 @@ angular.module('myApp.shsOrientation', [])
     $scope.displayP2 = null;
     $scope.disableP2 = false;
     $scope.eventData = null;
+
+    $scope.disableSubmit == false;
   }
 
   function compareRegionCode(eventRegion, schoolRegion){
@@ -199,6 +201,8 @@ angular.module('myApp.shsOrientation', [])
   }
 
   $scope.submitEventInformation = function(){
+    $scope.disableSubmit == true;
+
     let schoolId = $scope.schoolInfo.schoolId;
     let eventId = $scope.eventData._id;
     let eventType = $scope.eventData.eventType;
