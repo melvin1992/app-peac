@@ -67,6 +67,7 @@
                        <td>{{trans.status}}</td>
                        <td>
                          <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#openModal" ng-click="showParticipants(trans)"><i class="fa fa-eye"/> Participants</button>
+                         <button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#deleteModal" ng-click="showNotif(trans._id)"><i class="fa fa-trash"/> Delete</button>
                        </td>
                      </tr>
                   </tbody>
@@ -90,6 +91,20 @@
 
 </div>
 <!-- /.container -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title"><i class="fa fa-warning"/> Are you sure you want to delete the record?</h3>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" ng-click="deleteTransaction(trans_id)"><i class="fa fa-check"/> YES</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"/> NO</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="modal fade" id="openModal" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-lg" role="document">

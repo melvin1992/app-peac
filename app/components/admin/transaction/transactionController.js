@@ -51,6 +51,21 @@ angular.module('myApp.adminTransaction', [])
     })
   }
 
+  $scope.showNotif = function(trans){
+    $scope.trans_id = trans;
+  }
+
+  $scope.deleteTransaction = function(id){
+    $http.delete('/api/transactions/'+id)
+    .then(function(res){
+      showTransactionList();
+    })
+    .catch(function(err){
+      $scope.err = err.data;
+    })
+    angular.element(document.querySelector('#deleteModal')).modal('hide');
+  }
+
   //Pagination
 
   $scope.itemsPerPage = 15;
