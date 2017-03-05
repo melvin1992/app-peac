@@ -191,6 +191,7 @@ angular.module('myApp.jhsInset', [])
       value.display = null;
       value.disabled = null;
       value.registrationCode = null;
+      value.limit = 0;
     })
   }
 
@@ -198,6 +199,16 @@ angular.module('myApp.jhsInset', [])
     createLearningArea();
     $scope.eventData = null;
     $scope.regionWarning = null;
+  }
+
+  function showSubjectLimits(event){
+    angular.forEach(event.jhsLimits, function(val,key){
+      angular.forEach($scope.learningArea, function(pval){
+        if(pval.code == key){
+          pval.limit = val;
+        }
+      })
+    })
   }
 
   $scope.searchSchool = function(id){
@@ -217,9 +228,8 @@ angular.module('myApp.jhsInset', [])
       let schoolId = $scope.schoolInfo.schoolId;
       getEventList('name='+eventName.name)
       .then(function(res){
-        let maxLimit = res[0].limits;
-        $scope.maxLimit = maxLimit;
         $scope.eventData = res[0];
+        showSubjectLimits(res[0]);
         compareRegionCode($scope.eventData.region, $scope.schoolInfo.region);
         showExistParticipants(userId, res[0]._id, schoolId);
       })
@@ -233,49 +243,79 @@ angular.module('myApp.jhsInset', [])
 
   $scope.learningArea = [
     {
-      "learningArea": 'Aral. Panlipunan (Regular: Grade 7 or 8)'
+      "learningArea": 'Aral. Panlipunan (Regular: Grade 7 or 8)',
+      "code": "AP_regular1",
+      "limit": 0
     },
     {
-      "learningArea": 'English (Regular: Grade 7 or 8)'
+      "learningArea": 'English (Regular: Grade 7 or 8)',
+      "code": "English_regular1",
+      "limit": 0
     },
     {
-      "learningArea": 'Filipino (Regular: Grade 7 or 8)'
+      "learningArea": 'Filipino (Regular: Grade 7 or 8)',
+      "code": "Filipino_regular1",
+      "limit": 0
     },
     {
-      "learningArea": 'Math (Regular: Grade 7 or 8)'
+      "learningArea": 'Math (Regular: Grade 7 or 8)',
+      "code": "Math_regular1",
+      "limit": 0
     },
     {
-      "learningArea": 'Science (Regular: Grade 7 or 8)'
+      "learningArea": 'Science (Regular: Grade 7 or 8)',
+      "code": "Science_regular1",
+      "limit": 0
     },
     {
-      "learningArea": 'Aral. Panlipunan (Regular: Grade 9 or 10)'
+      "learningArea": 'Aral. Panlipunan (Regular: Grade 9 or 10)',
+      "code": "AP_regular2",
+      "limit": 0
     },
     {
-      "learningArea": 'English (Regular: Grade 9 or 10)'
+      "learningArea": 'English (Regular: Grade 9 or 10)',
+      "code": "English_regular2",
+      "limit": 0
     },
     {
-      "learningArea": 'Filipino (Regular: Grade 9 or 10)'
+      "learningArea": 'Filipino (Regular: Grade 9 or 10)',
+      "code": "Filipino_regular2",
+      "limit": 0
     },
     {
-      "learningArea": 'Math (Regular: Grade 9 or 10)'
+      "learningArea": 'Math (Regular: Grade 9 or 10)',
+      "code": "Math_regular2",
+      "limit": 0
     },
     {
-      "learningArea": 'Science (Regular: Grade 9 or 10)'
+      "learningArea": 'Science (Regular: Grade 9 or 10)',
+      "code": "Science_regular2",
+      "limit": 0
     },
     {
-      "learningArea": 'Aral. Panlipunan (Advanced)'
+      "learningArea": 'Aral. Panlipunan (Advanced)',
+      "code": "AP_advanced",
+      "limit": 0
     },
     {
-      "learningArea": 'English (Advanced)'
+      "learningArea": 'English (Advanced)',
+      "code": "English_advanced",
+      "limit": 0
     },
     {
-      "learningArea": 'Filipino (Advanced)'
+      "learningArea": 'Filipino (Advanced)',
+      "code": "Filipino_advanced",
+      "limit": 0
     },
     {
-      "learningArea": 'Math (Advanced)'
+      "learningArea": 'Math (Advanced)',
+      "code": "Math_advanced",
+      "limit": 0
     },
     {
-      "learningArea": 'Science (Advanced)'
+      "learningArea": 'Science (Advanced)',
+      "code": "Science_advanced",
+      "limit": 0
     }
 
   ];
@@ -318,10 +358,15 @@ angular.module('myApp.jhsInset', [])
       totalAmount: participantCount * fee
     }
 
+    let payload = {
+      data: $scope.selectedData,
+      transaction: transaction
+    };
+
     updateAccountInfo()
     .then(function(res){
 
-      $http.post('/api/transactions', transaction)
+      $http.post('/api/transactions', payload)
       .then(function(res){
         let transId = res.data._id;
         angular.forEach($scope.selectedData, function(value,key){

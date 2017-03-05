@@ -50,12 +50,15 @@
                 </p>
               </div>
             </div>
-            <div class="col-sm-6 form-group">
+
+            <div class="col-sm-12 form-group">
               <label>Event</label>
               <select class="form-control" ng-model="eventSearch" ng-options="d.name for d in eventList" ng-change="findEvent(eventSearch)" ng-disabled="!schoolInfo">
                 <option value="">Select Event</option>
               </select>
+            </div>
 
+            <div class="col-sm-12 form-group">
               <div ng-show="eventData">
                 <h4>Event Details</h4>
                 <p>
@@ -67,6 +70,9 @@
                 </p>
               </div>
             </div>
+
+
+
           </div>
         </div>
 
@@ -75,18 +81,15 @@
           <strong>Warning!</strong> Selected event is not within your school region.
         </div>
 
-        <form>
+        <form ng-show="eventData">
 
         <h2>Participant Information</h2>
-        
-        <div ng-show="maxLimit">
-          <p><b>Available Slots: {{maxLimit}}</b></p>
-        </div>
 
         <div class="panel" ng-class-even="'panel-default'" ng-class-odd="'panel-primary'" ng-repeat="area in learningArea">
           <div class="panel-heading">
-            <input type="checkbox" ng-click="showPanel(area.show, area.learningArea)" ng-model="area.show"/>
+            <input type="checkbox" ng-click="showPanel(area.show, area.learningArea)" ng-model="area.show" ng-disabled="area.disabled"/>
             <strong>Learning Area: <u>{{area.learningArea}}</u></strong>
+            <div class="pull-right small bold-text">Limits: {{area.limit}}</div>
           </div>
           <div class="panel-body" ng-show="area.display">
 

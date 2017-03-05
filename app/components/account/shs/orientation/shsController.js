@@ -220,6 +220,8 @@ angular.module('myApp.shsOrientation', [])
       totalAmount: participantCount * fee
     }
 
+    console.log(transaction);
+
     let participants = [];
     if($scope.displayP1 != null){
       $scope.p1.designation = "Schoolhead";
@@ -229,8 +231,6 @@ angular.module('myApp.shsOrientation', [])
       $scope.p2.designation = "IT Person";
       participants.push($scope.p2);
     }
-
-    let submitCount = 0;
 
     updateAccountInfo()
     .then(function(res){
@@ -292,8 +292,5 @@ angular.module('myApp.shsOrientation', [])
       participantCount--;
     }
   }
-
-
-
 
 });

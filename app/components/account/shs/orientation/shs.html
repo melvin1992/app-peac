@@ -84,14 +84,14 @@
 
         <h2>Participant Information</h2> <br/>
         <div class="school-note">*Please register as a group, not individually.</div>
-        
+
         <div ng-show="maxLimit">
           <p><b>Available Slots: {{maxLimit}}</b></p>
         </div>
 
         <div class="panel panel-default">
           <div class="panel-heading">
-            <input type="checkbox" ng-model="showP1" ng-change="addP1(showP1)"/>
+            <input type="checkbox" ng-model="showP1" ng-change="addP1(showP1)" ng-disabled="disableP1"/>
             <strong>Designation: <u>Schoolhead</u></strong>
           </div>
           <div class="panel-body" ng-show="displayP1">
@@ -140,7 +140,7 @@
 
         <div class="panel panel-default">
           <div class="panel-heading">
-            <input type="checkbox" ng-model="showP2" ng-change="addP2(showP2)"/>
+            <input type="checkbox" ng-model="showP2" ng-change="addP2(showP2)" ng-disabled="disableP2"/>
             <strong>Designation: <u>IT Point Person</u></strong>
           </div>
           <div class="panel-body" ng-show="displayP2">
@@ -187,9 +187,9 @@
         </div>
 
 
-        <div class="pull-right">
+        <div class="pull-right" ng-show="showP1 || showP2">
           <button type="reset" class="btn btn-danger"><span class="fa fa-times"/> Reset</button>
-          <button type="submit" class="btn btn-primary" ng-hide="disableP2 == true && disableP1 == true || disableSubmit == true">
+          <button type="submit" class="btn btn-primary" ng-hide="disableP2 && disableP1">
             <span class="fa fa-check"/> Submit
           </button>
         </div>

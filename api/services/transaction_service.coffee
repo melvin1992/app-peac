@@ -5,16 +5,28 @@ TransactionService =
   create: (params) ->
     deferred = Promise.defer()
 
-    transaction = new Transactions params
+    trans = params.transaction
+
+    transaction = new Transactions trans
     transaction.save()
     .then (tranRes) ->
-      eventId = params.eventID
-      count = params.participantsCount
+
+      eventId = params.transaction.eventID
+
+      if(trans.eventType == 'SHS INSET' || trans.eventType == 'JHS INSET')
+        count = {}
+        params.data.forEach (value) ->
+          subject = value.code
+          count[subject] = 1
+      else
+        count = params.participantsCount
+
       EventService.deductParticipants eventId, count
       .then (res) ->
         deferred.resolve tranRes
       .catch (err) ->
         deferred.reject err
+
     .catch (err) ->
       deferred.reject err
 

@@ -111,6 +111,7 @@ angular.module('myApp.shsInset', [])
       value.display = null;
       value.disabled = null;
       value.registrationCode = null;
+      value.limit = 0;
     })
   }
 
@@ -166,8 +167,8 @@ angular.module('myApp.shsInset', [])
     }
   }
 
-  function showExistParticipants(userId, eventId, schoolId){
-    let participantUrl = '/api/participants?userID='+userId+'&eventID='+eventId+'&schoolID='+schoolId;
+  function showExistParticipants(userId, event, schoolId){
+    let participantUrl = '/api/participants?userID='+userId+'&eventID='+event._id+'&schoolID='+schoolId;
     $http.get(participantUrl)
     .then(function(res){
 
@@ -202,42 +203,76 @@ angular.module('myApp.shsInset', [])
     })
   }
 
+  function showSubjectLimits(event){
+    angular.forEach(event.shsLimits, function(val,key){
+      angular.forEach($scope.learningArea, function(pval){
+        if(pval.code == key){
+          pval.limit = val;
+        }
+      })
+    })
+  }
+
   $scope.learningArea = [
     {
-      "learningArea": 'English'
+      "learningArea": 'English',
+      "code": 'English',
+      "limit": 0
     },
     {
-      "learningArea": 'Filipino'
+      "learningArea": 'Filipino',
+      "code": 'Filipino',
+      "limit": 0
     },
     {
-      "learningArea": 'Earth and Life Science'
+      "learningArea": 'Earth and Life Science',
+      "code": 'EarthLifeScience',
+      "limit": 0
     },
     {
-      "learningArea": 'Physical Science'
+      "learningArea": 'Physical Science',
+      "code": 'PhysicalScience',
+      "limit": 0
     },
     {
-      "learningArea": 'Humanities'
+      "learningArea": 'Humanities',
+      "code": 'Humanities',
+      "limit": 0
     },
     {
-      "learningArea": 'General Math'
+      "learningArea": 'General Math',
+      "code": 'GeneralMath',
+      "limit": 0
     },
     {
-      "learningArea": 'Statistics and Probability'
+      "learningArea": 'Statistics and Probability',
+      "code": 'StatisticsProbability',
+      "limit": 0
     },
     {
-      "learningArea": 'Media and Information Literacy'
+      "learningArea": 'Media and Information Literacy',
+      "code": 'MediaInformationLiteracy',
+      "limit": 0
     },
     {
-      "learningArea": 'Understanding Culture, Society, and Politics'
+      "learningArea": 'Understanding Culture, Society, and Politics',
+      "code": 'CutureSocietyPolitics',
+      "limit": 0
     },
     {
-      "learningArea": 'Personal Development'
+      "learningArea": 'Personal Development',
+      "code": 'PersonalDevelopment',
+      "limit": 0
     },
     {
-      "learningArea": 'Introduction to Philosophy of the Human Person'
+      "learningArea": 'Introduction to Philosophy of the Human Person',
+      "code": 'Philosophy',
+      "limit": 0
     },
     {
-      "learningArea": 'Physical Education and Health'
+      "learningArea": 'Physical Education and Health',
+      "code": 'PhysicalEducation',
+      "limit": 0
     }
   ];
 
@@ -267,11 +302,10 @@ angular.module('myApp.shsInset', [])
       let schoolId = $scope.schoolInfo.schoolId;
       getEventList('name='+eventName.name)
       .then(function(res){
-        let maxLimit = res[0].limits;
-        $scope.maxLimit = maxLimit;
         $scope.eventData = res[0];
+        showSubjectLimits(res[0]);
         compareRegionCode($scope.eventData.region, $scope.schoolInfo.region);
-        showExistParticipants(userId, res[0]._id, schoolId);
+        showExistParticipants(userId, res[0], schoolId);
       })
       .catch(function(err){
         $scope.err = err.data;
@@ -308,12 +342,17 @@ angular.module('myApp.shsInset', [])
       registrationCode: regCode,
       participantsCount: participantCount,
       totalAmount: participantCount * fee
-    }
+    };
+
+    let payload = {
+      data: $scope.selectedData,
+      transaction: transaction
+    };
 
     updateAccountInfo()
     .then(function(res){
 
-      $http.post('/api/transactions', transaction)
+      $http.post('/api/transactions', payload)
       .then(function(res){
         let transId = res.data._id;
         angular.forEach($scope.selectedData, function(value,key){

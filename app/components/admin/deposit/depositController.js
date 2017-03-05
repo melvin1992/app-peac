@@ -108,6 +108,21 @@ angular.module('myApp.adminDeposit', [])
 
   $scope.showDetails = function(payment){
     $scope.details = payment;
+
+    $scope.users = [];
+    let code = payment.registrationCodes.toString();
+    let regCode = code.split(",");
+    angular.forEach(regCode,function(val){
+      $http.get('/api/participants?registrationCode='+val)
+      .then(function(res){
+        angular.forEach(res.data,function(user){
+          $scope.users.push(user);
+        })
+      })
+      .catch(function(err){
+        $scope.err = err.data;
+      })
+    })
   }
 
   $scope.approveDeposit = function(data){
