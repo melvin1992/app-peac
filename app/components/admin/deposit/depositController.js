@@ -116,6 +116,30 @@ angular.module('myApp.adminDeposit', [])
       $http.get('/api/participants?registrationCode='+val)
       .then(function(res){
         angular.forEach(res.data,function(user){
+          //get event name
+          $http.get('/api/events/'+user.eventID)
+          .then(function(event){
+            user.eventName = event.data.name;
+          })
+          .catch(function(err){
+            $scope.err = err.data
+          })
+
+          //get schoolname
+          let school = "";
+          if(user.eventType == 'JHS Orientation' || user.eventType == 'JHS INSET'){
+            school = "jhs";
+          }else{
+            school = "shs";
+          }
+          $http.get('/api/'+school+'?schoolId='+user.schoolID)
+          .then(function(sch){
+            user.schoolName = sch.data[0].name;
+          })
+          .catch(function(err){
+            $scope.err = err.data;
+          })
+
           $scope.users.push(user);
         })
       })
