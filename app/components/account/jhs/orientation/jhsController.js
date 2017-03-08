@@ -37,7 +37,7 @@ angular.module('myApp.jhsOrientation', [])
     $scope.displayP2 = null;
     $scope.disableP2 = false;
     $scope.eventData = null;
-    
+
     $scope.disableSubmit == false;
   }
 
@@ -182,13 +182,13 @@ angular.module('myApp.jhsOrientation', [])
     clearData();
     if(eventName){
       let schoolId = $scope.schoolInfo.schoolId;
-      getEventList('name='+eventName.name)
+      $http.get('/api/events/'+eventName)
       .then(function(res){
-        let maxLimit = res[0].limits;
+        let maxLimit = res.data.limits;
         $scope.maxLimit = maxLimit;
-        $scope.eventData = res[0];
+        $scope.eventData = res.data;
         compareRegionCode($scope.eventData.region, $scope.schoolInfo.region);
-        showExistParticipants(userId, res[0]._id, schoolId);
+        showExistParticipants(userId, res.data._id, schoolId);
       })
       .catch(function(err){
         $scope.err = err.data;
