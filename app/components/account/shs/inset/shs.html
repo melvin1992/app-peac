@@ -53,7 +53,7 @@
 
             <div class="col-sm-12 form-group">
               <label>Event</label>
-              <select class="form-control" ng-model="eventSearch" ng-options="d.name for d in eventList" ng-change="findEvent(eventSearch)" ng-disabled="!schoolInfo">
+              <select class="form-control" ng-model="eventSearch" ng-options="d._id as d.name for d in eventList" ng-change="findEvent(eventSearch)" ng-disabled="!schoolInfo">
                 <option value="">Select Event</option>
               </select>
             </div>

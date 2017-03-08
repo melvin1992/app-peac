@@ -226,12 +226,12 @@ angular.module('myApp.jhsInset', [])
     $scope.success = null;
     if(eventName){
       let schoolId = $scope.schoolInfo.schoolId;
-      getEventList('name='+eventName.name)
+      $http.get('/api/events/'+eventName)
       .then(function(res){
-        $scope.eventData = res[0];
-        showSubjectLimits(res[0]);
+        $scope.eventData = res.data;
+        showSubjectLimits(res.data);
         compareRegionCode($scope.eventData.region, $scope.schoolInfo.region);
-        showExistParticipants(userId, res[0]._id, schoolId);
+        showExistParticipants(userId, res.data._id, schoolId);
       })
       .catch(function(err){
         $scope.err = err.data;
