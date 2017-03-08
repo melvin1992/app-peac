@@ -58,7 +58,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                     <tr ng-repeat="school in schools | offset:currentPage*itemsPerPage | limitTo:15 | filter:search">
+                     <tr ng-repeat="school in schools | offset:currentPage*itemsPerPage | limitTo:itemsPerPage | filter:search">
                        <td>{{school.schoolId}}</td>
                        <td>{{school.name}}</td>
                        <td>{{school.principal}}</td>

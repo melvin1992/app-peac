@@ -139,7 +139,7 @@ angular.module('myApp.adminDeposit', [])
           .catch(function(err){
             $scope.err = err.data;
           })
-
+          console.log(user);
           $scope.users.push(user);
         })
       })
@@ -186,6 +186,25 @@ angular.module('myApp.adminDeposit', [])
     })
     angular.element(document.querySelector('#openModal')).modal('hide');
     showPaymentList();
+  }
+
+  $scope.editDeposit = function(data){
+    $scope.paymentData = data;
+  }
+
+  $scope.savePaymentData = function(data){
+    let payload = {
+      "depositReferenceNo": data.depositReferenceNo
+    };
+
+    $http.put('/api/deposits/'+data._id, payload)
+    .then(function(res){
+      $scope.success = "Reference Number has been updated!";
+    })
+    .catch(function(err){
+      $scope.err = err.data;
+    })
+    angular.element(document.querySelector('#editModal')).modal('hide');
   }
 
   //Pagination

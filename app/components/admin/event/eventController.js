@@ -219,4 +219,19 @@ angular.module('myApp.adminEvent', [])
     }
   }
 
+  $scope.showEventPerType = function(eventType, year){
+    if(eventType != ""){
+      $http.get('/api/events?eventYear='+year+'&eventType='+eventType)
+      .then(function(res){
+        $scope.eventList = res.data;
+      })
+      .catch(function(err){
+        $scope.error = err.data;
+      })
+    }else{
+      $scope.showEventPerYear(year);
+    }
+
+  }
+
 });

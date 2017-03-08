@@ -14,6 +14,7 @@ angular.module('myApp.register', [])
         return $scope.err = "Email didn't match.";
       }else{
 
+        account.email = account.email.replace(/ /g, '');
         $http.post('/api/accounts', account)
         .then(function(res){
           $scope.err = null;

@@ -42,6 +42,19 @@
             <div class="col-sm-6">
               <button type="button" class="btn btn-sm btn-primary pull-right" data-toggle="modal" data-target="#openModal" ng-click="clearEventData()"><i class="fa fa-plus"/> Add Event</button>
             </div>
+
+            <div class="col-sm-6">
+              <div class="row">
+                Filter by Event Type:
+                <select ng-model="searchEventType" ng-change="showEventPerType(searchEventType, activeYear)">
+                  <option value="">All Events</option>
+                  <option value="JHS Orientation">JHS Orientation</option>
+                  <option value="JHS INSET">JHS INSET</option>
+                  <option value="SHS Orientation">SHS Orientation</option>
+                  <option value="SHS INSET">SHS INSET</option>
+                </select>
+              </div>
+            </div>
           </div>
 
           <div class="row">

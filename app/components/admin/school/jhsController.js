@@ -42,7 +42,6 @@ angular.module('myApp.adminJHS', [])
 
 
   //Pagination
-
   $scope.itemsPerPage = 15;
   $scope.currentPage = 0;
 
@@ -74,7 +73,7 @@ angular.module('myApp.adminJHS', [])
 
   $scope.pageCount = function() {
     if($scope.schools){
-      return Math.ceil($scope.schools.length/$scope.itemsPerPage)-1;  
+      return Math.ceil($scope.schools.length/$scope.itemsPerPage)-1;
     }
   };
 
