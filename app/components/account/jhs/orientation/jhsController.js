@@ -218,6 +218,10 @@ angular.module('myApp.jhsOrientation', [])
       totalAmount: participantCount * fee
     }
 
+    let payload = {
+      transaction: transaction
+    };
+
     let participants = [];
     if($scope.displayP1 != null){
       $scope.p1.designation = "Schoolhead";
@@ -230,8 +234,7 @@ angular.module('myApp.jhsOrientation', [])
 
     updateAccountInfo()
     .then(function(res){
-
-      $http.post('/api/transactions', transaction)
+      $http.post('/api/transactions', payload)
       .then(function(res){
         let transId = res.data._id;
 

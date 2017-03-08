@@ -11,7 +11,7 @@ TransactionService =
     transaction.save()
     .then (tranRes) ->
 
-      eventId = params.transaction.eventID
+      eventId = trans.eventID
 
       if(trans.eventType == 'SHS INSET' || trans.eventType == 'JHS INSET')
         count = {}
@@ -19,7 +19,7 @@ TransactionService =
           subject = value.code
           count[subject] = 1
       else
-        count = params.participantsCount
+        count = trans.participantsCount
 
       EventService.deductParticipants eventId, count
       .then (res) ->

@@ -220,7 +220,9 @@ angular.module('myApp.shsOrientation', [])
       totalAmount: participantCount * fee
     }
 
-    console.log(transaction);
+    let payload = {
+      transaction: transaction
+    };
 
     let participants = [];
     if($scope.displayP1 != null){
@@ -235,7 +237,7 @@ angular.module('myApp.shsOrientation', [])
     updateAccountInfo()
     .then(function(res){
 
-      $http.post('/api/transactions', transaction)
+      $http.post('/api/transactions', payload)
       .then(function(res){
         let transId = res.data._id;
 
