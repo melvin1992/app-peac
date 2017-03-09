@@ -234,6 +234,8 @@ angular.module('myApp.jhsOrientation', [])
 
     updateAccountInfo()
     .then(function(res){
+      $window.sessionStorage["userInfo"] = JSON.stringify(res.data);
+
       $http.post('/api/transactions', payload)
       .then(function(res){
         let transId = res.data._id;

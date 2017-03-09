@@ -236,6 +236,7 @@ angular.module('myApp.shsOrientation', [])
 
     updateAccountInfo()
     .then(function(res){
+      $window.sessionStorage["userInfo"] = JSON.stringify(res.data);
 
       $http.post('/api/transactions', payload)
       .then(function(res){
