@@ -15,11 +15,11 @@ angular.module('myApp.adminDeposit', [])
   if($window.sessionStorage["adminInfo"] == null){
     $location.path('loginasadmin');
   }else{
-    showPaymentList();
+    showPaymentList('');
   }
 
-  function showPaymentList(){
-    getPaymentList()
+  function showPaymentList(query){
+    getPaymentList(query)
     .then(function(res){
       let data = [];
       angular.forEach(res,function(val,key){
@@ -50,9 +50,9 @@ angular.module('myApp.adminDeposit', [])
     })
   }
 
-  function getPaymentList(){
+  function getPaymentList(query){
     let deferred = $q.defer();
-    $http.get('/api/deposits')
+    $http.get('/api/deposits?'+query)
     .then(function(res){
       deferred.resolve(res.data);
     })
@@ -167,7 +167,7 @@ angular.module('myApp.adminDeposit', [])
       $scope.err = err.data;
     })
     angular.element(document.querySelector('#openModal')).modal('hide');
-    showPaymentList();
+    showPaymentList('');
   }
 
   $scope.declineDeposit = function(data){
@@ -185,7 +185,7 @@ angular.module('myApp.adminDeposit', [])
       $scope.err = err.data;
     })
     angular.element(document.querySelector('#openModal')).modal('hide');
-    showPaymentList();
+    showPaymentList('');
   }
 
   $scope.editDeposit = function(data){
@@ -205,6 +205,14 @@ angular.module('myApp.adminDeposit', [])
       $scope.err = err.data;
     })
     angular.element(document.querySelector('#editModal')).modal('hide');
+  }
+
+  $scope.searchData = function(data){
+    let query = ''
+    if(data != ""){
+      query = 'depositReferenceNo='+data;
+    }
+    showPaymentList(query);
   }
 
   //Pagination

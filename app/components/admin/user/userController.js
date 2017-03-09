@@ -15,11 +15,11 @@ angular.module('myApp.adminUser', [])
   if($window.sessionStorage["adminInfo"] == null){
     $location.path('loginasadmin');
   }else{
-    showUserList();
+    showUserList('');
   }
 
-  function showUserList(){
-    getUserList()
+  function showUserList(query){
+    getUserList(query)
     .then(function(res){
       $scope.users= res;
     })
@@ -28,9 +28,9 @@ angular.module('myApp.adminUser', [])
     })
   }
 
-  function getUserList(){
+  function getUserList(query){
     let deferred = $q.defer();
-    $http.get('/api/accounts')
+    $http.get('/api/accounts?'+query)
     .then(function(res){
       deferred.resolve(res.data);
     })
@@ -47,7 +47,7 @@ angular.module('myApp.adminUser', [])
   $scope.deleteUser = function(id){
     $http.delete('/api/accounts/'+id)
     .then(function(res){
-      showUserList();
+      showUserList('');
     })
     .catch(function(err){
       $scope.err = err.data;
@@ -82,12 +82,35 @@ angular.module('myApp.adminUser', [])
     }else{
       $http.post('/api/accounts', user)
       .then(function(res){
-        showUserList();
+        showUserList('');
         $scope.userSuccess = "New user has been added.";
       })
       .catch(function(err){
         $scope.userErr = err.data;
       })
+    }
+  }
+
+  $scope.searchListType = [
+    {
+      "name":"SHS School ID",
+      "query": "shsSchool.schoolID"
+    },
+    {
+      "name":"JHS School ID",
+      "query": "jhsSchool.schoolID"
+    },
+    {
+      "name":"Username",
+      "query":"username"
+    }
+  ];
+
+  $scope.searchData = function(data, type){
+    if(type){
+      showUserList(type+'='+data);
+    }else{
+      showUserList('');
     }
   }
 

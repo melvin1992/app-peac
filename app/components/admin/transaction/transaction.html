@@ -29,9 +29,17 @@
 
           <div class="row ten-margin">
             <div class="col-sm-6">
+              Search By:
+              <select ng-model="searchType" ng-options="type for type in searchListType">
+                <option value="">Show All</option>
+              </select>
+              <br/>
+              <br/>
               <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-search"/> Search</span>
                 <input type="text" class="form-control" ng-model="search">
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-primary" ng-click="searchData(search, searchType)"><i class="fa fa-search"/> Search</button>
+                </span>
               </div>
             </div>
           </div>
@@ -58,7 +66,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                     <tr ng-repeat="trans in transactions | offset:currentPage*itemsPerPage | limitTo:15 | filter:search | orderBy:date">
+                     <tr ng-repeat="trans in transactions | offset:currentPage*itemsPerPage | limitTo:15 | orderBy:date">
                        <td>{{trans.schoolID}}</td>
                        <td>{{trans.registrationCode}}</td>
                        <td>{{trans.participantsCount}}</td>

@@ -29,11 +29,20 @@
 
           <div class="row ten-margin">
             <div class="col-sm-6">
+              Search By:
+              <select ng-model="searchType" ng-options="type.query as type.name for type in searchListType">
+                <option value="">Show All</option>
+              </select>
+              <br/>
+              <br/>
               <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-search"/> Search</span>
                 <input type="text" class="form-control" ng-model="search">
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-primary" ng-click="searchData(search, searchType)"><i class="fa fa-search"/> Search</button>
+                </span>
               </div>
             </div>
+
             <div class="col-sm-6">
               <button type="button" class="btn btn-sm btn-primary pull-right" data-toggle="modal" data-target="#openModal" ng-click="addUser()"><i class="fa fa-plus"/> Add User</button>
             </div>
@@ -59,7 +68,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                     <tr ng-repeat="user in users | offset:currentPage*itemsPerPage | limitTo:15 | filter:search">
+                     <tr ng-repeat="user in users | offset:currentPage*itemsPerPage | limitTo:15">
                        <td>{{user.username}}</td>
                        <td>{{user.lastName}}, {{user.firstName}}, {{user.middleName}}</td>
                        <td>{{user.contactNo}}</td>

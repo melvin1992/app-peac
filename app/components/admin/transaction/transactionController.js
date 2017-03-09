@@ -15,11 +15,11 @@ angular.module('myApp.adminTransaction', [])
   if($window.sessionStorage["adminInfo"] == null){
     $location.path('loginasadmin');
   }else{
-    showTransactionList();
+    showTransactionList('');
   }
 
-  function showTransactionList(){
-    getTransactionList()
+  function showTransactionList(query){
+    getTransactionList(query)
     .then(function(res){
       $scope.transactions = res;
     })
@@ -28,9 +28,9 @@ angular.module('myApp.adminTransaction', [])
     })
   }
 
-  function getTransactionList(){
+  function getTransactionList(query){
     let deferred = $q.defer();
-    $http.get('/api/transactions')
+    $http.get('/api/transactions?'+query)
     .then(function(res){
       deferred.resolve(res.data);
     })
@@ -58,12 +58,22 @@ angular.module('myApp.adminTransaction', [])
   $scope.deleteTransaction = function(id){
     $http.delete('/api/transactions/'+id)
     .then(function(res){
-      showTransactionList();
+      showTransactionList('');
     })
     .catch(function(err){
       $scope.err = err.data;
     })
     angular.element(document.querySelector('#deleteModal')).modal('hide');
+  }
+
+  $scope.searchListType = ["schoolID","registrationCode"];
+
+  $scope.searchData = function(data, type){
+    if(type){
+      showTransactionList(type+'='+data);
+    }else{
+      showTransactionList('');
+    }
   }
 
   //Pagination
