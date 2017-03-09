@@ -70,7 +70,11 @@ angular.module('myApp.adminTransaction', [])
 
   $scope.searchData = function(data, type){
     if(type){
-      showTransactionList(type+'='+data);
+      if(data == ''){
+        showTransactionList('');
+      }else{
+        showTransactionList(type+'='+data);
+      }
     }else{
       showTransactionList('');
     }

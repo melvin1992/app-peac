@@ -108,7 +108,11 @@ angular.module('myApp.adminUser', [])
 
   $scope.searchData = function(data, type){
     if(type){
-      showUserList(type+'='+data);
+      if(data){
+        showUserList(type+'='+data);
+      }else{
+        showUserList('');
+      }
     }else{
       showUserList('');
     }

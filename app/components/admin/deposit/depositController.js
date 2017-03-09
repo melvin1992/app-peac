@@ -209,7 +209,7 @@ angular.module('myApp.adminDeposit', [])
 
   $scope.searchData = function(data){
     let query = ''
-    if(data != ""){
+    if(data){
       query = 'depositReferenceNo='+data;
     }
     showPaymentList(query);
