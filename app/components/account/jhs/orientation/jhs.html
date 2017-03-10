@@ -193,7 +193,7 @@
 
         <div class="pull-right" ng-show="showP1 || showP2">
           <button type="reset" class="btn btn-danger"><span class="fa fa-times"/> Reset</button>
-          <button type="submit" class="btn btn-primary" ng-hide="disableSubmit || (disableP1 && disableP2)">
+          <button type="submit" class="btn btn-primary" ng-hide="disableP1 && disableP2" ng-disabled="disableSubmit">
             <span class="fa fa-check"/> Submit
           </button>
         </div>
