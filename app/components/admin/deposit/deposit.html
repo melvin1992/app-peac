@@ -67,7 +67,7 @@
                        </td>
                        <td>{{payment.regCodes}}</td>
                        <td>{{payment.date | date}}</td>
-                       <td>{{payment.totalAmount | currency}}</td>
+                       <td>{{payment.totalAmount | currency:"Php "}}</td>
                        <td>{{payment.status}}</td>
                        <td ng-show="payment.status == 'pending'">
                          <button type="button" class="btn btn-xs btn-success" ng-click="approveDeposit(payment)"><i class="fa fa-check"/> Approve</button>
@@ -109,7 +109,7 @@
           <div class="col-sm-12">
             <strong>Deposit Reference No.: </strong>{{details.depositReferenceNo}}<br/>
             <strong>Registration Codes: </strong>{{details.regCodes}}<br/>
-            <strong>Total Amount: </strong>{{details.totalAmount | currency}}<br/>
+            <strong>Total Amount: </strong>{{details.totalAmount | currency:"Php "}}<br/>
           </div>
           <div class="col-sm-12">
             <h3>Participants</h3>

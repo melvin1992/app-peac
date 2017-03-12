@@ -139,7 +139,6 @@ angular.module('myApp.adminDeposit', [])
           .catch(function(err){
             $scope.err = err.data;
           })
-          console.log(user);
           $scope.users.push(user);
         })
       })
