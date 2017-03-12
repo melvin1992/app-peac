@@ -215,6 +215,10 @@ angular.module('myApp.adminDeposit', [])
     showPaymentList(query);
   }
 
+  $scope.printDetails = function(){
+    window.print();
+  }
+
   //Pagination
 
   $scope.itemsPerPage = 15;

@@ -40,6 +40,16 @@ angular.module('myApp.adminTransaction', [])
     return deferred.promise;
   }
 
+  function addParticipants(params){
+    $http.post('/api/events/addparticipants', params)
+    .then(function(res){
+      console.log('Limits updated');
+    })
+    .catch(function(err){
+      $scope.err = err.data;
+    })
+  }
+
   $scope.showParticipants = function(data){
     let transId = data._id;
     $http.get('/api/participants?transactionID='+transId)
@@ -55,10 +65,148 @@ angular.module('myApp.adminTransaction', [])
     $scope.trans_id = trans;
   }
 
+  let learningArea = [
+    {
+      "learningArea": 'Aral. Panlipunan (Regular: Grade 7 or 8)',
+      "code": "AP_regular1"
+    },
+    {
+      "learningArea": 'English (Regular: Grade 7 or 8)',
+      "code": "English_regular1"
+    },
+    {
+      "learningArea": 'Filipino (Regular: Grade 7 or 8)',
+      "code": "Filipino_regular1"
+    },
+    {
+      "learningArea": 'Math (Regular: Grade 7 or 8)',
+      "code": "Math_regular1"
+    },
+    {
+      "learningArea": 'Science (Regular: Grade 7 or 8)',
+      "code": "Science_regular1"
+    },
+    {
+      "learningArea": 'Aral. Panlipunan (Regular: Grade 9 or 10)',
+      "code": "AP_regular2"
+    },
+    {
+      "learningArea": 'English (Regular: Grade 9 or 10)',
+      "code": "English_regular2"
+    },
+    {
+      "learningArea": 'Filipino (Regular: Grade 9 or 10)',
+      "code": "Filipino_regular2"
+    },
+    {
+      "learningArea": 'Math (Regular: Grade 9 or 10)',
+      "code": "Math_regular2"
+    },
+    {
+      "learningArea": 'Science (Regular: Grade 9 or 10)',
+      "code": "Science_regular2"
+    },
+    {
+      "learningArea": 'Aral. Panlipunan (Advanced)',
+      "code": "AP_advanced"
+    },
+    {
+      "learningArea": 'English (Advanced)',
+      "code": "English_advanced"
+    },
+    {
+      "learningArea": 'Filipino (Advanced)',
+      "code": "Filipino_advanced"
+    },
+    {
+      "learningArea": 'Math (Advanced)',
+      "code": "Math_advanced"
+    },
+    {
+      "learningArea": 'Science (Advanced)',
+      "code": "Science_advanced"
+    },
+    {
+      "learningArea": 'English',
+      "code": 'English'
+    },
+    {
+      "learningArea": 'Filipino',
+      "code": 'Filipino'
+    },
+    {
+      "learningArea": 'Earth and Life Science',
+      "code": 'EarthLifeScience'
+    },
+    {
+      "learningArea": 'Physical Science',
+      "code": 'PhysicalScience'
+    },
+    {
+      "learningArea": 'Humanities',
+      "code": 'Humanities'
+    },
+    {
+      "learningArea": 'General Math',
+      "code": 'GeneralMath'
+    },
+    {
+      "learningArea": 'Statistics and Probability',
+      "code": 'StatisticsProbability'
+    },
+    {
+      "learningArea": 'Media and Information Literacy',
+      "code": 'MediaInformationLiteracy'
+    },
+    {
+      "learningArea": 'Understanding Culture, Society, and Politics',
+      "code": 'CutureSocietyPolitics'
+    },
+    {
+      "learningArea": 'Personal Development',
+      "code": 'PersonalDevelopment'
+    },
+    {
+      "learningArea": 'Introduction to Philosophy of the Human Person',
+      "code": 'Philosophy'
+    },
+    {
+      "learningArea": 'Physical Education and Health',
+      "code": 'PhysicalEducation'
+    }
+  ];
+
   $scope.deleteTransaction = function(id){
+    let data = {};
+
     $http.delete('/api/transactions/'+id)
     .then(function(res){
-      showTransactionList('');
+      let params = res.data
+      data.eventId = params.eventID
+      data.count = {};
+      $http.get('/api/participants?registrationCode='+params.registrationCode)
+      .then(function(users){
+        angular.forEach(users.data, function(val){
+          if(params.eventType == 'JHS INSET' || params.eventType == 'SHS INSET'){
+            angular.forEach(learningArea, function(subj){
+              if(subj.learningArea == val.learningArea){
+                data.count[subj.code] =+ 1;
+              }
+            })
+          }else{
+            data.count = params.participantsCount;
+          }
+          $http.delete('/api/participants/'+val._id)
+          .catch(function(err){
+            $scope.err = err.data;
+          })
+        })
+        addParticipants(data);
+        showTransactionList('');
+      })
+      .catch(function(err){
+        $scope.err = err.data;
+      })
     })
     .catch(function(err){
       $scope.err = err.data;

@@ -18,6 +18,16 @@ EventController.route '/'
     .catch (err) ->
       response.status(400).json err
 
+EventController.route '/addparticipants'
+  .post (req, response) ->
+    id = req.body.eventId
+    params = req.body.count
+    EventService.addParticipants id, params
+    .then (res) ->
+      response.status(200).json res
+    .catch (err) ->
+      response.status(400).json err
+
 EventController.route '/:id'
   .get (req, response) ->
     id = req.params.id
@@ -43,5 +53,7 @@ EventController.route '/:id'
       response.status(200).json res
     .catch (err) ->
       response.status(400).json err
-      
+
+
+
 module.exports = EventController

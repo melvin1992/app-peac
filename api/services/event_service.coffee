@@ -101,4 +101,44 @@ EventService =
 
     deferred.promise
 
+  addParticipants: (eventId, count) ->
+    deferred = Promise.defer()
+
+    query = _id: eventId
+
+    Events.findOne query
+    .then (res) =>
+
+      data = {}
+
+      if res.eventType == 'SHS INSET'
+        shs = {}
+        subjects = res.shsLimits
+        counts = _.map(count, (val,key) ->
+          subjects[key] = subjects[key] + val
+        )
+        data.shsLimits = subjects
+      else if res.eventType == 'JHS INSET'
+        jhs = {}
+        subjects = res.jhsLimits
+        counts = _.map(count, (val,key) ->
+          subjects[key] = subjects[key] + val
+        )
+        data.jhsLimits = subjects
+      else
+        limitsRes = res.limits + count
+        data =
+          limits: limitsRes
+
+      @updateEvent eventId, data
+      .then (res) ->
+        deferred.resolve res
+      .catch (err) ->
+        deferred.reject err
+
+    .catch (err) ->
+      deferred.reject err
+
+    deferred.promise
+
 module.exports = EventService

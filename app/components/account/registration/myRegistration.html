@@ -267,6 +267,7 @@
                   <strong>Event Date: </strong>{{eventInfo.eventDate}}<br/>
                   <strong>Event Venue: </strong>{{eventInfo.venue}}<br/>
                   <strong>Status: </strong>{{details.status}}<br/>
+                  <strong>Date Registered: </strong>{{details.date | date}}</br/>
                 </td>
                 <td class="col-sm-6 pull-right">
                   <img id="barcode">
@@ -322,6 +323,11 @@
                       BPI Account: 1431-0128-51
                     </p>
                   </div>
+                  <p>
+                    <b>Important:</b> Please do not co-mingle your payments for different events. For example, you should NOT combine payments for Inset for JHS Teachers with
+                    your payments for Inset for SHS Teachers in a single deposit slip. Also, you should NOT combine payments for Orientation on ESC/TSS with your payments
+                    for Orientation on SHS Voucher Program in a single deposit slip.
+                  </p>
               </li>
               <li>
                 <p>Once you have made the payment, write the REGISTRATION CODE <b>{{details.registrationCode}}</b> in the BPI deposit slip.</p>
