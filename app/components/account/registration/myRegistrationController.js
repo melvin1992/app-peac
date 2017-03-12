@@ -97,7 +97,6 @@ angular.module('myApp.myregistration', [])
   $scope.showDetails = function(data){
     JsBarcode("#barcode", data.registrationCode);
     $scope.details = data;
-    console.log(data);
     searchSchoolData(data.eventType, data.schoolID);
     searchEventData(data.eventID);
   }
