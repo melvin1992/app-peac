@@ -57,6 +57,12 @@
             </div>
           </div>
 
+          <div class="alert alert-warning" ng-show="!eventList">
+            <p class="text-center">
+              <i class="fa fa-spinner fa-pulse fa-fw"></i> Loading data...
+            </p>
+          </div>
+
           <div class="row">
             <div class="col-sm-12">
               <div class="table-participants">
@@ -74,7 +80,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                     <tr ng-repeat="event in eventList">
+                     <tr ng-repeat="event in eventList | offset:currentPage*itemsPerPage | limitTo:15">
                        <td>{{event.eventYear}}</td>
                        <td>{{event.name}}</td>
                        <td>{{event.eventType}}</td>
@@ -92,6 +98,15 @@
               </div>
             </div>
           </div>
+
+          <ul class="pager">
+            <li class="previous" ng-class="prevPageDisabled()">
+              <a href ng-click="prevPage()">« Prev</a>
+            </li>
+            <li class="next" ng-class="nextPageDisabled()">
+              <a href ng-click="nextPage()">Next »</a>
+            </li>
+          </ul>
 
 
         </div>
