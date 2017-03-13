@@ -76,10 +76,10 @@
           </div>
         </div>
 
-        <div class="alert alert-warning fade in" ng-show="regionWarning">
+        <!-- <div class="alert alert-warning fade in" ng-show="regionWarning">
           <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
           <strong>Warning!</strong> Selected event is not within your school region.
-        </div>
+        </div> -->
 
         <form ng-show="eventData">
 
@@ -88,7 +88,7 @@
 
         <div class="panel" ng-class-even="'panel-default'" ng-class-odd="'panel-primary'" ng-repeat="area in learningArea">
           <div class="panel-heading">
-            <input type="checkbox" ng-click="showPanel(area.show, area.learningArea)" ng-model="area.show" ng-disabled="area.disabled"/>
+            <input type="checkbox" ng-click="showPanel(area.show, area.learningArea)" ng-model="area.show" ng-disabled="area.disabled || area.limitExceed"/>
             <strong>Learning Area: <u>{{area.learningArea}}</u></strong>
             <div class="pull-right small bold-text">Limits: {{area.limit}}</div>
           </div>

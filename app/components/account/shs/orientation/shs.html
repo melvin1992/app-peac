@@ -75,10 +75,10 @@
           </div>
         </div>
 
-        <div class="alert alert-warning fade in" ng-show="regionWarning">
+        <!-- <div class="alert alert-warning fade in" ng-show="regionWarning">
           <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
           <strong>Warning!</strong> Selected event is not within your school region.
-        </div>
+        </div> -->
 
         <form ng-submit="submitEventInformation()" ng-show="eventData">
 
@@ -87,6 +87,10 @@
 
         <div ng-show="maxLimit">
           <p><b>Available Slots: {{maxLimit}}</b></p>
+        </div>
+
+        <div ng-show="limitWarning">
+          <p class="school-note">No more available slots for this event.</p>
         </div>
 
         <div class="panel panel-default">

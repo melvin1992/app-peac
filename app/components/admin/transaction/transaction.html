@@ -76,6 +76,7 @@
                        <td>
                          <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#openModal" ng-click="showParticipants(trans)"><i class="fa fa-eye"/> Participants</button>
                          <button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#deleteModal" ng-click="showNotif(trans._id)"><i class="fa fa-trash"/> Delete</button>
+                         <button type="button" class="btn btn-xs btn-info" data-toggle="modal" data-target="#editModal" ng-click="showTransaction(trans)"><i class="fa fa-pencil"/> Edit</button>
                        </td>
                      </tr>
                   </tbody>
@@ -109,6 +110,39 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" ng-click="deleteTransaction(trans_id)"><i class="fa fa-check"/> YES</button>
         <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"/> NO</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title"><i class="fa fa-tasks"/> Edit Transation</h3>
+      </div>
+
+      <div class="modal-body">
+        <form class="form-horizontal" role="form">
+          <div class="form-group">
+            <label class="col-sm-4 control-label" for="textinput">Participants Count</label>
+            <div class="col-sm-7">
+              <input type="text" placeholder="Count" class="form-control" ng-model="editTrans.participantsCount">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label" for="textinput">Total Amount</label>
+            <div class="col-sm-7">
+              <input type="text" placeholder="Amount" class="form-control" ng-model="editTrans.totalAmount">
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" ng-click="updateTransaction(editTrans)"><i class="fa fa-floppy-o"/> Save</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"/> Cancel</button>
       </div>
     </div>
   </div>

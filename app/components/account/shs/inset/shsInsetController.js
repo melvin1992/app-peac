@@ -112,6 +112,7 @@ angular.module('myApp.shsInset', [])
       value.disabled = null;
       value.registrationCode = null;
       value.limit = 0;
+      value.limitExceed = false;
     })
   }
 
@@ -150,22 +151,23 @@ angular.module('myApp.shsInset', [])
     createLearningArea();
     $scope.eventData = null;
     $scope.regionWarning = null;
+    $scope.selectedData = [];
   }
 
-  function compareRegionCode(eventRegion, schoolRegion){
-    let sRegion = schoolRegion.toString();
-    if(sRegion.length == 1){
-      sRegion = "0" + sRegion + "0000000";
-    }else{
-      schoolRegion = schoolRegion + "0000000";
-    }
-
-    if(eventRegion.indexOf(sRegion) == -1){
-      $scope.regionWarning = "show";
-    }else{
-      $scope.regionWarning = null;
-    }
-  }
+  // function compareRegionCode(eventRegion, schoolRegion){
+  //   let sRegion = schoolRegion.toString();
+  //   if(sRegion.length == 1){
+  //     sRegion = "0" + sRegion + "0000000";
+  //   }else{
+  //     schoolRegion = schoolRegion + "0000000";
+  //   }
+  //
+  //   if(eventRegion.indexOf(sRegion) == -1){
+  //     $scope.regionWarning = "show";
+  //   }else{
+  //     $scope.regionWarning = null;
+  //   }
+  // }
 
   function showExistParticipants(userId, event, schoolId){
     let participantUrl = '/api/participants?userID='+userId+'&eventID='+event._id+'&schoolID='+schoolId;
@@ -208,6 +210,13 @@ angular.module('myApp.shsInset', [])
       angular.forEach($scope.learningArea, function(pval){
         if(pval.code == key){
           pval.limit = val;
+
+          if(val == 0){
+            pval.limitExceed = true;
+          }else{
+            pval.limitExceed = false;
+          }
+
         }
       })
     })
@@ -304,7 +313,7 @@ angular.module('myApp.shsInset', [])
       .then(function(res){
         $scope.eventData = res.data;
         showSubjectLimits(res.data);
-        compareRegionCode($scope.eventData.region, $scope.schoolInfo.region);
+        // compareRegionCode($scope.eventData.region, $scope.schoolInfo.region);
         showExistParticipants(userId, res.data, schoolId);
       })
       .catch(function(err){
@@ -352,7 +361,7 @@ angular.module('myApp.shsInset', [])
     updateAccountInfo()
     .then(function(res){
       $window.sessionStorage["userInfo"] = JSON.stringify(res.data);
-      
+
       $http.post('/api/transactions', payload)
       .then(function(res){
         let transId = res.data._id;

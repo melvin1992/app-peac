@@ -228,6 +228,23 @@ angular.module('myApp.adminTransaction', [])
     }
   }
 
+  $scope.showTransaction = function(data){
+    $scope.editTrans = data;
+  }
+
+  $scope.updateTransaction = function(data){
+    let id = data._id;
+
+    $http.put('/api/transactions/'+id, data)
+    .then(function(res){
+      $scope.success = 'Transaction updated!';
+    })
+    .catch(function(err){
+      $scope.err = err.data;
+    })
+    angular.element(document.querySelector('#editModal')).modal('hide');
+  }
+
   //Pagination
 
   $scope.itemsPerPage = 15;

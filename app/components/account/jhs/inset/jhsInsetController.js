@@ -158,18 +158,18 @@ angular.module('myApp.jhsInset', [])
     })
   }
 
-  function compareRegionCode(eventRegion, schoolRegion){
-    let sRegion = schoolRegion.toString();
-    if(sRegion.length == 8){
-      sRegion = "0" + sRegion
-    }
-
-    if(eventRegion.indexOf(sRegion) == -1){
-      $scope.regionWarning = "show";
-    }else{
-      $scope.regionWarning = null;
-    }
-  }
+  // function compareRegionCode(eventRegion, schoolRegion){
+  //   let sRegion = schoolRegion.toString();
+  //   if(sRegion.length == 8){
+  //     sRegion = "0" + sRegion
+  //   }
+  //
+  //   if(eventRegion.indexOf(sRegion) == -1){
+  //     $scope.regionWarning = "show";
+  //   }else{
+  //     $scope.regionWarning = null;
+  //   }
+  // }
 
   function createLearningArea(){
     angular.forEach($scope.learningArea,function(value,key){
@@ -192,6 +192,7 @@ angular.module('myApp.jhsInset', [])
       value.disabled = null;
       value.registrationCode = null;
       value.limit = 0;
+      value.limitExceed = false;
     })
   }
 
@@ -199,6 +200,7 @@ angular.module('myApp.jhsInset', [])
     createLearningArea();
     $scope.eventData = null;
     $scope.regionWarning = null;
+    $scope.selectedData = [];
   }
 
   function showSubjectLimits(event){
@@ -206,6 +208,13 @@ angular.module('myApp.jhsInset', [])
       angular.forEach($scope.learningArea, function(pval){
         if(pval.code == key){
           pval.limit = val;
+
+          if(val == 0){
+            pval.limitExceed = true;
+          }else{
+            pval.limitExceed = false;
+          }
+
         }
       })
     })
@@ -230,7 +239,7 @@ angular.module('myApp.jhsInset', [])
       .then(function(res){
         $scope.eventData = res.data;
         showSubjectLimits(res.data);
-        compareRegionCode($scope.eventData.region, $scope.schoolInfo.region);
+        // compareRegionCode($scope.eventData.region, $scope.schoolInfo.region);
         showExistParticipants(userId, res.data._id, schoolId);
       })
       .catch(function(err){
@@ -366,7 +375,7 @@ angular.module('myApp.jhsInset', [])
     updateAccountInfo()
     .then(function(res){
       $window.sessionStorage["userInfo"] = JSON.stringify(res.data);
-      
+
       $http.post('/api/transactions', payload)
       .then(function(res){
         let transId = res.data._id;

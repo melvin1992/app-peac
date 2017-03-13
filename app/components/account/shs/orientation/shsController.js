@@ -37,24 +37,25 @@ angular.module('myApp.shsOrientation', [])
     $scope.displayP2 = null;
     $scope.disableP2 = false;
     $scope.eventData = null;
+    participantCount = 0;
 
     $scope.disableSubmit = false;
   }
 
-  function compareRegionCode(eventRegion, schoolRegion){
-    let sRegion = schoolRegion.toString();
-    if(sRegion.length == 1){
-      sRegion = "0" + sRegion + "0000000";
-    }else{
-      schoolRegion = schoolRegion + "0000000";
-    }
-
-    if(eventRegion.indexOf(sRegion) == -1){
-      $scope.regionWarning = "show";
-    }else{
-      $scope.regionWarning = null;
-    }
-  }
+  // function compareRegionCode(eventRegion, schoolRegion){
+  //   let sRegion = schoolRegion.toString();
+  //   if(sRegion.length == 1){
+  //     sRegion = "0" + sRegion + "0000000";
+  //   }else{
+  //     schoolRegion = schoolRegion + "0000000";
+  //   }
+  //
+  //   if(eventRegion.indexOf(sRegion) == -1){
+  //     $scope.regionWarning = "show";
+  //   }else{
+  //     $scope.regionWarning = null;
+  //   }
+  // }
 
   function getSchoolData(id){
     let jhsUrl = '/api/shs?schoolId='+id;
@@ -189,8 +190,16 @@ angular.module('myApp.shsOrientation', [])
         let maxLimit = res.data.limits;
         $scope.maxLimit = maxLimit;
         $scope.eventData = res.data;
-        compareRegionCode($scope.eventData.region, $scope.schoolInfo.region);
+        // compareRegionCode($scope.eventData.region, $scope.schoolInfo.region);
         showExistParticipants(userId, res.data._id, schoolId);
+
+        if(maxLimit == 0){
+          $scope.disableSubmit = true;
+          $scope.limitWarning = true
+        }else{
+          $scope.disableSubmit = false;
+          $scope.limitWarning = false;
+        }
       })
       .catch(function(err){
         $scope.err = err.data;
