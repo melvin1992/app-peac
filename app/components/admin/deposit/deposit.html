@@ -60,7 +60,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                     <tr ng-repeat="payment in payments | offset:currentPage*itemsPerPage | limitTo:15">
+                     <tr ng-repeat="payment in payments | offset:currentPage*itemsPerPage | limitTo:15 | orderBy:-date">
                        <td>
                          <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#editModal" ng-click="editDeposit(payment)"><i class="fa fa-pencil"/></button>
                          <button type="button" class="btn btn-xs btn-link" data-toggle="modal" data-target="#openModal" ng-click="showDetails(payment)">{{payment.depositReferenceNo}}</button>
