@@ -229,6 +229,7 @@ angular.module('myApp.adminEvent', [])
   }
 
   $scope.showEventPerType = function(eventType, year){
+    $scope.eventList = null;
     if(eventType != ""){
       $http.get('/api/events?eventYear='+year+'&eventType='+eventType)
       .then(function(res){
@@ -275,7 +276,6 @@ angular.module('myApp.adminEvent', [])
   };
 
   $scope.pageCount = function() {
-    console.log($scope.eventList);
     if($scope.eventList){
       return Math.ceil($scope.eventList.length/$scope.itemsPerPage)-1;
     }
