@@ -211,7 +211,7 @@ angular.module('myApp.shsInset', [])
         if(pval.code == key){
           pval.limit = val;
 
-          if(val == 0){
+          if(val <= 0){
             pval.limitExceed = true;
           }else{
             pval.limitExceed = false;

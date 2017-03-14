@@ -193,7 +193,7 @@ angular.module('myApp.shsOrientation', [])
         // compareRegionCode($scope.eventData.region, $scope.schoolInfo.region);
         showExistParticipants(userId, res.data._id, schoolId);
 
-        if(maxLimit == 0){
+        if(maxLimit <= 0){
           $scope.disableSubmit = true;
           $scope.limitWarning = true
         }else{
