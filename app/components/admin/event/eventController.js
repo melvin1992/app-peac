@@ -214,6 +214,7 @@ angular.module('myApp.adminEvent', [])
   }
 
   $scope.showEventPerYear = function(year){
+    clearData();
     if(year){
       $http.get('/api/events?eventYear='+year)
       .then(function(res){
