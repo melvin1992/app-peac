@@ -66,7 +66,9 @@ angular.module('myApp.adminDeposit', [])
     let deferred = $q.defer();
     $http.get('/api/transactions?registrationCode='+code)
     .then(function(res){
-      deferred.resolve(res.data[0].totalAmount);
+      if(res.data[0].totalAmount){
+        deferred.resolve(res.data[0].totalAmount);
+      }
     })
     .catch(function(err){
       deferred.reject(err);
