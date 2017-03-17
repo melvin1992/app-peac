@@ -35,7 +35,7 @@ angular.module('myApp.adminDeposit', [])
             val.totalAmount += a;
           })
           .catch(function(err){
-            $scoper.err = err.data;
+            $scope.err = err.data;
           })
         })
         val.totalAmount = totalAmount;
