@@ -174,7 +174,6 @@ angular.module('myApp.adminEvent', [])
   }
 
   $scope.saveEvent = function(eventData){
-    console.log(eventData);
     if(eventData && eventData.name && eventData.venue && eventData.eventDate
     && eventData.eventType && eventData.eventYear && eventData.eventFee
     && eventData.region && eventData.deadline){

@@ -1,21 +1,32 @@
 JhsSchools = require('mongoose').model 'JhsSchools'
+_ = require 'lodash'
 
 JHSService =
   create: (params) ->
     deferred = Promise.defer()
 
-    jhs = new JhsSchools params
-    jhs.save()
-    .then (res) ->
-      deferred.resolve res
+    _query =
+      schoolId: params.schoolId
+
+    @findAll _query
+    .then (school) ->
+      if _.isEmpty(school)
+        jhs = new JhsSchools params
+        jhs.save()
+        .then (res) ->
+          deferred.resolve res
+        .catch (err) ->
+          deferred.reject err
+      else
+        deferred.reject "School Id already exist."
     .catch (err) ->
       deferred.reject err
-
+    
     deferred.promise
 
   findAll: (query) ->
     deferred = Promise.defer()
-    
+
     JhsSchools.find query
     .then (res) ->
       deferred.resolve res

@@ -166,6 +166,7 @@
               <th>Gender</th>
               <th>Birthdate</th>
               <th>Learning Area</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -176,6 +177,9 @@
                <td>{{user.gender}}</td>
                <td>{{user.birthdate}}</td>
                <td>{{user.learningArea}}</td>
+               <td>
+                 <button type="button" class="btn btn-xs btn-danger" ng-click="deleteParticipant(user._id)"><i class="fa fa-trash"/> Delete</button>
+               </td>
              </tr>
           </tbody>
         </table>

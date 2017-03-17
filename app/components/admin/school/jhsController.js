@@ -16,6 +16,8 @@ angular.module('myApp.adminJHS', [])
     $location.path('loginasadmin');
   }else{
     showSchoolList();
+    getRegionList();
+    getProvinceList();
   }
 
   function showSchoolList(){
@@ -38,6 +40,105 @@ angular.module('myApp.adminJHS', [])
       deferred.reject(err);
     })
     return deferred.promise;
+  }
+
+  function getRegionList(){
+    $http.get('/api/locations/regions')
+    .then(function(res){
+      $scope.regionList = res.data;
+    })
+    .catch(function(err){
+      $scope.err = err.data;
+    })
+  }
+
+  function getProvinceList(){
+    $http.get('/api/locations/provinces')
+    .then(function(res){
+      $scope.provinceList = res.data;
+    })
+    .catch(function(err){
+      $scope.err = err.data;
+    })
+  }
+
+  $scope.searchSchool = function(id){
+    if(id != ''){
+      $http.get('/api/jhs?schoolId='+id)
+      .then(function(res){
+        $scope.schools = res.data;
+      })
+      .catch(function(err){
+        $scope.err = err.data;
+      })
+    }else{
+      showSchoolList();
+    }
+  }
+
+  $scope.editSchool = function(data){
+    if(data.region.toString().length == 8){
+      let reg = data.region.toString();
+      data.region = "0" + reg;
+    }else{
+      data.region = data.region.toString();
+    }
+
+    if(data.province.toString().length == 8){
+      let pro = data.province.toString();
+      data.province = "0" + pro;
+    }else{
+      data.province = data.province.toString();
+    }
+
+    $scope.schoolData = data;
+    $scope.schoolEdit = "true";
+    angular.element(document.querySelector('#openModal')).modal('show');
+  }
+
+  $scope.cleardata = function(){
+    $scope.schoolData = null;
+    $scope.schoolEdit = null;
+    $scope.errSchool = null;
+  }
+
+  $scope.saveSchool = function(data){
+    if($scope.schoolEdit == "true"){
+      let id = data._id;
+      $http.put('/api/jhs/'+id, data)
+      .then(function(res){
+        $scope.success = "School updated!";
+        angular.element(document.querySelector('#openModal')).modal('hide');
+      })
+      .catch(function(err){
+        $scope.errSchool = err.data;
+      })
+    }else{
+      $http.post('/api/jhs', data)
+      .then(function(res){
+        $scope.success = "New school added!";
+        angular.element(document.querySelector('#openModal')).modal('hide');
+      })
+      .catch(function(err){
+        $scope.errSchool = err.data;
+      })
+    }
+  }
+
+  $scope.showNotif = function(id){
+    $scope.deleteId = id;
+  }
+
+  $scope.deleteSchool = function(id){
+    $http.delete('/api/jhs/'+id)
+    .then(function(res){
+      $scope.success = "Record removed.";
+      showSchoolList();
+      angular.element(document.querySelector('#deleteModal')).modal('hide');
+    })
+    .catch(function(err){
+      $scope.err = err.data;
+    })
   }
 
 

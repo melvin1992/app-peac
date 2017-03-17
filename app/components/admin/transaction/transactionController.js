@@ -245,6 +245,36 @@ angular.module('myApp.adminTransaction', [])
     angular.element(document.querySelector('#editModal')).modal('hide');
   }
 
+  $scope.deleteParticipant = function(id){
+    $http.delete('/api/participants/'+id)
+    .then(function(res){
+      let user = res.data;
+      let data = {
+        eventId: user.eventID,
+        count: {}
+      }
+      if(user.eventType == 'JHS INSET' || user.eventType == 'SHS INSET'){
+        angular.forEach(learningArea, function(subj){
+          if(subj.learningArea == user.learningArea){
+            data.count[subj.code] = 1;
+          }
+        })
+      }else{
+        data.count = 1;
+      }
+      addParticipants(data);
+
+      let transQuery = {
+        _id: user.transactionID
+      }
+
+      $scope.showParticipants(transQuery);
+    })
+    .catch(function(err){
+      $scope.err = err.data;
+    })
+  }
+
   //Pagination
 
   $scope.itemsPerPage = 15;

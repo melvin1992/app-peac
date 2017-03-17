@@ -418,6 +418,34 @@ angular.module('myApp.jhsInset', [])
 
   }
 
+  $scope.verifyData = function(){
+    let errMsg = [];
+
+    angular.forEach($scope.selectedData, function(val){
+      if(val.firstName == ''){
+        errMsg.push('Learning area: ' + val.learningArea + ': Missing first name');
+      }else if(val.lastName == ''){
+        errMsg.push('Learning area: ' + val.learningArea + ': Missing last name');
+      }else if(val.contactNo == ''){
+        errMsg.push('Learning area: ' + val.learningArea + ': Missing contact number');
+      }else if(val.email == ''){
+        errMsg.push('Learning area: ' + val.learningArea + ': Missing email');
+      }else if(val.teachingYears == ''){
+        errMsg.push('Learning area: ' + val.learningArea + ': Missing teaching years');
+      }else if(val.licenseStatus == ''){
+        errMsg.push('Learning area: ' + val.learningArea + ': Missing license status');
+      }
+    })
+
+    if(errMsg.length != 0){
+      $anchorScroll();
+      $scope.err = errMsg;
+    }else{
+      angular.element(document.querySelector('#openModal')).modal('show');
+      $scope.err = null;
+    }
+  }
+
 
 
 });

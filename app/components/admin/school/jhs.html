@@ -28,14 +28,19 @@
           </div>
 
           <div class="row ten-margin">
+
             <div class="col-sm-6">
               <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-search"/> Search</span>
-                <input type="text" class="form-control" ng-model="search">
+                <span class="input-group-addon">School ID:</span>
+                <input type="text" class="form-control" ng-model="searchId">
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-primary" ng-click="searchSchool(searchId)"><i class="fa fa-search"/> Search</button>
+                </span>
               </div>
             </div>
+
             <div class="col-sm-6">
-              <button type="button" class="btn btn-sm btn-primary pull-right"><i class="fa fa-plus"/> Add School</button>
+              <button type="button" class="btn btn-sm btn-primary pull-right" data-toggle="modal" data-target="#openModal" ng-click="cleardata()"><i class="fa fa-plus"/> Add School</button>
             </div>
           </div>
 
@@ -58,13 +63,13 @@
                     </tr>
                   </thead>
                   <tbody>
-                     <tr ng-repeat="school in schools | offset:currentPage*itemsPerPage | limitTo:itemsPerPage | filter:search">
+                     <tr ng-repeat="school in schools | offset:currentPage*itemsPerPage | limitTo:itemsPerPage">
                        <td>{{school.schoolId}}</td>
                        <td>{{school.name}}</td>
                        <td>{{school.principal}}</td>
                        <td>
-                         <button type="button" class="btn btn-xs btn-success"><i class="fa fa-pencil"/> Edit</button>
-                         <button type="button" class="btn btn-xs btn-danger"><i class="fa fa-trash"/> Delete</button>
+                         <button type="button" class="btn btn-xs btn-success" ng-click="editSchool(school)"><i class="fa fa-pencil"/> Edit</button>
+                         <button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#deleteModal" ng-click="showNotif(school._id)"><i class="fa fa-trash"/> Delete</button>
                        </td>
                      </tr>
                   </tbody>
@@ -89,3 +94,130 @@
 
 </div>
 <!-- /.container -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title"><i class="fa fa-warning"/> Are you sure you want to delete the record?</h3>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" ng-click="deleteSchool(deleteId)"><i class="fa fa-check"/> YES</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"/> NO</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="openModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title"><i class="fa fa-home"/> School Information</h3>
+      </div>
+      <div class="modal-body">
+
+        <div class="alert alert-danger" ng-show="errSchool">
+          <strong>Error!</strong> {{errSchool}}
+        </div>
+
+        <form class="form-horizontal" role="form">
+          <div class="form-group">
+            <label class="col-sm-4 control-label" for="textinput">School ID</label>
+            <div class="col-sm-7">
+              <input type="number" placeholder="School ID" class="form-control" ng-model="schoolData.schoolId">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label" for="textinput">School Name</label>
+            <div class="col-sm-7">
+              <input type="text" placeholder="School Name" class="form-control" ng-model="schoolData.name">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label" for="textinput">Region</label>
+            <div class="col-sm-7">
+              <select class="form-control" ng-model="schoolData.region" ng-options="d.code as d.name for d in regionList">
+                <option value="">Select Region</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label" for="textinput">Province</label>
+            <div class="col-sm-7">
+              <select class="form-control" ng-model="schoolData.province" ng-options="d.code as d.name for d in provinceList">
+                <option value="">Select Province</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label" for="textinput">Website</label>
+            <div class="col-sm-7">
+              <input type="text" placeholder="Website" class="form-control" ng-model="schoolData.website">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label" for="textinput">Cellphone No.</label>
+            <div class="col-sm-7">
+              <input type="text" placeholder="Cellphone No." class="form-control" ng-model="schoolData.cellNo1">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label" for="textinput">Alternate Cellphone No.</label>
+            <div class="col-sm-7">
+              <input type="text" placeholder="Cellphone No." class="form-control" ng-model="schoolData.cellNo2">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label" for="textinput">Fax No.</label>
+            <div class="col-sm-7">
+              <input type="text" placeholder="Fax No." class="form-control" ng-model="schoolData.fax">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label" for="textinput">Telephone No.</label>
+            <div class="col-sm-7">
+              <input type="text" placeholder="Telephone No." class="form-control" ng-model="schoolData.telNo1">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label" for="textinput">Alternate Telephone No.</label>
+            <div class="col-sm-7">
+              <input type="text" placeholder="Telephone No." class="form-control" ng-model="schoolData.telNo2">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label" for="textinput">Street</label>
+            <div class="col-sm-7">
+              <input type="text" placeholder="Street" class="form-control" ng-model="schoolData.street">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label" for="textinput">Baranggay</label>
+            <div class="col-sm-7">
+              <input type="text" placeholder="Baranggay" class="form-control" ng-model="schoolData.brgy">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label" for="textinput">Principal</label>
+            <div class="col-sm-7">
+              <input type="text" placeholder="Principal Name" class="form-control" ng-model="schoolData.principal">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label" for="textinput">School Old Name</label>
+            <div class="col-sm-7">
+              <input type="text" placeholder="Old Name" class="form-control" ng-model="schoolData.oldName">
+            </div>
+          </div>
+
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" ng-click="saveSchool(schoolData)"><i class="fa fa-floppy-o"/> Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
