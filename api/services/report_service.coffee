@@ -36,15 +36,12 @@ ReportService =
     deferred.promise
 
 
-  getEventReport: (params) ->
+  getEventReport: (query) ->
     deferred = Promise.defer()
 
     data = {}
 
-    transQuery =
-      eventID: "5888c4579de792c8597a055a"
-
-    Transactions.find transQuery
+    Transactions.find query
     .then (trans) =>
       eventType = trans[0].eventType
 
