@@ -72,7 +72,6 @@ ReportService =
 
         data.paid = paidParticipants
         data.registered = registeredParticipants
-        data.limits = paidParticipants + registeredParticipants
 
         deferred.resolve data
 
