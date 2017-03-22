@@ -27,8 +27,18 @@
             <strong>Error!</strong> {{err}}
           </div>
 
+
           <div class="row ten-margin">
             <div class="col-sm-6">
+              Status Lookup:
+              <select ng-model="depositStatus" ng-change="showStatusList(depositStatus)">
+                <option value="">All</option>
+                <option value="status=pending">pending</option>
+                <option value="status=approved">approved</option>
+                <option value="status=declined">declined</option>
+              </select>
+              <br/>
+              <br/>
               <div class="input-group">
                 <span class="input-group-addon">Registration Code</span>
                 <input type="text" class="form-control" ng-model="search">
@@ -39,7 +49,8 @@
             </div>
           </div>
 
-          <div class="alert alert-warning" ng-show="!payments">
+
+          <div class="alert alert-warning" ng-show="showLoading">
             <p class="text-center">
               <i class="fa fa-spinner fa-pulse fa-fw"></i> Loading data...
             </p>

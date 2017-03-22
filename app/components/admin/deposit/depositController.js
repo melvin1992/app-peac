@@ -14,11 +14,14 @@ angular.module('myApp.adminDeposit', [])
 
   if($window.sessionStorage["adminInfo"] == null){
     $location.path('loginasadmin');
-  }else{
-    showPaymentList('');
   }
+  // else{
+  //   showPaymentList('');
+  // }
 
   function showPaymentList(query){
+    $scope.showLoading = 'show';
+
     getPaymentList(query)
     .then(function(res){
       let data = [];
@@ -44,6 +47,7 @@ angular.module('myApp.adminDeposit', [])
         data.push(val);
       })
       $scope.payments = data;
+      $scope.showLoading = null;
     })
     .catch(function(err){
       $scope.err = err.data;
@@ -106,6 +110,10 @@ angular.module('myApp.adminDeposit', [])
     .catch(function(err){
       $scope.err = err.data;
     })
+  }
+
+  $scope.showStatusList = function(query){
+    showPaymentList(query);
   }
 
   $scope.showDetails = function(payment){
