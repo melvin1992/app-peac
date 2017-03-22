@@ -15,9 +15,6 @@ angular.module('myApp.adminDeposit', [])
   if($window.sessionStorage["adminInfo"] == null){
     $location.path('loginasadmin');
   }
-  // else{
-  //   showPaymentList('');
-  // }
 
   function showPaymentList(query){
     $scope.showLoading = 'show';

@@ -30,9 +30,18 @@
           </div>
 
           <hr>
-          <h4><i class="fa fa-info-circle"></i> Enter registration number that is included in the payment. </h4>
+          <h4>
+            <p><i class="fa fa-info-circle"></i> Before you proceed, please take note of the following:</p>
+            <p>1.) Please upload one (1) deposit slip at a time.</p>
+            <p>2.) Registration Code can be found in your printed Registration Confirmation Slip (RCS).</p>
+          </h4>
           <hr>
 
+
+          <h4 class="school-note">
+            <p>Step 1 of 3:</p>
+            <p>Input one (1) or more Registration Codes covered by the amount in the deposit slip.</p>
+          </h4>
           <div class="row">
             <div class="col-sm-6">
               <div class="input-group">
@@ -45,23 +54,11 @@
             </div>
           </div>
 
-          <div class="row" ng-show="participantList.length != 0">
-            <div class="col-sm-12">
-              <div class="school-note custom-btn">
-                Please see guide below: <br/>
-                <img src="assets/img/Deposit.jpg" width="100%"/>
-              </div>
-            </div>
-          </div>
-
 
           <div ng-show="participantList.length != 0">
 
             <div class="row">
               <div class="col-sm-12">
-                <hr>
-                <h4><i class="fa fa-users"></i> Participants Details</h4>
-                <hr>
                   <table class="table table-hover">
                     <thead>
                       <tr>
@@ -89,19 +86,33 @@
               </div>
             </div>
 
+            <div class="row" ng-show="participantList.length != 0">
+              <div class="col-sm-12">
+                <div class="custom-btn">
+                  <h4 class="school-note">
+                    <p>Step 2 of 3:</p>
+                    <p>Input Bank Deposit Reference Number; Please see guide below.</p>
+                  </h4>
+                  <p><img src="assets/img/Deposit.jpg" width="100%"/></p>
+                </div>
+              </div>
+            </div>
+
             <div class="row">
               <div class="col-sm-12">
-                <hr>
-                <h4><i class="fa fa-upload"></i> Upload Deposit Slip</h4>
-                <hr>
-              </div>
-              <div class="col-sm-6">
                 <div class="input-group">
                   <span class="input-group-addon">Deposit Reference No.</span>
                   <input type="text" class="form-control" placeholder="0000-0000-0000" ng-model="refNo">
                 </div>
               </div>
-              <div class="col-sm-6">
+              <br/>
+              <br/>
+              <br/>
+              <div class="col-sm-12">
+                <h4 class="school-note">
+                  <p>Step 3 of 3:</p>
+                  <p>Upload photo/image of the BPI Deposit Slip.</p>
+                </h4>
                 <div class="form-inline">
                   <div class="form-group">
                     <input type="file" file-model="myFile" accept="image/*"/>

@@ -346,6 +346,57 @@
           </div>
         </div>
 
+        <!-- RCS Print -->
+        <hr/>
+        <div class="row">
+          <div class="col-sm-12">
+            <table>
+              </tr>
+                <td class="col-sm-6">
+                  <strong>Registration Code: </strong>{{details.registrationCode}}<br/>
+                  <strong>School ID: </strong>{{details.schoolID}}<br/>
+                  <strong>School Name: </strong>{{schoolInfo.name}}<br/>
+                  <strong>Address: </strong>{{schoolInfo.street}}<br/>
+                  <br>
+                  <strong>Event Name: </strong>{{eventInfo.name}}<br/>
+                  <strong>Event Date: </strong>{{eventInfo.eventDate}}<br/>
+                  <strong>Event Venue: </strong>{{eventInfo.venue}}<br/>
+                  <strong>Status: </strong>{{details.status}}<br/>
+                  <strong>Date Registered: </strong>{{details.date | date}}</br/>
+                </td>
+                <td class="col-sm-6 pull-right">
+                  <img id="barcode">
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-12">
+
+            <div class="table-participants">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Participant ID</th>
+                    <th>Full Name</th>
+                    <th>Learning Area</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="user in details.participantList">
+                    <td>{{user._id}}</td>
+                    <td>{{user.lastName}}, {{user.firstName}} {{user.middleName}} </td>
+                    <td>{{user.learningArea}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" ng-click="printDetails()"><i class="fa fa-print"/> Print</button>
