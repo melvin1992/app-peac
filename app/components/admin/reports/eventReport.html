@@ -1,0 +1,83 @@
+<div ng-include='"../components/admin/shared/header.html"'></div>
+
+<div class="container main-container">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header"><i class="fa fa-home"></i> Event Report</h1>
+            <ol class="breadcrumb">
+                <li><a href="#/admin">Home</a></li>
+                <li class="active">Event Report</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row">
+      <div class="container">
+        <div class="col-lg-2">
+          <div class="row">
+              <div ng-include='"../components/admin/shared/sidebar.html"'></div>
+          </div>
+        </div>
+
+        <div class="col-lg-10">
+          <div class="alert alert-success" ng-show="success">
+            <strong>Success!</strong> {{success}}
+          </div>
+          <div class="alert alert-danger" ng-show="err">
+            <strong>Error!</strong> {{err}}
+          </div>
+
+          <div class="row ten-margin">
+            <div class="row">
+              <div class="col-sm-3 form-group">
+                <label>Select Event Type</label>
+                <select class="form-control" ng-model="eventType" ng-change="findEventPerType(eventType)">
+                  <option value="">Select Event</option>
+                  <option value="JHS Orientation">JHS Orientation</option>
+                  <option value="SHS Orientation">SHS Orientation</option>
+                  <option value="JHS INSET">JHS INSET</option>
+                  <option value="SHS INSET">SHS INSET</option>
+                </select>
+              </div>
+              <div class="col-sm-9 form-group">
+                <label>Select Event</label>
+                <select class="form-control" ng-model="eventSearch" ng-options="d._id as d.name for d in eventList" ng-change="getEventReport(eventSearch)">
+                  <option value="">Select Event</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div>
+
+            <div ng-show="eventType == 'JHS Orientation' || eventType == 'SHS Orientation'">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Event Name</th>
+                    <th>Paid Pariticpants</th>
+                    <th>Registered Participants</th>
+                    <th>Event Limits</th>
+                  </tr>
+                </thead>
+                <tbody>
+                   <tr>
+                     <td>{{payload.name}}</td>
+                     <td>{{payload.paid}}</td>
+                     <td>{{payload.registered}}</td>
+                     <td>{{payload.limits}}</td>
+                   </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+</div>
+<!-- /.container -->
