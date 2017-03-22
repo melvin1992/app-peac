@@ -222,6 +222,12 @@ body {
   color: green;
 }
 
+.sidebar-submenu {
+  list-style: none;
+  padding-left: 20px;
+  margin-top: 8px;
+}
+
 /*My Registration Style*/
 
 .table-participants{font-size: small; margin:10px;}

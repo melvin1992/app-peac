@@ -73,6 +73,41 @@ angular.module('myApp.reportEvent', [])
 
   }
 
+  function insetReport(data){
+
+    let arrCode = [];
+    let payload = {};
+
+    $http.get('/api/transactions?eventID='+data.eventId)
+    .then(function(trans){
+
+      angular.forEach(trans.data, function(val){
+        let regCode = val.registrationCode;
+        let status = val.status;
+
+        $http.get('/api/participants?registrationCode='+regCode)
+        .then(function(parti){
+
+          angular.forEach(parti.data, function(user){
+            payload[user.learningArea] =+ 1;
+          })
+
+        })
+        .catch(function(err){
+          $scope.err = err.data;
+        })
+
+      })
+
+      console.log(payload);
+
+    })
+    .catch(function(err){
+      $scope.err = err.data;
+    })
+
+  }
+
   $scope.findEventPerType = function(type){
     $http.get('/api/events?eventType='+type+'&eventYear='+activeYear)
     .then(function(res){
@@ -96,6 +131,8 @@ angular.module('myApp.reportEvent', [])
 
       if(event.eventType == 'JHS Orientation' || event.eventType == 'SHS Orientation'){
         orientationReport(data);
+      }else{
+        insetReport(data);
       }
 
     })
