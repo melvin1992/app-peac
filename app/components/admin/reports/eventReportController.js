@@ -90,8 +90,8 @@ angular.module('myApp.reportEvent', [])
 
           angular.forEach(parti.data, function(user){
             if(status != 'declined'){
-              payload[user.learningArea] =+ 1;
-            }  
+              payload[user.learningArea] = (typeof payload[user.learningArea]==='undefined') ? 1 : payload[user.learningArea] += 1;
+            }
           })
 
         })
