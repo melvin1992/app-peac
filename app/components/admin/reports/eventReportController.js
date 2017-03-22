@@ -89,7 +89,9 @@ angular.module('myApp.reportEvent', [])
         .then(function(parti){
 
           angular.forEach(parti.data, function(user){
-            payload[user.learningArea] =+ 1;
+            if(status != 'declined'){
+              payload[user.learningArea] =+ 1;
+            }  
           })
 
         })
