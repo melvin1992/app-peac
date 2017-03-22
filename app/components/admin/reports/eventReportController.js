@@ -64,6 +64,7 @@ angular.module('myApp.reportEvent', [])
       payload.registered = registered;
       payload.limits = registered + data.limits;
 
+      $scope.showLoading = null;
       $scope.payload = payload;
     })
     .catch(function(err){
@@ -83,6 +84,7 @@ angular.module('myApp.reportEvent', [])
   }
 
   $scope.getEventReport = function(event){
+    $scope.showLoading = 'show';
     let data = {};
 
     getEventDetails(event)
