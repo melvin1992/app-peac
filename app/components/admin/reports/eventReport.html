@@ -78,6 +78,26 @@
           </div>
 
 
+          <div ng-show="(eventType == 'JHS INSET' || eventType == 'SHS INSET') && payload">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th width="50%">Event Name</th>
+                  <th>Paid Pariticpants</th>
+                  <th>Registered Participants</th>
+                </tr>
+              </thead>
+              <tbody>
+                 <tr ng-repeat="subj in payload">
+                   <td>{{subj.learningArea}}</td>
+                   <td>{{subj.paid}}</td>
+                   <td>{{subj.registered}}</td>
+                 </tr>
+              </tbody>
+            </table>
+          </div>
+
+
 
         </div>
       </div>

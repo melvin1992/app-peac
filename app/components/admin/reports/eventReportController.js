@@ -73,10 +73,212 @@ angular.module('myApp.reportEvent', [])
 
   }
 
+
   function insetReport(data){
 
-    let arrCode = [];
-    let payload = {};
+    let JHSlearningArea = [
+      {
+        "learningArea": 'Aral. Panlipunan (Regular: Grade 7 or 8)',
+        "code": "AP_regular1",
+        "paid": 0,
+        "registered": 0,
+        "limits": 0
+      },
+      {
+        "learningArea": 'English (Regular: Grade 7 or 8)',
+        "code": "English_regular1",
+        "paid": 0,
+        "registered": 0,
+        "limit": 0
+      },
+      {
+        "learningArea": 'Filipino (Regular: Grade 7 or 8)',
+        "code": "Filipino_regular1",
+        "paid": 0,
+        "registered": 0,
+        "limit": 0
+      },
+      {
+        "learningArea": 'Math (Regular: Grade 7 or 8)',
+        "code": "Math_regular1",
+        "paid": 0,
+        "registered": 0,
+        "limit": 0
+      },
+      {
+        "learningArea": 'Science (Regular: Grade 7 or 8)',
+        "code": "Science_regular1",
+        "paid": 0,
+        "registered": 0,
+        "limit": 0
+      },
+      {
+        "learningArea": 'Aral. Panlipunan (Regular: Grade 9 or 10)',
+        "code": "AP_regular2",
+        "paid": 0,
+        "registered": 0,
+        "limit": 0
+      },
+      {
+        "learningArea": 'English (Regular: Grade 9 or 10)',
+        "code": "English_regular2",
+        "paid": 0,
+        "registered": 0,
+        "limit": 0
+      },
+      {
+        "learningArea": 'Filipino (Regular: Grade 9 or 10)',
+        "code": "Filipino_regular2",
+        "paid": 0,
+        "registered": 0,
+        "limit": 0
+      },
+      {
+        "learningArea": 'Math (Regular: Grade 9 or 10)',
+        "code": "Math_regular2",
+        "paid": 0,
+        "registered": 0,
+        "limit": 0
+      },
+      {
+        "learningArea": 'Science (Regular: Grade 9 or 10)',
+        "code": "Science_regular2",
+        "paid": 0,
+        "registered": 0,
+        "limit": 0
+      },
+      {
+        "learningArea": 'Aral. Panlipunan (Advanced)',
+        "code": "AP_advanced",
+        "paid": 0,
+        "registered": 0,
+        "limit": 0
+      },
+      {
+        "learningArea": 'English (Advanced)',
+        "code": "English_advanced",
+        "paid": 0,
+        "registered": 0,
+        "limit": 0
+      },
+      {
+        "learningArea": 'Filipino (Advanced)',
+        "code": "Filipino_advanced",
+        "paid": 0,
+        "registered": 0,
+        "limit": 0
+      },
+      {
+        "learningArea": 'Math (Advanced)',
+        "code": "Math_advanced",
+        "paid": 0,
+        "registered": 0,
+        "limit": 0
+      },
+      {
+        "learningArea": 'Science (Advanced)',
+        "code": "Science_advanced",
+        "paid": 0,
+        "registered": 0,
+        "limit": 0
+      }
+    ];
+
+    let SHSlearningArea = [
+      {
+        "learningArea": 'English',
+        "code": 'English',
+        "paid": 0,
+        "registered": 0,
+        "limit": 0
+      },
+      {
+        "learningArea": 'Filipino',
+        "code": 'Filipino',
+        "paid": 0,
+        "registered": 0,
+        "limit": 0
+      },
+      {
+        "learningArea": 'Earth and Life Science',
+        "code": 'EarthLifeScience',
+        "paid": 0,
+        "registered": 0,
+        "limit": 0
+      },
+      {
+        "learningArea": 'Physical Science',
+        "code": 'PhysicalScience',
+        "paid": 0,
+        "registered": 0,
+        "limit": 0
+      },
+      {
+        "learningArea": 'Humanities',
+        "code": 'Humanities',
+        "paid": 0,
+        "registered": 0,
+        "limit": 0
+      },
+      {
+        "learningArea": 'General Math',
+        "code": 'GeneralMath',
+        "paid": 0,
+        "registered": 0,
+        "limit": 0
+      },
+      {
+        "learningArea": 'Statistics and Probability',
+        "code": 'StatisticsProbability',
+        "paid": 0,
+        "registered": 0,
+        "limit": 0
+      },
+      {
+        "learningArea": 'Media and Information Literacy',
+        "code": 'MediaInformationLiteracy',
+        "paid": 0,
+        "registered": 0,
+        "limit": 0
+      },
+      {
+        "learningArea": 'Understanding Culture, Society, and Politics',
+        "code": 'CutureSocietyPolitics',
+        "paid": 0,
+        "registered": 0,
+        "limit": 0
+      },
+      {
+        "learningArea": 'Personal Development',
+        "code": 'PersonalDevelopment',
+        "paid": 0,
+        "registered": 0,
+        "limit": 0
+      },
+      {
+        "learningArea": 'Introduction to Philosophy of the Human Person',
+        "code": 'Philosophy',
+        "paid": 0,
+        "registered": 0,
+        "limit": 0
+      },
+      {
+        "learningArea": 'Physical Education and Health',
+        "code": 'PhysicalEducation',
+        "paid": 0,
+        "registered": 0,
+        "limit": 0
+      }
+    ];
+
+
+    let learningArea = [];
+
+    if(data.eventType == 'JHS INSET'){
+      learningArea = JHSlearningArea;
+    }else{
+      learningArea = SHSlearningArea;
+    }
 
     $http.get('/api/transactions?eventID='+data.eventId)
     .then(function(trans){
@@ -89,9 +291,25 @@ angular.module('myApp.reportEvent', [])
         .then(function(parti){
 
           angular.forEach(parti.data, function(user){
-            if(status != 'declined'){
-              payload[user.learningArea] = (typeof payload[user.learningArea]==='undefined') ? 1 : payload[user.learningArea] += 1;
+
+            if(status == 'paid'){
+              angular.forEach(learningArea, function(jhs){
+                if(user.learningArea == jhs.learningArea){
+                  jhs.paid += 1;
+                  jhs.registered += 1;
+                }
+              })
+
+            }else if(status == 'pending' || status =='processing'){
+
+              angular.forEach(learningArea, function(jhs){
+                if(user.learningArea == jhs.learningArea){
+                  jhs.registered += 1;
+                }
+              })
+
             }
+
           })
 
         })
@@ -101,7 +319,8 @@ angular.module('myApp.reportEvent', [])
 
       })
 
-      console.log(payload);
+      $scope.showLoading = null;
+      $scope.payload = learningArea;
 
     })
     .catch(function(err){
