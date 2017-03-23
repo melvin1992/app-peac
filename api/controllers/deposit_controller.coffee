@@ -30,7 +30,7 @@ DepositController.route '/'
     .then (res) ->
       response.status(200).json res
     .catch (err) ->
-      response.status(400).json err
+      response.status(400).json res
 
 DepositController.route '/:id'
   .get (req, response) ->
@@ -39,7 +39,7 @@ DepositController.route '/:id'
     .then (res) ->
       response.status(200).json res
     .catch (err) ->
-      response.status(400).json err
+      response.status(400).json res
 
   .put (req, response) ->
     id = req.params.id
@@ -48,15 +48,15 @@ DepositController.route '/:id'
     .then (res) ->
       response.status(200).json res
     .catch (err) ->
-      response.status(400).json err
+      response.status(400).json res
 
-  .delete (req, response) ->
+  .delete (res, response) ->
     id = req.params.id
     DepositService.deleteDeposit id
     .then (res) ->
       response.status(200).json res
     .catch (err) ->
-      response.status(400).json err
+      response.status(400).json res
 
 
 module.exports = DepositController
