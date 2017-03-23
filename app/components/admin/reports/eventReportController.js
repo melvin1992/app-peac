@@ -6,9 +6,9 @@ angular.module('myApp.reportEvent', [])
 
   let activeYear = "";
 
-  if($window.sessionStorage["adminInfo"] == null){
-    $location.path('admin');
-  }else{
+  // if($window.sessionStorage["adminInfo"] == null){
+  //   $location.path('admin');
+  // }else{
     getActiveYear()
     .then(function(res){
       activeYear = res;
@@ -16,7 +16,7 @@ angular.module('myApp.reportEvent', [])
     .catch(function(err){
       $scope.err = err.data;
     })
-  }
+  // }
 
   function getActiveYear(){
     let deferred = $q.defer();
