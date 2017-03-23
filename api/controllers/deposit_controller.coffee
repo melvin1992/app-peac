@@ -50,7 +50,7 @@ DepositController.route '/:id'
     .catch (err) ->
       response.status(400).json res
 
-  .delete (res, response) ->
+  .delete (req, response) ->
     id = req.params.id
     DepositService.deleteDeposit id
     .then (res) ->
