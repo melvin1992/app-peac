@@ -20,9 +20,11 @@ angular.module('myApp.adminTransaction', [])
   // }
 
   function showTransactionList(query){
+    $scope.showLoading = 'show';
     getTransactionList(query)
     .then(function(res){
       $scope.transactions = res;
+      $scope.showLoading = null;
     })
     .catch(function(err){
       $scope.err = err.data;
