@@ -1,79 +1,72 @@
-Participants = require('mongoose').model 'Participants'
-Deposits = require('mongoose').model 'Deposits'
-Transactions = require('mongoose').model 'Transactions'
+JhsService = require './jhs_service'
+ShsService = require './shs_service'
+TransactionService = require './transaction_service'
+EventService = require './event_service'
+
 _ = require 'lodash'
+converter = require 'number-to-words'
 
 ReportService =
-  getParticipant: (regCodes) ->
+  findSchool: (schoolID, eventType) ->
     deferred = Promise.defer()
 
-    data = []
-    x = 0;
-
-    _.forEach regCodes, (val) ->
-
-      status = val.status
-      query =
-        registrationCode: val.regCode
-
-      Participants.find query
-      .then (parti) ->
-        x++
-
-        payload =
-          learningArea: parti[0].learningArea
-          count: 1
-          status: status
-        data.push(payload)
-
-        if(x+1 == regCodes.length)
-          deferred.resolve data
-
+    if eventType == 'JHS INSET' || 'JHS orientation'
+      sQuery = schoolId: parseInt(schoolID)
+      JhsService.findAll sQuery
+      .then (school) =>
+        sDetail = school[0]
+        deferred.resolve sDetail
       .catch (err) ->
         deferred.reject err
-
+    else
+      sQuery = schoolId: parseInt(schoolID)
+      ShsService.findAll sQuery
+      .then (school) =>
+        sDetail = school[0]
+        deferred.resolve sDetail
+      .catch (err) ->
+        deferred.reject err
 
     deferred.promise
 
 
-  getEventReport: (query) ->
+  getPaidTransaction: (eventId) ->
     deferred = Promise.defer()
 
-    data = {}
+    eventQuery = _id: eventId
+    EventService.findOne eventQuery
+    .then (event) =>
+      payload = []
+      eventType = event.eventType
 
-    Transactions.find query
-    .then (trans) =>
-      eventType = trans[0].eventType
+      _query =
+        eventID: eventId
+        status: 'paid'
 
-      if(eventType == 'JHS INSET' || eventType == 'SHS INSET')
-        arrCode = []
+      TransactionService.findAll _query
+      .then (res) =>
+        _.forEach res, (trans, key) =>
+          data = {}
+          data.schoolID = trans.schoolID
+          data.amount = trans.totalAmount
+          data.amountInWords = converter.toWords(trans.totalAmount)
+          data.eventName = event.name
+          data.eventDate = event.eventDate
+          data.eventVenue = event.venue
 
-        _.forEach trans, (val) =>
-          arrCode.push({
-            regCode: val.registrationCode
-            status: val.status
-          })
+          @findSchool trans.schoolID, eventType
+          .then (school) =>
+            data.schoolName = school.name
+            payload.push data
 
-        @getParticipant arrCode
-        .then (res) ->
-          deferred.resolve res
-        .catch (err) ->
-          deferred.reject err
+            if res.length == key + 1
+              deferred.resolve _.sortBy payload, [ (o) -> o.schoolID ]
 
-      else
-        paidParticipants = 0;
-        registeredParticipants = 0;
-        _.forEach trans, (val) ->
-          if(val.status == 'paid')
-            paidParticipants += val.participantsCount
-            registeredParticipants += val.participantsCount
-          else if(val.status == 'pending' || val.status == 'processing')
-            registeredParticipants += val.participantsCount
+          .catch (err) ->
+            deferred.reject err
 
-        data.paid = paidParticipants
-        data.registered = registeredParticipants
-
-        deferred.resolve data
+      .catch (err) ->
+        deferred.reject err
 
     .catch (err) ->
       deferred.reject err

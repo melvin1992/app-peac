@@ -24,7 +24,8 @@ angular.module('myApp', [
   'myApp.adminUser',
   'myApp.adminTransaction',
   'myApp.adminDeposit',
-  'myApp.reportEvent'
+  'myApp.reportEvent',
+  'myApp.paidReport'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
   // $locationProvider.html5Mode(true);
@@ -63,6 +64,7 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
   .when('/admin/deposits', { templateUrl:'../components/admin/deposit/deposit.html', controller:'depositController' })
 
   .when('/admin/report/event', { templateUrl:'../components/admin/reports/eventReport.html', controller:'reportEventController'})
+  .when('/admin/report/paid', { templateUrl:'../components/admin/reports/paidReport.html', controller:'paidReportController'})
 
   .otherwise({redirectTo: '/'});
 }]);

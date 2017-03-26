@@ -1,10 +1,10 @@
 ReportController = require('express').Router()
 ReportService = require '../services/report_service'
 
-ReportController.route '/events'
+ReportController.route '/paidtransactions'
   .get (req, response) ->
-    query = req.query
-    ReportService.getEventReport query
+    eventId = req.query.eventId
+    ReportService.getPaidTransaction eventId
     .then (res) ->
       response.status(200).json res
     .catch (err) ->
