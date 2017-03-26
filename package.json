@@ -3,7 +3,7 @@
   "version": "0.3.4",
   "private": true,
   "scripts": {
-    "start": "./bin/www -e coffee"
+    "start": "nodemon ./bin/www -e coffee"
   },
   "dependencies": {
     "body-parser": "^1.15.2",

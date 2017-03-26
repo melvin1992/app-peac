@@ -52,15 +52,64 @@ angular.module('myApp.paidReport', ['ngSanitize','ngCsv'])
     })
   }
 
+  $scope.csvHeader = ['schoolID','amount','amountInWords','eventName','eventDate','eventVenue','schoolName']
+
 
   $scope.getPaidReport = function(id){
-    $http.get('/api/report/paidtransactions?eventId='+id)
+    $scope.showLoading = "show";
+
+    let payload = [];
+
+    $http.get('/api/events/'+id)
     .then(function(res){
-      $scope.paidReportCsv = res.data;
+
+      let events = res.data;
+
+      $http.get('/api/transactions?eventID='+id+'&status=paid')
+      .then(function(trans){
+
+        angular.forEach(trans.data, function(val){
+          let data = {};
+          data.schoolID = val.schoolID;
+          data.amount = val.totalAmount;
+          data.amountInWords = val.amountInWords;
+          data.eventName = events.name;
+          data.eventDate = events.eventDate;
+          data.eventVenue = events.venue;
+
+          if(events.eventType == 'JHS INSET' || events.eventType == 'JHS orientation'){
+            $http.get('/api/jhs?schoolId='+data.schoolID)
+            .then(function(school){
+              let sDetail = school.data[0];
+              data.schoolName = sDetail.name;
+            })
+            .catch(function(err){
+              $scope.err = err.data;
+            })
+          }else{
+            $http.get('/api/shs?schoolId='+data.schoolID)
+            .then(function(school){
+              let sDetail = school.data[0];
+              data.schoolName = sDetail.name;
+            })
+            .catch(function(err){
+              $scope.err = err.data;
+            })
+          }
+          payload.push(data);
+        })
+         $scope.paidReportCsv = payload;
+         $scope.showLoading = null;
+      })
+      .catch(function(err){
+        $scope.err = err.data;
+      })
+
     })
     .catch(function(err){
       $scope.err = err.data;
     })
+
   }
 
 

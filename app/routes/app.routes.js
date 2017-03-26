@@ -63,8 +63,10 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
   .when('/admin/transactions', { templateUrl:'../components/admin/transaction/transaction.html', controller:'transactionController' })
   .when('/admin/deposits', { templateUrl:'../components/admin/deposit/deposit.html', controller:'depositController' })
 
+  .when('/admin/report', { templateUrl:'../components/admin/reports/reportIndex.html'})
   .when('/admin/report/event', { templateUrl:'../components/admin/reports/eventReport.html', controller:'reportEventController'})
   .when('/admin/report/paid', { templateUrl:'../components/admin/reports/paidReport.html', controller:'paidReportController'})
+
 
   .otherwise({redirectTo: '/'});
 }]);

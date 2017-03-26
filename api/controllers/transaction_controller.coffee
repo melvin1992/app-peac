@@ -8,7 +8,6 @@ TransactionController.route '/'
     .then (res) ->
       response.status(201).json res
     .catch (err) ->
-      console.log err
       response.status(400).json err
 
   .get (req, response) ->

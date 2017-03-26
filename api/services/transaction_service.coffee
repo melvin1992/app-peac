@@ -1,5 +1,7 @@
 Transactions = require('mongoose').model 'Transactions'
 EventService = require './event_service'
+converter = require 'number-to-words'
+_ = require 'lodash'
 
 TransactionService =
   create: (params) ->
@@ -38,8 +40,16 @@ TransactionService =
     Transactions.find query
     .sort {date: -1}
     .then (res) ->
-      deferred.resolve res
+
+      payload = []
+      _.forEach res, (trans) ->
+        data = trans.toObject()
+        data.amountInWords = converter.toWords(trans.totalAmount)
+        payload.push data
+      deferred.resolve payload
+
     .catch (err) ->
+      console.log err
       deferred.reject err
 
     deferred.promise
