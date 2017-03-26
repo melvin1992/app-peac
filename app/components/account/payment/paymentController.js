@@ -125,7 +125,7 @@ angular.module('myApp.payment', [])
   }
 
   $scope.submitData = function(){
-
+    $anchorScroll();
     let file = $scope.myFile;
     let uploadUrl = "/api/deposits/upload";
     uploadData(file, uploadUrl)
