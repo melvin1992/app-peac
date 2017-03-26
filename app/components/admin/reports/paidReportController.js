@@ -77,7 +77,7 @@ angular.module('myApp.paidReport', ['ngSanitize','ngCsv'])
           data.eventDate = events.eventDate;
           data.eventVenue = events.venue;
 
-          if(events.eventType == 'JHS INSET' || events.eventType == 'JHS orientation'){
+          if(events.eventType == 'JHS INSET' || events.eventType == 'JHS Orientation'){
             $http.get('/api/jhs?schoolId='+data.schoolID)
             .then(function(school){
               let sDetail = school.data[0];
