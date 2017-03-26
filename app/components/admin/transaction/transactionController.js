@@ -14,9 +14,10 @@ angular.module('myApp.adminTransaction', [])
 
   if($window.sessionStorage["adminInfo"] == null){
     $location.path('loginasadmin');
-  }else{
-    showTransactionList('');
   }
+  // else{
+  //   showTransactionList('');
+  // }
 
   function showTransactionList(query){
     getTransactionList(query)
