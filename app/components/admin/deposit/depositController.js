@@ -173,7 +173,7 @@ angular.module('myApp.adminDeposit', [])
       $scope.err = err.data;
     })
     angular.element(document.querySelector('#openModal')).modal('hide');
-    showPaymentList('');
+    showPaymentList('status=pending');
   }
 
   $scope.declineDeposit = function(data){
@@ -192,7 +192,7 @@ angular.module('myApp.adminDeposit', [])
     })
     angular.element(document.querySelector('#openModal')).modal('hide');
     angular.element(document.querySelector('#deleteModal')).modal('hide');
-    showPaymentList('');
+    showPaymentList('status=pending');
   }
 
   $scope.editDeposit = function(data){
