@@ -191,6 +191,7 @@ angular.module('myApp.adminDeposit', [])
       $scope.err = err.data;
     })
     angular.element(document.querySelector('#openModal')).modal('hide');
+    angular.element(document.querySelector('#deleteModal')).modal('hide');
     showPaymentList('');
   }
 
@@ -223,6 +224,10 @@ angular.module('myApp.adminDeposit', [])
 
   $scope.printDetails = function(){
     window.print();
+  }
+
+  $scope.showDelete = function(payment){
+    $scope.paymentDelete = payment;
   }
 
   //Pagination

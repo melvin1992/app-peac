@@ -82,7 +82,7 @@
                        <td>{{payment.status}}</td>
                        <td ng-show="payment.status == 'pending'">
                          <button type="button" class="btn btn-xs btn-success" ng-click="approveDeposit(payment)"><i class="fa fa-check"/> Approve</button>
-                         <button type="button" class="btn btn-xs btn-danger" ng-click="declineDeposit(payment)"><i class="fa fa-times"/> Decline</button>
+                         <button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#deleteModal" ng-click="showDelete(payment)"><i class="fa fa-times"/> Decline</button>
                        </td>
                      </tr>
                   </tbody>
@@ -106,6 +106,21 @@
 
 </div>
 <!-- /.container -->
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title"><i class="fa fa-warning"/> Are you sure you want to delete the record?</h3>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" ng-click="declineDeposit(paymentDelete)"><i class="fa fa-check"/> YES</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"/> NO</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="modal fade" id="openModal" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-lg" role="document">
@@ -170,7 +185,6 @@
     </div>
   </div>
 </div>
-
 
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-lg" role="document">

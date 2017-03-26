@@ -76,7 +76,7 @@ angular.module('myApp.payment', [])
       $http.get('/api/participants?registrationCode='+regCode+'&userID='+userId)
       .then(function(res){
         if(res.data.length != 0){
-          if(status == "pending"){
+          if(status == "pending" || status == "declined"){
             let regCode = res.data[0].registrationCode;
             let exist = $scope.participantList.some(function(el){
               return el.registrationCode == regCode;
