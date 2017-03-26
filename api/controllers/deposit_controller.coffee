@@ -1,6 +1,8 @@
 DepositController = require('express').Router()
 DepositService = require '../services/deposit_service'
 
+gm = require 'gm'
+
 multer = require('multer')
 storage = multer.diskStorage {
   destination: (req, file, cb) ->
@@ -13,7 +15,12 @@ upload = multer({storage:storage})
 
 DepositController.route '/upload'
   .post upload.single('file'), (req, response) ->
-    response.status(201).send req.file.filename
+    gm(req.file.path).resize(800, 500).write(req.file.path, (err) ->
+      if(err)
+        response.status(400).send 'ERROR'
+      else
+        response.status(201).send req.file.filename
+    )
 
 DepositController.route '/'
   .post (req, response) ->
