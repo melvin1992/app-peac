@@ -71,7 +71,7 @@ angular.module('myApp.participantReport', ['ngSanitize','ngCsv'])
 
         angular.forEach(trans.data, function(val){
           let data = {};
-          data.schoolID = val.schoolID;
+          data.schoolID = val.schoolID.trim();
           data.registrationCode = val.registrationCode;
           data.eventName = events.name;
 
@@ -105,7 +105,7 @@ angular.module('myApp.participantReport', ['ngSanitize','ngCsv'])
               if(val.learningArea){
                 subject = val.learningArea;
               }
-              
+
               users.schoolID = data.schoolID;
               users.registrationCode = val.registrationCode;
               users.eventName = data.eventName;

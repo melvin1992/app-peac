@@ -70,7 +70,7 @@ angular.module('myApp.paidReport', ['ngSanitize','ngCsv'])
 
         angular.forEach(trans.data, function(val){
           let data = {};
-          data.schoolID = val.schoolID;
+          data.schoolID = val.schoolID.trim();
           data.amount = val.totalAmount;
           data.amountInWords = val.amountInWords;
           data.eventName = events.name;
