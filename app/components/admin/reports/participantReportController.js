@@ -105,8 +105,9 @@ angular.module('myApp.participantReport', ['ngSanitize','ngCsv'])
               if(val.learningArea){
                 subject = val.learningArea;
               }
+              
               users.schoolID = data.schoolID;
-              users.registrationCode = data.registrationCode;
+              users.registrationCode = val.registrationCode;
               users.eventName = data.eventName;
               users.schoolName = data.schoolName;
               users.lastName = val.lastName;
