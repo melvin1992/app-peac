@@ -98,17 +98,16 @@ angular.module('myApp.participantReport', ['ngSanitize','ngCsv'])
           $http.get('/api/participants?registrationCode='+val.registrationCode)
           .then(function(participants){
 
-            angular.forEach(participants.data, function(val){
-
+            angular.forEach(participants.data, function(user){
               let subject = '';
-              if(val.learningArea){
-                subject = val.learningArea;
+              if(user.learningArea){
+                subject = user.learningArea;
               }
-
-              data.lastName = val.lastName;
-              data.middleName = val.middleName;
-              data.firstName = val.firstName;
+              data.lastName = user.lastName;
+              data.middleName = user.middleName;
+              data.firstName = user.firstName;
               data.learningArea = subject;
+              console.log(data);
               payload.push(data);
             })
 
