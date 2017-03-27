@@ -9,7 +9,6 @@ LocationController = require '../api/controllers/location_controller'
 TransactionController = require '../api/controllers/transaction_controller'
 ParticipantController = require '../api/controllers/participant_controller'
 DepositController = require '../api/controllers/deposit_controller'
-ReportController = require '../api/controllers/report_controller'
 
 class Routes
   constructor: (app) ->
@@ -29,8 +28,5 @@ class Routes
     # Admin API
     @app.use('/api/admin/accounts', AdminController)
     @app.use('/api/admin/settings', SettingController)
-
-    # Report API
-    @app.use('/api/report', ReportController)
 
 module.exports = Routes

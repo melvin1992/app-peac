@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('myApp.paidReport', ['ngSanitize','ngCsv'])
-.controller('paidReportController', function($anchorScroll, $scope, $location, $http, $window, $q) {
+angular.module('myApp.participantReport', ['ngSanitize','ngCsv'])
+.controller('participantReportController', function($anchorScroll, $scope, $location, $http, $window, $q) {
   $anchorScroll();
 
   let activeYear = "";
@@ -52,10 +52,10 @@ angular.module('myApp.paidReport', ['ngSanitize','ngCsv'])
     })
   }
 
-  $scope.csvHeader = ['schoolID','amount','amountInWords','eventName','eventDate','eventVenue','schoolName','email']
+  $scope.csvHeader = ['schoolID','registrationCode','eventName','lastName','middleName','firstName','learningArea','schoolName']
 
 
-  $scope.getPaidReport = function(id){
+  $scope.getParticipantReport = function(id, status){
     $scope.showLoading = "show";
 
     let payload = [];
@@ -65,17 +65,15 @@ angular.module('myApp.paidReport', ['ngSanitize','ngCsv'])
 
       let events = res.data;
 
-      $http.get('/api/transactions?eventID='+id+'&status=paid')
+
+      $http.get('/api/transactions?eventID='+id+'&status='+status)
       .then(function(trans){
 
         angular.forEach(trans.data, function(val){
           let data = {};
           data.schoolID = val.schoolID;
-          data.amount = val.totalAmount;
-          data.amountInWords = val.amountInWords;
+          data.registrationCode = val.registrationCode;
           data.eventName = events.name;
-          data.eventDate = events.eventDate;
-          data.eventVenue = events.venue;
 
           if(events.eventType == 'JHS INSET' || events.eventType == 'JHS Orientation'){
             $http.get('/api/jhs?schoolId='+data.schoolID)
@@ -97,19 +95,31 @@ angular.module('myApp.paidReport', ['ngSanitize','ngCsv'])
             })
           }
 
-          $http.get('/api/accounts/'+val.userID)
-          .then(function(users){
-            let user = users.data;
-            data.email = user.email;
+          $http.get('/api/participants?registrationCode='+val.registrationCode)
+          .then(function(participants){
+
+            angular.forEach(participants.data, function(val){
+
+              let subject = '';
+              if(val.learningArea){
+                subject = val.learningArea;
+              }
+
+              data.lastName = val.lastName;
+              data.middleName = val.middleName;
+              data.firstName = val.firstName;
+              data.learningArea = subject;
+              payload.push(data);
+            })
+
           })
           .catch(function(err){
             $scope.err = err.data;
           })
 
-          payload.push(data);
         })
-         $scope.paidReportCsv = payload;
-         $scope.showLoading = null;
+        $scope.participantReportCsv = payload;
+        $scope.showLoading = null;
       })
       .catch(function(err){
         $scope.err = err.data;

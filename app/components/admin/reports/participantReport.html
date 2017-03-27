@@ -5,10 +5,10 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header"><i class="fa fa-list"></i> Paid Report</h1>
+            <h1 class="page-header"><i class="fa fa-list"></i> Participant Report</h1>
             <ol class="breadcrumb">
                 <li><a href="#/admin">Home</a></li>
-                <li class="active">Paid Report</li>
+                <li class="active">Participant Report</li>
             </ol>
         </div>
     </div>
@@ -48,10 +48,19 @@
                   <option value="SHS INSET">SHS INSET</option>
                 </select>
               </div>
-              <div class="col-sm-9 form-group">
+              <div class="col-sm-7 form-group">
                 <label>Select Event</label>
                 <select class="form-control" ng-model="eventName" ng-options="d._id as d.name for d in eventList">
                   <option value="">Select Event</option>
+                </select>
+              </div>
+              <div class="col-sm-2 form-group">
+                <label>Participant Status</label>
+                <select class="form-control" ng-model="participantStatus">
+                  <option value="">Select Status</option>
+                  <option value="paid">Paid</option>
+                  <option value="pending">Pending</option>
+                  <option value="declined">Declined</option>
                 </select>
               </div>
             </div>
@@ -60,43 +69,39 @@
           </div>
 
           <div class="col-lg-1 custom-btn1">
-            <button type="button" class="btn btn-sm btn-primary" ng-click="getPaidReport(eventName)"><i class="fa fa-list"/> Show</button>
+            <button type="button" class="btn btn-sm btn-primary" ng-click="getParticipantReport(eventName, participantStatus)"><i class="fa fa-list"/> Show</button>
           </div>
 
-          <div ng-show="paidReportCsv">
+          <div ng-hide="!participantReportCsv">
             <table class="table table-hover">
               <thead>
                 <tr>
+                  <th>RegistrationCode</th>
+                  <th>Last Name</th>
+                  <th>Middle Name</th>
+                  <th>First Name</th>
                   <th>School ID</th>
                   <th>School Name</th>
-                  <th>Email</th>
-                  <th>Amount</th>
-                  <th>In Words</th>
+                  <th ng-show="eventType=='JHS INSET' || eventType=='SHS INSET'">Learning Area</th>
                   <th>Event</th>
-                  <th>Date</th>
-                  <th>Venue</th>
                 </tr>
               </thead>
               <tbody>
-                 <tr ng-repeat="trans in paidReportCsv">
+                 <tr ng-repeat="trans in participantReportCsv">
+                   <td>{{trans.registrationCode}}</td>
+                   <td>{{trans.lastName}}</td>
+                   <td>{{trans.middleName}}</td>
+                   <td>{{trans.firstName}}</td>
                    <td>{{trans.schoolID}}</td>
                    <td>{{trans.schoolName}}</td>
-                   <td>{{trans.email}}</td>
-                   <td>{{trans.amount}}</td>
-                   <td>{{trans.amountInWords}}</td>
+                   <td ng-show="eventType=='JHS INSET' || eventType=='SHS INSET'">{{trans.learningArea}}</td>
                    <td>{{trans.eventName}}</td>
-                   <td>{{trans.eventDate}}</td>
-                   <td>{{trans.eventVenue}}</td>
                  </tr>
               </tbody>
             </table>
 
-            <button type="button" class="btn btn-sm btn-primary pull-right" ng-csv="paidReportCsv" csv-header="csvHeader"><i class="fa fa-list"/> Export</button>
+            <button type="button" class="btn btn-sm btn-primary pull-right" ng-csv="participantReportCsv" csv-header="csvHeader"><i class="fa fa-list"/> Export</button>
           </div>
-
-
-
-
 
 
 
