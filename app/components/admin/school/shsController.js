@@ -15,7 +15,7 @@ angular.module('myApp.adminSHS', [])
   if($window.sessionStorage["adminInfo"] == null){
     $location.path('loginasadmin');
   }else{
-    showSchoolList();
+    // showSchoolList();
     getRegionList();
     getProvinceList();
   }
@@ -24,6 +24,7 @@ angular.module('myApp.adminSHS', [])
     getSchoolList()
     .then(function(res){
       $scope.schools = res;
+      $scope.showLoading = null;
     })
     .catch(function(err){
       $scope.err = err.data;
@@ -101,10 +102,12 @@ angular.module('myApp.adminSHS', [])
   }
 
   $scope.searchSchool = function(id){
+    $scope.showLoading = "show";
     if(id != ''){
       $http.get('/api/shs?schoolId='+id)
       .then(function(res){
         $scope.schools = res.data;
+        $scope.showLoading = null;
       })
       .catch(function(err){
         $scope.err = err.data;

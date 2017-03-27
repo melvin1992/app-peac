@@ -48,7 +48,7 @@
             </div>
           </div>
 
-          <div class="alert alert-warning" ng-show="!users">
+          <div class="alert alert-warning" ng-show="showLoading">
             <p class="text-center">
               <i class="fa fa-spinner fa-pulse fa-fw"></i> Loading data...
             </p>
@@ -84,7 +84,7 @@
             </div>
           </div>
 
-          <ul class="pager">
+          <ul class="pager" ng-show="users">
             <li class="previous" ng-class="prevPageDisabled()">
               <a href ng-click="prevPage()">« Prev</a>
             </li>

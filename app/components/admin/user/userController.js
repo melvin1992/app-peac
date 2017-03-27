@@ -14,14 +14,17 @@ angular.module('myApp.adminUser', [])
 
   if($window.sessionStorage["adminInfo"] == null){
     $location.path('loginasadmin');
-  }else{
-    showUserList('');
   }
+  // else{
+    // showUserList('');
+  // }
 
   function showUserList(query){
+    $scope.showLoading = "show";
     getUserList(query)
     .then(function(res){
       $scope.users= res;
+      $scope.showLoading = null;
     })
     .catch(function(err){
       $scope.err = err.data;
