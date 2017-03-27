@@ -87,7 +87,7 @@
                 </tr>
               </thead>
               <tbody>
-                 <tr ng-repeat="trans in participantReportCsv">
+                 <tr ng-repeat="trans in participantReportCsv track by $index">
                    <td>{{trans.registrationCode}}</td>
                    <td>{{trans.lastName}}</td>
                    <td>{{trans.middleName}}</td>
