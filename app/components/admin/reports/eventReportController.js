@@ -360,10 +360,22 @@ angular.module('myApp.reportEvent', [])
     .catch(function(err){
       $scope.err = err.data;
     })
-
-
-
   }
 
+  $scope.getPaidTotal = function(){
+    let total = 0;
+    angular.forEach($scope.payload, function(val){
+      total += val.paid;
+    })
+    return total;
+  }
+
+  $scope.getRegisteredTotal = function(){
+    let total = 0;
+    angular.forEach($scope.payload, function(val){
+      total += val.registered;
+    })
+    return total;
+  }
 
 });
