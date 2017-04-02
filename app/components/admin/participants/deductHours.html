@@ -1,0 +1,130 @@
+<div ng-include='"../components/admin/shared/header.html"'></div>
+
+<div class="container main-container">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header"><i class="fa fa-hourglass-half"></i> Deduct Participant Hours</h1>
+            <ol class="breadcrumb">
+                <li><a href="#/admin">Home</a></li>
+                <li class="active">Deduct Participant Hours</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row">
+      <div class="container">
+        <div class="col-lg-2">
+          <div class="row">
+              <div ng-include='"../components/admin/shared/sidebar.html"'></div>
+          </div>
+        </div>
+        <div class="col-lg-10">
+          <div class="alert alert-success" ng-show="success">
+            <strong>Success!</strong> {{success}}
+          </div>
+          <div class="alert alert-danger" ng-show="err">
+            <strong>Error!</strong> {{err}}
+          </div>
+
+          <div class="row ten-margin">
+
+            <div class="col-sm-6">
+              <div class="input-group">
+                <span class="input-group-addon">Participant ID:</span>
+                <input type="text" class="form-control" ng-model="participantID">
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-primary" ng-click="searchParticpant(participantID)"><i class="fa fa-search"/> Search</button>
+                </span>
+              </div>
+            </div>
+
+            <div class="alert alert-warning" ng-show="showLoading">
+              <p class="text-center">
+                <i class="fa fa-spinner fa-pulse fa-fw"></i> Loading data...
+              </p>
+            </div>
+
+          </div>
+
+          <div class="row ten-margin">
+            <div class="col-sm-12">
+
+              <div class="panel panel-default">
+                <div class="panel-heading"><strong>Participant Information</strong></div>
+                <div class="panel-body">
+                  <form class="form-horizontal">
+                    <div class="form-group">
+                      <label class="col-md-4 control-label">Participant ID</label>
+                      <div class="col-md-4">
+                      <input placeholder="Participant ID" class="form-control input-md" type="text" ng-model="user._id" readonly="true">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-4 control-label">First Name</label>
+                      <div class="col-md-4">
+                      <input placeholder="First Name" class="form-control input-md" type="text" ng-model="user.firstName">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-4 control-label">Middle Name</label>
+                      <div class="col-md-4">
+                      <input placeholder="Middle Name" class="form-control input-md" type="text" ng-model="user.middleName">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-4 control-label">Last Name</label>
+                      <div class="col-md-4">
+                      <input placeholder="Last Name" class="form-control input-md" type="text" ng-model="user.lastName">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-4 control-label">Title</label>
+                      <div class="col-md-4">
+                      <input placeholder="Title" class="form-control input-md" type="text" ng-model="user.title">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-4 control-label">Present Hours</label>
+                      <div class="col-md-4">
+                      <input placeholder="0" class="form-control input-md" type="number" ng-model="user.presentHours">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-4 control-label">Present Status</label>
+                      <div class="col-md-4">
+                        <select class="form-control input-md" ng-model="user.status">
+                          <option value="1">True</option>
+                          <option value="0">False</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-4 control-label">Claimed</label>
+                      <div class="col-md-4">
+                        <select class="form-control input-md" ng-model="user.claimed">
+                          <option value="1">True</option>
+                          <option value="0">False</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-4 control-label" for="singlebutton"> </label>
+                      <div class="col-md-4">
+                        <button type="button" class="btn btn-primary" ng-click="saveParticipant(user)"><span class="fa fa-floppy-o"/> Save</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+            <div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+</div>
+<!-- /.container -->

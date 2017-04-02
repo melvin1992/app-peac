@@ -27,7 +27,8 @@ angular.module('myApp', [
   'myApp.reportEvent',
   'myApp.paidReport',
   'myApp.participantReport',
-  'myApp.teacherReport'
+  'myApp.teacherReport',
+  'myApp.deductHours'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
   // $locationProvider.html5Mode(true);
@@ -64,6 +65,7 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
   .when('/admin/users', { templateUrl:'../components/admin/user/user.html', controller:'userController' })
   .when('/admin/transactions', { templateUrl:'../components/admin/transaction/transaction.html', controller:'transactionController' })
   .when('/admin/deposits', { templateUrl:'../components/admin/deposit/deposit.html', controller:'depositController' })
+  .when('/admin/deduct', { templateUrl:'../components/admin/participants/deductHours.html', controller:'deductHoursController' })
 
   .when('/admin/report', { templateUrl:'../components/admin/reports/reportIndex.html'})
   .when('/admin/report/event', { templateUrl:'../components/admin/reports/eventReport.html', controller:'reportEventController'})

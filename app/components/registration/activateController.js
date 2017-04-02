@@ -5,7 +5,6 @@ angular.module('myApp.activateAccount', [])
   $anchorScroll();
 
   let code = $location.search().code;
-  console.log(code);
 
   let payload = {
     code: code
