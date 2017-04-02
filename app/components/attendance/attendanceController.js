@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('myApp.attendance', [])
-.controller('attendanceController', function($scope, $anchorScroll, $location, $http, $window, $q) {
+.controller('attendanceController', function($scope, $anchorScroll, $location, $http, $window, $q, $timeout) {
   $anchorScroll();
 
+  $scope.showSuccess = true;
   let queryString = $location.search();
   let eventId = queryString.eventId;
   findEventInfomation(eventId);
@@ -55,7 +56,8 @@ angular.module('myApp.attendance', [])
     let userUrl = '/api/participants/'+user;
     $http.put(userUrl,data)
     .then(function(res){
-      console.log('data change');
+      $scope.showSuccess = false;
+      showSuccess();
     })
     .catch(function(err){
       $scope.err = err.data;
@@ -63,6 +65,7 @@ angular.module('myApp.attendance', [])
   }
 
   $scope.findRegistrationCode = function(regCode){
+    $scope.err = null;
     if(regCode.length == 17){
       getCodeStatus(regCode)
       .then(function(stat){
@@ -87,6 +90,10 @@ angular.module('myApp.attendance', [])
       $scope.code = null;
       $scope.participants = null;
     }
+  }
+
+  function showSuccess(){
+    $timeout(function () { $scope.showSuccess = true; }, 1000);
   }
 
   $scope.changeAttendance = function(status, user){

@@ -1,0 +1,115 @@
+<!-- <div ng-include='"../components/admin/shared/header.html"'></div> -->
+<div ng-include='"../shared/header/header.html"'></div>
+
+<div class="container main-container">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header"><i class="fa fa-list"></i> Attendance Sheet</h1>
+            <ol class="breadcrumb">
+                <li><a href="#/admin">Home</a></li>
+                <li class="active">Attendance Sheet</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row">
+      <div class="container">
+
+
+          <div class="alert alert-success" ng-show="success">
+            <strong>Success!</strong> {{success}}
+          </div>
+          <div class="alert alert-danger" ng-show="err">
+            <strong>Error!</strong> {{err}}
+          </div>
+          <div class="alert alert-danger" ng-show="paidReportCsv.length == 0">
+            <strong>No Data!</strong> No data found for the search criteria.
+          </div>
+
+          <div class="alert alert-warning" ng-show="showLoading">
+            <p class="text-center">
+              <i class="fa fa-spinner fa-pulse fa-fw"></i> Loading data...
+            </p>
+          </div>
+
+
+          <div class="col-lg-11">
+
+          <div class="row ten-margin">
+            <div class="row">
+              <div class="col-sm-3 form-group">
+                <label>Select Event Type</label>
+                <select class="form-control" ng-model="eventType" ng-change="findEventPerType(eventType)">
+                  <option value="">Select Event Type</option>
+                  <option value="JHS INSET">JHS INSET</option>
+                  <option value="SHS INSET">SHS INSET</option>
+                </select>
+              </div>
+              <div class="col-sm-5 form-group">
+                <label>Select Event</label>
+                <select class="form-control" ng-model="eventName" ng-options="d._id as d.name for d in eventList">
+                  <option value="">Select Event</option>
+                </select>
+              </div>
+
+              <div class="col-sm-2 form-group">
+                <label>Subject</label>
+                <select class="form-control" ng-model="subject" ng-options="d for d in subjectList">
+                  <option value="">All Subject</option>
+                </select>
+              </div>
+
+              <div class="col-sm-2 form-group">
+                <label>Participant Status</label>
+                <select class="form-control" ng-model="participantStatus">
+                  <option value="">Select Status</option>
+                  <option value="all">Show All</option>
+                  <option value="paid">Paid</option>
+                  <option value="pending">Pending</option>
+                  <option value="declined">Declined</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          </div>
+
+          <div class="col-lg-1 custom-btn1">
+            <button type="button" class="btn btn-sm btn-primary" ng-click="getParticipantReport(eventName, participantStatus, subject)"><i class="fa fa-list"/> Show</button>
+          </div>
+
+          <div ng-hide="!participantReportCsv">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Participant ID</th>
+                  <th>Full Name</th>
+                  <th>Learning Area</th>
+                  <th>School ID</th>
+                  <th>School Name</th>
+                  <th>Event</th>
+                </tr>
+              </thead>
+              <tbody>
+                 <tr ng-repeat="trans in participantReportCsv track by $index">
+                   <td>{{trans.participantId}}</td>
+                   <td>{{trans.lastName}} , {{trans.firstName}} , {{trans.middleName}}</td>
+                   <td>{{trans.learningArea}}</td>
+                   <td>{{trans.schoolId}}</td>
+                   <td>{{trans.schoolName}}</td>
+                   <td>{{trans.eventName}}</td>
+                 </tr>
+              </tbody>
+            </table>
+
+            <button type="button" class="btn btn-sm btn-primary pull-right" ng-csv="participantReportCsv" csv-header="csvHeader"><i class="fa fa-list"/> Export</button>
+          </div>
+
+
+
+      </div>
+    </div>
+
+</div>
+<!-- /.container -->

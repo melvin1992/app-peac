@@ -68,7 +68,7 @@ ParticipantSchema = new Schema
   status:
     type: Number
     enum: [1,0]
-    default: 1
+    default: 0
   claimed:
     type: Number
     enum: [1,0]
