@@ -20,10 +20,12 @@ angular.module('myApp.deductHours', [])
   }
 
   $scope.saveParticipant = function(user){
+    $scope.showLoading = 'show';
     $http.put('/api/participants/'+user._id, user)
     .then(function(res){
       $scope.success = 'User has been updated!';
       $scope.user = null;
+      $scope.showLoading = null;
     })
     .catch(function(err){
       $scope.err = err.data;
