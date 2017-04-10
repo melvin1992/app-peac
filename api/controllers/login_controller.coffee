@@ -19,4 +19,13 @@ LoginController.route '/admin'
     .catch (err) ->
       response.status(400).json err
 
+LoginController.route '/forgotpass'
+  .post (req, response) ->
+    params = req.body
+    LoginService.forgotPassword params
+    .then (res) ->
+      response.status(200).json res
+    .catch (err) ->
+      response.status(400).json err
+
 module.exports = LoginController

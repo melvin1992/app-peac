@@ -173,6 +173,19 @@ angular.module('myApp.jhsOrientation', [])
     })
   }
 
+  function checkDeadline(data){
+    let today = new Date();
+    let deadline = new Date(data.deadline);
+
+    if(today > deadline){
+      $scope.disableSubmit = true;
+      $scope.deadlineWarning = true;
+    }else{
+      $scope.disableSubmit = false;
+      $scope.deadlineWarning = false;
+    }
+  }
+
   $scope.searchSchool = function(id){
     $scope.eventSearch = "";
     clearData();
@@ -191,6 +204,7 @@ angular.module('myApp.jhsOrientation', [])
         // compareRegionCode($scope.eventData.region, $scope.schoolInfo.region);
         showExistParticipants(userId, res.data._id, schoolId);
 
+
         if(maxLimit <= 0){
           $scope.disableSubmit = true;
           $scope.limitWarning = true
@@ -198,6 +212,8 @@ angular.module('myApp.jhsOrientation', [])
           $scope.disableSubmit = false;
           $scope.limitWarning = false;
         }
+
+        checkDeadline(res.data);
 
       })
       .catch(function(err){

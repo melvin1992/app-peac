@@ -78,6 +78,10 @@
           </div>
         </div>
 
+        <div class="alert alert-danger" ng-show="deadlineWarning">
+          <p class="school-note">Registration for this event is only until {{eventData.deadline | date}}.</p>
+        </div>
+
         <!-- <div class="alert alert-warning fade in" ng-show="regionWarning">
           <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
           <strong>Warning!</strong> Selected event is not within your school region.
@@ -174,7 +178,7 @@
 
         <div class="pull-right">
           <button type="button" class="btn btn-danger" ng-click="reset()"><span class="fa fa-times"/> Reset</button>
-          <button type="button" class="btn btn-primary" ng-click="verifyData()"><span class="fa fa-check"/> Submit</button>
+          <button type="button" class="btn btn-primary" ng-click="verifyData()" ng-disabled="disableSubmit"><span class="fa fa-check"/> Submit</button>
         </div>
 
         </form>

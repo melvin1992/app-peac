@@ -38,7 +38,7 @@
                <div class="form-group">
                  <div class="row">
                    <div class="col-sm-12">
-                     <span class="pull-right"><a href="#">Forgot Password?</a></span>
+                     <span class="pull-right"><a href="#" data-toggle="modal" data-target="#openModal">Forgot Password?</a></span>
                    </div>
                  </div>
                </div>
@@ -50,5 +50,50 @@
 
    <hr>
    <div ng-include='"../shared/content/mid.html"'></div>
+
+
+   <div class="modal fade" id="openModal" tabindex="-1" role="dialog">
+     <div class="modal-dialog" role="document">
+       <div class="modal-content">
+         <div class="modal-header">
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+           <h3 class="modal-title"><i class="fa fa-warning"/> Forgot Password</h3>
+         </div>
+         <div class="modal-body">
+           <div class="alert alert-danger" ng-show="forgotErr">
+             <strong>Error!</strong> {{forgotErr}}
+           </div>
+           <div class="alert alert-success" ng-show="forgotSuccess">
+             <strong>Success!</strong> {{forgotSuccess}}
+           </div>
+
+           <div class="alert alert-warning" ng-show="showLoading">
+             <p class="text-center">
+               <i class="fa fa-spinner fa-pulse fa-fw"></i> Verifying data, please wait.......
+             </p>
+           </div>
+
+           <form class="form-horizontal">
+             <div class="form-group">
+               <label class="col-sm-3 control-label" for="textinput">Username</label>
+               <div class="col-sm-8">
+                 <input type="text" placeholder="Username" class="form-control" ng-model="forgot.username">
+               </div>
+             </div>
+             <div class="form-group">
+               <label class="col-sm-3 control-label" for="textinput">Email Address</label>
+               <div class="col-sm-8">
+                 <input type="text" placeholder="Email" class="form-control" ng-model="forgot.email">
+               </div>
+             </div>
+           </form>
+
+         </div>
+         <div class="modal-footer">
+           <button type="button" class="btn btn-primary" ng-click="forgotpassword(forgot)"><i class="fa fa-check"/> Submit</button>
+         </div>
+       </div>
+     </div>
+   </div>
 
 </div>

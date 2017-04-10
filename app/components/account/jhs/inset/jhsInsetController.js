@@ -230,6 +230,19 @@ angular.module('myApp.jhsInset', [])
     clearData();
   }
 
+  function checkDeadline(data){
+    let today = new Date();
+    let deadline = new Date(data.deadline);
+
+    if(today > deadline){
+      $scope.disableSubmit = true;
+      $scope.deadlineWarning = true;
+    }else{
+      $scope.disableSubmit = false;
+      $scope.deadlineWarning = false;
+    }
+  }
+
   $scope.findEvent = function(eventName){
     clearData();
     $scope.success = null;
@@ -240,6 +253,7 @@ angular.module('myApp.jhsInset', [])
         $scope.eventData = res.data;
         showSubjectLimits(res.data);
         // compareRegionCode($scope.eventData.region, $scope.schoolInfo.region);
+        checkDeadline(res.data);
         showExistParticipants(userId, res.data._id, schoolId);
       })
       .catch(function(err){

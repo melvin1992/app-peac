@@ -32,8 +32,25 @@ angular.module('myApp.login', [])
     }else{
       $scope.err = "Incorrect Login.";
     }
+  }
 
-
+  $scope.forgotpassword = function(data){
+    $scope.showLoading = true;
+    $scope.forgotErr = null;
+    $scope.forgotSuccess = null;
+    if(data.username != "" && data.email != ""){
+      $http.post('/api/login/forgotpass', data)
+      .then(function(res){
+        $scope.forgotSuccess = "Your password has been sent to your email.";
+        $scope.showLoading = false;
+      })
+      .catch(function(err){
+        $scope.forgotErr = err.data;
+        $scope.showLoading = false;
+      })
+    }else{
+      $scope.forgotErr = "Please fillup all the fields";
+    }
   }
 
 

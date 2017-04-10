@@ -61,6 +61,7 @@
                   <option value="all">Show All</option>
                   <option value="paid">Paid</option>
                   <option value="pending">Pending</option>
+                  <option value="processing">Processing</option>
                   <option value="declined">Declined</option>
                 </select>
               </div>
@@ -86,6 +87,7 @@
                   <th ng-show="eventType=='JHS INSET' || eventType=='SHS INSET'">Learning Area</th>
                   <th>Event</th>
                   <th>Status</th>
+                  <th>Claimed</th>
                 </tr>
               </thead>
               <tbody>
@@ -99,6 +101,7 @@
                    <td ng-show="eventType=='JHS INSET' || eventType=='SHS INSET'">{{trans.learningArea}}</td>
                    <td>{{trans.eventName}}</td>
                    <td>{{trans.status}}</td>
+                   <td>{{trans.claimed}}</td>
                  </tr>
               </tbody>
             </table>

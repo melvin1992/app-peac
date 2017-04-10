@@ -181,6 +181,19 @@ angular.module('myApp.shsOrientation', [])
     findSchool(id);
   }
 
+  function checkDeadline(data){
+    let today = new Date();
+    let deadline = new Date(data.deadline);
+
+    if(today > deadline){
+      $scope.disableSubmit = true;
+      $scope.deadlineWarning = true;
+    }else{
+      $scope.disableSubmit = false;
+      $scope.deadlineWarning = false;
+    }
+  }
+
   $scope.findEvent = function(eventName){
     clearData();
     if(eventName){
@@ -200,6 +213,8 @@ angular.module('myApp.shsOrientation', [])
           $scope.disableSubmit = false;
           $scope.limitWarning = false;
         }
+
+        checkDeadline(res.data);
       })
       .catch(function(err){
         $scope.err = err.data;

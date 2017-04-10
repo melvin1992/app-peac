@@ -73,6 +73,7 @@ angular.module('myApp.participantReport', ['ngSanitize','ngCsv'])
         users.firstName = val.firstName;
         users.learningArea = subject;
         users.status = data.status;
+        users.claimed = val.claimed;
 
         $scope.participantReportCsv.push(users);
       })
@@ -83,7 +84,7 @@ angular.module('myApp.participantReport', ['ngSanitize','ngCsv'])
     })
   }
 
-  $scope.csvHeader = ['schoolID','registrationCode','eventName','schoolName','lastName','middleName','firstName','learningArea','status'];
+  $scope.csvHeader = ['schoolID','registrationCode','eventName','schoolName','lastName','middleName','firstName','learningArea','status','claimed'];
 
   $scope.getParticipantReport = function(id, status){
     $scope.participantReportCsv = [];

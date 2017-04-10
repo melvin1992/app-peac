@@ -97,6 +97,10 @@
           <p class="school-note">No more available slots for this event.</p>
         </div>
 
+        <div class="alert alert-danger" ng-show="deadlineWarning">
+          <p class="school-note">Registration for this event is only until {{eventData.deadline | date}}.</p>
+        </div>
+
         <div class="panel panel-default">
           <div class="panel-heading">
             <input type="checkbox" ng-model="showP1" ng-change="addP1(showP1)" ng-disabled="disableP1"/>
