@@ -45,24 +45,41 @@ angular.module('myApp.reportEvent', [])
   function orientationReport(data){
     let paid = 0;
     let registered = 0;
-    let payload = {};
+    let payload = {
+      'paid': 0,
+      'registered': 0
+    };
 
     $http.get('/api/transactions?eventID='+data.eventId)
     .then(function(trans){
 
       angular.forEach(trans.data, function(val){
         if(val.status == 'paid'){
-          paid += val.participantsCount;
-          registered += val.participantsCount;
+          $http.get('/api/participants?registrationCode='+val.registrationCode)
+          .then(function(participants){
+            angular.forEach(participants.data, function(val){
+              payload.paid += 1;
+              payload.registered += 1;
+            });
+          })
+          .catch(function(err){
+            $scope.err = err.data;
+          })
         }else if(val.status == 'pending' || val.status == 'processing'){
-          registered += val.participantsCount;
+          $http.get('/api/participants?registrationCode='+val.registrationCode)
+          .then(function(participants){
+            angular.forEach(participants.data, function(val){
+              payload.registered += 1;
+            });
+          })
+          .catch(function(err){
+            $scope.err = err.data;
+          })
         }
       })
 
       payload.name = data.eventName;
-      payload.paid = paid;
-      payload.registered = registered;
-      payload.limits = registered + data.limits;
+      payload.limits = payload.registered + data.limits;
 
       $scope.showLoading = null;
       $scope.payload = payload;
