@@ -54,11 +54,26 @@ angular.module('myApp.paidReport', ['ngSanitize','ngCsv'])
 
   $scope.csvHeader = ['schoolID','amount','amountInWords','eventName','eventDate','eventVenue','schoolName','email']
 
+  function createCSV(data){
+
+    $http.get('/api/accounts/'+data.userID)
+    .then(function(users){
+      let user = users.data;
+      data.email = user.email;
+      delete data.userID;
+      $scope.paidReportCsv.push(data);
+    })
+    .catch(function(err){
+      $scope.err = err.data;
+    })
+
+  }
 
   $scope.getPaidReport = function(id){
     $scope.showLoading = "show";
 
-    let payload = [];
+    $scope.paidReportCsv = [];
+    $scope.showTable = null;
 
     $http.get('/api/events/'+id)
     .then(function(res){
@@ -76,12 +91,14 @@ angular.module('myApp.paidReport', ['ngSanitize','ngCsv'])
           data.eventName = events.name;
           data.eventDate = events.eventDate;
           data.eventVenue = events.venue;
+          data.userID = val.userID;
 
           if(events.eventType == 'JHS INSET' || events.eventType == 'JHS Orientation'){
             $http.get('/api/jhs?schoolId='+data.schoolID)
             .then(function(school){
               let sDetail = school.data[0];
               data.schoolName = sDetail.name;
+              createCSV(data);
             })
             .catch(function(err){
               $scope.err = err.data;
@@ -91,25 +108,15 @@ angular.module('myApp.paidReport', ['ngSanitize','ngCsv'])
             .then(function(school){
               let sDetail = school.data[0];
               data.schoolName = sDetail.name;
+              createCSV(data);
             })
             .catch(function(err){
               $scope.err = err.data;
             })
           }
-
-          $http.get('/api/accounts/'+val.userID)
-          .then(function(users){
-            let user = users.data;
-            data.email = user.email;
-          })
-          .catch(function(err){
-            $scope.err = err.data;
-          })
-
-          payload.push(data);
         })
-         $scope.paidReportCsv = payload;
-         $scope.showLoading = null;
+        $scope.showLoading = null;
+        $scope.showTable = "show";
       })
       .catch(function(err){
         $scope.err = err.data;
@@ -119,6 +126,8 @@ angular.module('myApp.paidReport', ['ngSanitize','ngCsv'])
     .catch(function(err){
       $scope.err = err.data;
     })
+
+
 
   }
 
