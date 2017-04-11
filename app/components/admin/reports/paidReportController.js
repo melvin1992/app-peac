@@ -73,7 +73,6 @@ angular.module('myApp.paidReport', ['ngSanitize','ngCsv'])
     $scope.showLoading = "show";
 
     $scope.paidReportCsv = [];
-    $scope.showTable = null;
 
     $http.get('/api/events/'+id)
     .then(function(res){
@@ -82,6 +81,14 @@ angular.module('myApp.paidReport', ['ngSanitize','ngCsv'])
 
       $http.get('/api/transactions?eventID='+id+'&status=paid')
       .then(function(trans){
+
+        if(trans.data.length == 0){
+          $scope.noData = "show";
+          $scope.showTable = null;
+        }else{
+          $scope.noData = null;
+          $scope.showTable = "show";
+        }
 
         angular.forEach(trans.data, function(val){
           let data = {};
@@ -116,7 +123,6 @@ angular.module('myApp.paidReport', ['ngSanitize','ngCsv'])
           }
         })
         $scope.showLoading = null;
-        $scope.showTable = "show";
       })
       .catch(function(err){
         $scope.err = err.data;
