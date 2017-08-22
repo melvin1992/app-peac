@@ -57,7 +57,7 @@ AccountService =
   sendVerficationEmail: (params) ->
     deferred = Promise.defer()
 
-    activationLink = "http://52.40.210.205:3000/#/activateaccount?code="
+    activationLink = "http://52.40.210.205:4000/#/activateaccount?code="
     activationLink += params.verificationCode
 
     emailMsg = "Thank you for your registration!
