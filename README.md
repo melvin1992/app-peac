@@ -1,11 +1,11 @@
-# PEAC
+# PEAC Registration System
 
 Event registration system <br/><br/>
 
-AngularJS | CoffeeScript | NodeJS | MongoDB | Npm
+AngularJS | CoffeeScript | NodeJS | MongoDB | NPM
 
 ## To install
 `npm install`
 
-### To start
+## To start
 `npm start`
