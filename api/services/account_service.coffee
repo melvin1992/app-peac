@@ -57,21 +57,24 @@ AccountService =
   sendVerficationEmail: (params) ->
     deferred = Promise.defer()
 
-    activationLink = "http://52.40.210.205:4000/#/activateaccount?code="
+    // TODO Change URL to correct link
+    activationLink = "{URL}/#/activateaccount?code="
     activationLink += params.verificationCode
 
     emailMsg = "Thank you for your registration!
       Please click this link to activate your account.
       <a href='" + activationLink+ "'> Account Activation</a>"
 
+    // TODO change to correct gmail credentials
     transporter = nodemailer.createTransport
       service: 'Gmail'
       auth:
-        user: 'peac.register@gmail.com'
-        pass: 'Nov51968'
+        user: ''
+        pass: ''
 
+    // TODO change from email options
     mailOptions =
-      from: 'melvinjohn_bagsik@yahoo.com'
+      from: ''
       to: params.email
       subject: 'Account Verfication'
       html: emailMsg
