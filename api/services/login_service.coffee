@@ -73,15 +73,16 @@ LoginService =
       Please see below for your account details <br/><br/>
       Username: " + params.username + "<br/>
       Password: " + params.password + ""
-
+    
+    // TODO add correct email
     transporter = nodemailer.createTransport
       service: 'Gmail'
       auth:
-        user: 'peac.register@gmail.com'
-        pass: 'Nov51968'
+        user: ''
+        pass: ''
 
     mailOptions =
-      from: 'peac.register@gmail.com'
+      from: ''
       to: params.email
       subject: 'Forgot Password'
       html: emailMsg
